@@ -1,0 +1,3 @@
+773  [main] INFO  d.d3adspace.mantikor.MantikorServer - I am going to start the web server on localhost:8080
+1124 [main] WARN  io.netty.bootstrap.ServerBootstrap - Unknown channel option 'TCP_NODELAY' for channel '[id: 0x9fefd2f1]'
+1157 [main] INFO  d.d3adspace.mantikor.MantikorServer - Started the web server on localhost:8080
