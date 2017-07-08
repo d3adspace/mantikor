@@ -15,7 +15,7 @@ services better take a look at https://github.com/D3adspaceEnterprises/echidna
 ```xml
 <dependency>
     <groupId>de.d3adspace</groupId>
-    <artifactId>mantikor</artifactId>
+    <artifactId>mantikor-core</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
