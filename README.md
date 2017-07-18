@@ -22,20 +22,20 @@ services better take a look at https://github.com/D3adspaceEnterprises/echidna
 
 # Example
 ```java
-		MantikorConfig mantikorConfig = MantikorConfig.newBuilder()
-			.setServerHost("localhost")
-			.setServerPort(8080)
-			.createMantikorConfig();
+MantikorConfig mantikorConfig = MantikorConfig.newBuilder()
+	.setServerHost("localhost")
+	.setServerPort(8080)
+	.createMantikorConfig();
 		
-		MantikorServer mantikorServer = new MantikorServer(mantikorConfig) {
-			@Override
-			public HTTPResponse handleRequest(HTTPRequest request) {
-				return HTTPResponse.newBuilder()
-					.setStatus(HTTPStatus.NOT_FOUND)
-					.setHeaders(new HTTPHeaders())
-					.createHTTPResponse();
-			}
-		};
+MantikorServer mantikorServer = new MantikorServer(mantikorConfig) {
+	@Override
+	public HTTPResponse handleRequest(HTTPRequest request) {
+		return HTTPResponse.newBuilder()
+			.setStatus(HTTPStatus.NOT_FOUND)
+			.setHeaders(new HTTPHeaders())
+			.createHTTPResponse();
+	}
+};
 		
-		mantikorServer.start();
+mantikorServer.start();
 ```
