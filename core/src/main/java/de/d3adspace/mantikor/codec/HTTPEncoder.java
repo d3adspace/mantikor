@@ -26,6 +26,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.util.CharsetUtil;
+
 import java.util.Map.Entry;
 
 /**
@@ -34,35 +35,35 @@ import java.util.Map.Entry;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public class HTTPEncoder extends MessageToByteEncoder<HTTPResponse> {
-	
-	/**
-	 * The version of the http protocol.
-	 */
-	private static final String HTTP_VERSION = "HTTP/1.1";
-	
-	/**
-	 * Byte codes that indicates a new line.
-	 */
-	private static final byte[] NEW_LINE = "\r\n".getBytes();
-	
-	@Override
-	protected void encode(ChannelHandlerContext channelHandlerContext, HTTPResponse response,
-		ByteBuf byteBuf) throws Exception {
-		
-		String statusResponse = HTTP_VERSION + " "
-			+ response.getStatus().getCode() + " "
-			+ response.getStatus().getDescription() + new String(NEW_LINE);
-		
-		byteBuf.writeBytes(statusResponse.getBytes(CharsetUtil.UTF_8));
-		
-		for (Entry<String, String> entry : response.getHeaders().getHandle().entrySet()) {
-			String line = entry.getKey() + ": " + entry.getValue();
-			byteBuf.writeBytes(line.getBytes(CharsetUtil.UTF_8));
-			byteBuf.writeBytes(NEW_LINE);
-		}
-		
-		byteBuf.writeBytes(NEW_LINE);
-		
-		byteBuf.writeBytes(response.getBody().getHandle());
-	}
+
+    /**
+     * The version of the http protocol.
+     */
+    private static final String HTTP_VERSION = "HTTP/1.1";
+
+    /**
+     * Byte codes that indicates a new line.
+     */
+    private static final byte[] NEW_LINE = "\r\n".getBytes();
+
+    @Override
+    protected void encode(ChannelHandlerContext channelHandlerContext, HTTPResponse response,
+                          ByteBuf byteBuf) throws Exception {
+
+        String statusResponse = HTTP_VERSION + " "
+                + response.getStatus().getCode() + " "
+                + response.getStatus().getDescription() + new String(NEW_LINE);
+
+        byteBuf.writeBytes(statusResponse.getBytes(CharsetUtil.UTF_8));
+
+        for (Entry<String, String> entry : response.getHeaders().getHandle().entrySet()) {
+            String line = entry.getKey() + ": " + entry.getValue();
+            byteBuf.writeBytes(line.getBytes(CharsetUtil.UTF_8));
+            byteBuf.writeBytes(NEW_LINE);
+        }
+
+        byteBuf.writeBytes(NEW_LINE);
+
+        byteBuf.writeBytes(response.getBody().getHandle());
+    }
 }

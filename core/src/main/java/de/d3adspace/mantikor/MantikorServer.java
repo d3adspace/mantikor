@@ -27,11 +27,7 @@ import de.d3adspace.mantikor.http.HTTPResponse;
 import de.d3adspace.mantikor.initializer.MantikorServerChannelInitializer;
 import de.d3adspace.mantikor.utils.NettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
+import io.netty.channel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,87 +37,86 @@ import org.slf4j.LoggerFactory;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public abstract class MantikorServer implements Mantikor {
-	
-	/**
-	 * The config for the server.
-	 */
-	private final MantikorConfig config;
-	
-	/**
-	 * The logger for server actions
-	 */
-	private final Logger logger;
-	
-	/**
-	 * Boss group for netty.
-	 */
-	private EventLoopGroup bossGroup;
-	
-	/**
-	 * Worker group for netty.
-	 */
-	private EventLoopGroup workerGroup;
-	
-	/**
-	 * The server channel.
-	 */
-	private Channel channel;
-	
-	/**
-	 * Create a new server based on a config.
-	 *
-	 * @param config The config.
-	 */
-	protected MantikorServer(MantikorConfig config) {
-		this.config = config;
-		this.logger = LoggerFactory.getLogger(MantikorServer.class);
-	}
-	
-	@Override
-	public void start() {
-		this.bossGroup = NettyUtils.createEventLoopGroup(1);
-		this.workerGroup = NettyUtils.createEventLoopGroup(4);
-		
-		Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
-		ChannelHandler channelHandler = new MantikorServerChannelInitializer(this);
-		
-		this.logger.info("I am going to start the web server on {}:{}", this.config.getServerHost(),
-			this.config.getServerPort());
-		
-		ServerBootstrap serverBootstrap = new ServerBootstrap();
-		try {
-			this.channel = serverBootstrap
-				.group(this.bossGroup, this.workerGroup)
-				.channel(serverChannelClazz)
-				.childHandler(channelHandler)
-				.option(ChannelOption.TCP_NODELAY, true)
-				.bind(this.config.getServerHost(), this.config.getServerPort())
-				.sync().channel();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		this.logger.info("Started the web server on {}:{}", this.config.getServerHost(),
-			this.config.getServerPort());
-		
-	}
-	
-	@Override
-	public void stop() {
-		this.logger.info("Server is going to stop.");
-		
-		this.channel.close();
-		
-		this.bossGroup.shutdownGracefully();
-		this.workerGroup.shutdownGracefully();
-	}
-	
-	/**
-	 * Handle an incoming http request.
-	 *
-	 * @param request The request.
-	 *
-	 * @return The response.
-	 */
-	public abstract HTTPResponse handleRequest(HTTPRequest request);
+
+    /**
+     * The config for the server.
+     */
+    private final MantikorConfig config;
+
+    /**
+     * The logger for server actions
+     */
+    private final Logger logger;
+
+    /**
+     * Boss group for netty.
+     */
+    private EventLoopGroup bossGroup;
+
+    /**
+     * Worker group for netty.
+     */
+    private EventLoopGroup workerGroup;
+
+    /**
+     * The server channel.
+     */
+    private Channel channel;
+
+    /**
+     * Create a new server based on a config.
+     *
+     * @param config The config.
+     */
+    protected MantikorServer(MantikorConfig config) {
+        this.config = config;
+        this.logger = LoggerFactory.getLogger(MantikorServer.class);
+    }
+
+    @Override
+    public void start() {
+        this.bossGroup = NettyUtils.createEventLoopGroup(1);
+        this.workerGroup = NettyUtils.createEventLoopGroup(4);
+
+        Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
+        ChannelHandler channelHandler = new MantikorServerChannelInitializer(this);
+
+        this.logger.info("I am going to start the web server on {}:{}", this.config.getServerHost(),
+                this.config.getServerPort());
+
+        ServerBootstrap serverBootstrap = new ServerBootstrap();
+        try {
+            this.channel = serverBootstrap
+                    .group(this.bossGroup, this.workerGroup)
+                    .channel(serverChannelClazz)
+                    .childHandler(channelHandler)
+                    .option(ChannelOption.TCP_NODELAY, true)
+                    .bind(this.config.getServerHost(), this.config.getServerPort())
+                    .sync().channel();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        this.logger.info("Started the web server on {}:{}", this.config.getServerHost(),
+                this.config.getServerPort());
+
+    }
+
+    @Override
+    public void stop() {
+        this.logger.info("Server is going to stop.");
+
+        this.channel.close();
+
+        this.bossGroup.shutdownGracefully();
+        this.workerGroup.shutdownGracefully();
+    }
+
+    /**
+     * Handle an incoming http request.
+     *
+     * @param request The request.
+     * @return The response.
+     */
+    public abstract HTTPResponse handleRequest(HTTPRequest request);
 }

@@ -27,52 +27,52 @@ package de.d3adspace.mantikor.config;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public class MantikorConfig {
-	
-	/**
-	 * The host of the server.
-	 */
-	private final String serverHost;
-	
-	/**
-	 * The port of the server.
-	 */
-	private final int serverPort;
-	
-	/**
-	 * Create a new config by all its data.
-	 *
-	 * @param serverHost The host.
-	 * @param serverPort The port.
-	 */
-	MantikorConfig(String serverHost, int serverPort) {
-		this.serverHost = serverHost;
-		this.serverPort = serverPort;
-	}
-	
-	/**
-	 * Get a new builder.
-	 *
-	 * @return The builder.
-	 */
-	public static MantikorConfigBuilder newBuilder() {
-		return new MantikorConfigBuilder();
-	}
-	
-	/**
-	 * Get the server host.
-	 *
-	 * @return The host.
-	 */
-	public String getServerHost() {
-		return serverHost;
-	}
-	
-	/**
-	 * Get the server port.
-	 *
-	 * @return The port.
-	 */
-	public int getServerPort() {
-		return serverPort;
-	}
+
+    /**
+     * The host of the server.
+     */
+    private final String serverHost;
+
+    /**
+     * The port of the server.
+     */
+    private final int serverPort;
+
+    /**
+     * Create a new config by all its data.
+     *
+     * @param serverHost The host.
+     * @param serverPort The port.
+     */
+    MantikorConfig(String serverHost, int serverPort) {
+        this.serverHost = serverHost;
+        this.serverPort = serverPort;
+    }
+
+    /**
+     * Get a new builder.
+     *
+     * @return The builder.
+     */
+    public static MantikorConfigBuilder newBuilder() {
+        return new MantikorConfigBuilder();
+    }
+
+    /**
+     * Get the server host.
+     *
+     * @return The host.
+     */
+    public String getServerHost() {
+        return serverHost;
+    }
+
+    /**
+     * Get the server port.
+     *
+     * @return The port.
+     */
+    public int getServerPort() {
+        return serverPort;
+    }
 }

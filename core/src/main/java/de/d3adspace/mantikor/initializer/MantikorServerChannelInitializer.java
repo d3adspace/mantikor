@@ -35,27 +35,27 @@ import io.netty.channel.socket.SocketChannel;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public class MantikorServerChannelInitializer extends ChannelInitializer<SocketChannel> {
-	
-	/**
-	 * The server.
-	 */
-	private final MantikorServer server;
-	
-	/**
-	 * Create a new initializer based on a server.
-	 *
-	 * @param server The server.
-	 */
-	public MantikorServerChannelInitializer(MantikorServer server) {
-		this.server = server;
-	}
-	
-	@Override
-	protected void initChannel(SocketChannel socketChannel) throws Exception {
-		ChannelPipeline pipeline = socketChannel.pipeline();
-		
-		pipeline.addLast(new HTTPDecoder());
-		pipeline.addLast(new HTTPEncoder());
-		pipeline.addLast(new MantikorConnection(socketChannel, this.server));
-	}
+
+    /**
+     * The server.
+     */
+    private final MantikorServer server;
+
+    /**
+     * Create a new initializer based on a server.
+     *
+     * @param server The server.
+     */
+    public MantikorServerChannelInitializer(MantikorServer server) {
+        this.server = server;
+    }
+
+    @Override
+    protected void initChannel(SocketChannel socketChannel) throws Exception {
+        ChannelPipeline pipeline = socketChannel.pipeline();
+
+        pipeline.addLast(new HTTPDecoder());
+        pipeline.addLast(new HTTPEncoder());
+        pipeline.addLast(new MantikorConnection(socketChannel, this.server));
+    }
 }

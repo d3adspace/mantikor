@@ -22,25 +22,25 @@
 package de.d3adspace.mantikor.config;
 
 public class MantikorConfigBuilder {
-	
-	private String serverHost;
-	private int serverPort;
-	
-	MantikorConfigBuilder() {
-	
-	}
-	
-	public MantikorConfigBuilder setServerHost(String serverHost) {
-		this.serverHost = serverHost;
-		return this;
-	}
-	
-	public MantikorConfigBuilder setServerPort(int serverPort) {
-		this.serverPort = serverPort;
-		return this;
-	}
-	
-	public MantikorConfig createMantikorConfig() {
-		return new MantikorConfig(serverHost, serverPort);
-	}
+
+    private String serverHost;
+    private int serverPort;
+
+    MantikorConfigBuilder() {
+
+    }
+
+    public MantikorConfigBuilder setServerHost(String serverHost) {
+        this.serverHost = serverHost;
+        return this;
+    }
+
+    public MantikorConfigBuilder setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+        return this;
+    }
+
+    public MantikorConfig createMantikorConfig() {
+        return new MantikorConfig(serverHost, serverPort);
+    }
 }

@@ -27,6 +27,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.util.CharsetUtil;
+
 import java.util.List;
 
 /**
@@ -35,16 +36,16 @@ import java.util.List;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public class HTTPDecoder extends ByteToMessageDecoder {
-	
-	@Override
-	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
-		List<Object> list) throws Exception {
-		String rawData = byteBuf.toString(CharsetUtil.UTF_8);
-		
-		HTTPRequest request = HTTPRequestParser.parseRequest(rawData);
-		
-		list.add(request);
-		
-		byteBuf.clear();
-	}
+
+    @Override
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
+                          List<Object> list) throws Exception {
+        String rawData = byteBuf.toString(CharsetUtil.UTF_8);
+
+        HTTPRequest request = HTTPRequestParser.parseRequest(rawData);
+
+        list.add(request);
+
+        byteBuf.clear();
+    }
 }

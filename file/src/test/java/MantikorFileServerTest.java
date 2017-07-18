@@ -19,22 +19,20 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.d3adspace.mantikor;
+import de.d3adspace.mantikor.config.MantikorConfig;
+import de.d3adspace.mantikor.file.MantikorFileServer;
 
 /**
- * Basic interface for server actions.
- *
  * @author Felix 'SasukeKawaii' Klauke
  */
-public interface Mantikor {
+public class MantikorFileServerTest {
 
-    /**
-     * Start the server.
-     */
-    void start();
-
-    /**
-     * Stop the server.
-     */
-    void stop();
+    public static void main(String[] args) {
+        MantikorConfig config = MantikorConfig.newBuilder()
+                .setServerHost("localhost")
+                .setServerPort(80)
+                .createMantikorConfig();
+        MantikorFileServer fileServer = new MantikorFileServer(config);
+        fileServer.start();
+    }
 }

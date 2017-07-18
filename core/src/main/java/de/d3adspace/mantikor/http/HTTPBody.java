@@ -27,65 +27,64 @@ package de.d3adspace.mantikor.http;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public class HTTPBody {
-	
-	/**
-	 * Raw data of a body.
-	 */
-	private final byte[] handle;
-	
-	/**
-	 * Create a body by its raw data.
-	 *
-	 * @param handle The data.
-	 */
-	public HTTPBody(byte[] handle) {
-		this.handle = handle;
-	}
-	
-	/**
-	 * Create a bddy by its string.
-	 *
-	 * @param string The string.
-	 *
-	 * @return The body.
-	 */
-	public static HTTPBody fromString(String string) {
-		return new HTTPBody(string.getBytes());
-	}
-	
-	public static BodyBuilder newBodyBuilder(String initialName, String initialValue) {
-		return new BodyBuilder(initialName, initialValue);
-	}
-	
-	/**
-	 * Get the byte data of a body.
-	 *
-	 * @return
-	 */
-	public byte[] getHandle() {
-		return handle;
-	}
-	
-	@Override
-	public String toString() {
-		return new String(this.handle);
-	}
-	
-	public static class BodyBuilder {
-		
-		private StringBuilder stringBuilder = new StringBuilder();
-		
-		BodyBuilder(String name, String value) {
-			stringBuilder.append(name).append("=").append(value);
-		}
-		
-		public BodyBuilder form(String key, String value) {
-			stringBuilder.append("&").append(key).append("=").append(value);
-			return this;
-		}
-		
-		public HTTPBody build() {
-			return HTTPBody.fromString(this.stringBuilder.toString());
-		}
-	}
+
+    /**
+     * Raw data of a body.
+     */
+    private final byte[] handle;
+
+    /**
+     * Create a body by its raw data.
+     *
+     * @param handle The data.
+     */
+    public HTTPBody(byte[] handle) {
+        this.handle = handle;
+    }
+
+    /**
+     * Create a bddy by its string.
+     *
+     * @param string The string.
+     * @return The body.
+     */
+    public static HTTPBody fromString(String string) {
+        return new HTTPBody(string.getBytes());
+    }
+
+    public static BodyBuilder newBodyBuilder(String initialName, String initialValue) {
+        return new BodyBuilder(initialName, initialValue);
+    }
+
+    /**
+     * Get the byte data of a body.
+     *
+     * @return
+     */
+    public byte[] getHandle() {
+        return handle;
+    }
+
+    @Override
+    public String toString() {
+        return new String(this.handle);
+    }
+
+    public static class BodyBuilder {
+
+        private StringBuilder stringBuilder = new StringBuilder();
+
+        BodyBuilder(String name, String value) {
+            stringBuilder.append(name).append("=").append(value);
+        }
+
+        public BodyBuilder form(String key, String value) {
+            stringBuilder.append("&").append(key).append("=").append(value);
+            return this;
+        }
+
+        public HTTPBody build() {
+            return HTTPBody.fromString(this.stringBuilder.toString());
+        }
+    }
 }

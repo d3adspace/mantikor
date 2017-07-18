@@ -27,6 +27,7 @@ import de.d3adspace.mantikor.http.HTTPBody;
 import de.d3adspace.mantikor.http.HTTPRequest;
 import de.d3adspace.mantikor.http.HTTPResponse;
 import de.d3adspace.mantikor.http.HTTPStatus;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,53 +36,53 @@ import java.io.InputStream;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public class MantikorFileServer extends MantikorServer {
-	
-	/**
-	 * Create a new server based on a config.
-	 *
-	 * @param config The config.
-	 */
-	public MantikorFileServer(MantikorConfig config) {
-		super(config);
-	}
-	
-	@Override
-	public HTTPResponse handleRequest(HTTPRequest request) {
-		
-		String location = request.getLocation();
-		location = location.equalsIgnoreCase("") ? "/index.html" : location;
-		location = !location.contains(".") && !location.endsWith("/") ? location + "/index.html" : location;
-		
-		System.out.println("Loc: " + location);
-		
-		InputStream stream = this.getClass().getResourceAsStream(location);
-		
-		if (stream == null) {
-			return HTTPResponse.newBuilder()
-				.setStatus(HTTPStatus.NOT_FOUND)
-				.createHTTPResponse();
-		}
-		
-		try {
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-			
-			int nRead;
-			byte[] data = new byte[16384];
-			
-			while ((nRead = stream.read(data, 0, data.length)) != -1) {
-				buffer.write(data, 0, nRead);
-			}
-			
-			buffer.flush();
-			
-			return HTTPResponse.newBuilder()
-				.setStatus(HTTPStatus.OK)
-				.setBody(new HTTPBody(buffer.toByteArray()))
-				.createHTTPResponse();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
+
+    /**
+     * Create a new server based on a config.
+     *
+     * @param config The config.
+     */
+    public MantikorFileServer(MantikorConfig config) {
+        super(config);
+    }
+
+    @Override
+    public HTTPResponse handleRequest(HTTPRequest request) {
+
+        String location = request.getLocation();
+        location = location.equalsIgnoreCase("") ? "/index.html" : location;
+        location = !location.contains(".") && !location.endsWith("/") ? location + "/index.html" : location;
+
+        System.out.println("Loc: " + location);
+
+        InputStream stream = this.getClass().getResourceAsStream(location);
+
+        if (stream == null) {
+            return HTTPResponse.newBuilder()
+                    .setStatus(HTTPStatus.NOT_FOUND)
+                    .createHTTPResponse();
+        }
+
+        try {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+            int nRead;
+            byte[] data = new byte[16384];
+
+            while ((nRead = stream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+
+            buffer.flush();
+
+            return HTTPResponse.newBuilder()
+                    .setStatus(HTTPStatus.OK)
+                    .setBody(new HTTPBody(buffer.toByteArray()))
+                    .createHTTPResponse();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

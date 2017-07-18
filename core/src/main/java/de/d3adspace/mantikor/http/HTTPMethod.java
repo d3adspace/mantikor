@@ -27,10 +27,10 @@ package de.d3adspace.mantikor.http;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public enum HTTPMethod {
-	
-	GET,
-	POST,
-	PUT,
-	DELETE,
-	PATCH
+
+    GET,
+    POST,
+    PUT,
+    DELETE,
+    PATCH
 }

@@ -34,35 +34,35 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest> {
-	
-	/**
-	 * The channel to the client.
-	 */
-	private final Channel channel;
-	
-	/**
-	 * The server the connection belongs to.
-	 */
-	private final MantikorServer server;
-	
-	/**
-	 * Create a new connection by the channel to the client and the server it belongs to.
-	 *
-	 * @param channel The channel.
-	 * @param server The server.
-	 */
-	public MantikorConnection(Channel channel, MantikorServer server) {
-		this.channel = channel;
-		this.server = server;
-	}
-	
-	@Override
-	protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request)
-		throws Exception {
-		
-		HTTPResponse response = this.server.handleRequest(request);
-		response.writeDefaultHeader();
-		
-		this.channel.writeAndFlush(response);
-	}
+
+    /**
+     * The channel to the client.
+     */
+    private final Channel channel;
+
+    /**
+     * The server the connection belongs to.
+     */
+    private final MantikorServer server;
+
+    /**
+     * Create a new connection by the channel to the client and the server it belongs to.
+     *
+     * @param channel The channel.
+     * @param server  The server.
+     */
+    public MantikorConnection(Channel channel, MantikorServer server) {
+        this.channel = channel;
+        this.server = server;
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request)
+            throws Exception {
+
+        HTTPResponse response = this.server.handleRequest(request);
+        response.writeDefaultHeader();
+
+        this.channel.writeAndFlush(response);
+    }
 }
