@@ -52,8 +52,7 @@ public class HTTPResponse {
      * @param headers The headers.
      * @param body    The body.
      */
-    public HTTPResponse(HTTPStatus status, HTTPHeaders headers,
-                        HTTPBody body) {
+    public HTTPResponse(HTTPStatus status, HTTPHeaders headers, HTTPBody body) {
         this.status = status;
         this.headers = headers;
         this.body = body;

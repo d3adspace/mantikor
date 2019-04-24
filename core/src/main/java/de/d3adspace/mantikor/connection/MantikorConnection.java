@@ -31,7 +31,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 /**
  * Representing a connection to a client.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest> {
 
@@ -57,8 +57,7 @@ public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest>
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request)
-            throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request) {
 
         HTTPResponse response = this.server.handleRequest(request);
         response.writeDefaultHeader();

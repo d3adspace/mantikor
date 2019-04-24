@@ -27,12 +27,13 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.util.CharsetUtil;
 
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
  * A simple encoder for netty to handle a HTTPResponse
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class HTTPEncoder extends MessageToByteEncoder<HTTPResponse> {
 
@@ -48,7 +49,7 @@ public class HTTPEncoder extends MessageToByteEncoder<HTTPResponse> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, HTTPResponse response,
-                          ByteBuf byteBuf) throws Exception {
+                          ByteBuf byteBuf) {
 
         String statusResponse = HTTP_VERSION + " "
                 + response.getStatus().getCode() + " "
@@ -56,11 +57,13 @@ public class HTTPEncoder extends MessageToByteEncoder<HTTPResponse> {
 
         byteBuf.writeBytes(statusResponse.getBytes(CharsetUtil.UTF_8));
 
-        for (Entry<String, String> entry : response.getHeaders().getHandle().entrySet()) {
-            String line = entry.getKey() + ": " + entry.getValue();
+        Map<String, String> handle = response.getHeaders().getHandle();
+
+        handle.forEach((key, value) -> {
+            String line = key + ": " + value;
             byteBuf.writeBytes(line.getBytes(CharsetUtil.UTF_8));
             byteBuf.writeBytes(NEW_LINE);
-        }
+        });
 
         byteBuf.writeBytes(NEW_LINE);
 

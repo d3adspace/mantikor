@@ -56,6 +56,6 @@ public class MantikorServerChannelInitializer extends ChannelInitializer<SocketC
 
         pipeline.addLast(new HTTPDecoder());
         pipeline.addLast(new HTTPEncoder());
-        pipeline.addLast(new MantikorConnection(socketChannel, this.server));
+        pipeline.addLast(new MantikorConnection(socketChannel, server));
     }
 }

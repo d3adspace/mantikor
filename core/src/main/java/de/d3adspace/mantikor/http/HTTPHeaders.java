@@ -68,7 +68,7 @@ public class HTTPHeaders {
      * @param value The value.
      */
     public void addHeader(String name, String value) {
-        this.handle.put(name, value);
+        handle.put(name, value);
     }
 
     /**
@@ -78,7 +78,7 @@ public class HTTPHeaders {
      * @return The value.
      */
     public String getHeader(String name) {
-        return this.handle.get(name);
+        return handle.get(name);
     }
 
     @Override

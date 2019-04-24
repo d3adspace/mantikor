@@ -21,6 +21,8 @@
 
 package de.d3adspace.mantikor.http;
 
+import java.util.Arrays;
+
 /**
  * @author Felix 'SasukeKawaii' Klauke
  */
@@ -47,12 +49,10 @@ public enum HTTPStatus {
     }
 
     public static HTTPStatus getByCode(int code) {
-        for (HTTPStatus status : HTTPStatus.values()) {
-            if (status.getCode() == code) {
-                return status;
-            }
-        }
-        return null;
+        return Arrays.stream(HTTPStatus.values())
+                .filter(status -> status.getCode() == code)
+                .findFirst()
+                .orElse(null);
     }
 
     public String getDescription() {

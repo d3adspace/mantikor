@@ -75,41 +75,41 @@ public abstract class MantikorServer implements Mantikor {
 
     @Override
     public void start() {
-        this.bossGroup = NettyUtils.createEventLoopGroup(1);
-        this.workerGroup = NettyUtils.createEventLoopGroup(4);
+        bossGroup = NettyUtils.createEventLoopGroup(1);
+        workerGroup = NettyUtils.createEventLoopGroup(4);
 
         Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
         ChannelHandler channelHandler = new MantikorServerChannelInitializer(this);
 
-        this.logger.info("I am going to start the web server on {}:{}", this.config.getServerHost(),
-                this.config.getServerPort());
+        logger.info("I am going to start the web server on {}:{}", config.getServerHost(),
+                config.getServerPort());
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         try {
-            this.channel = serverBootstrap
-                    .group(this.bossGroup, this.workerGroup)
+            channel = serverBootstrap
+                    .group(bossGroup, workerGroup)
                     .channel(serverChannelClazz)
                     .childHandler(channelHandler)
                     .option(ChannelOption.TCP_NODELAY, true)
-                    .bind(this.config.getServerHost(), this.config.getServerPort())
+                    .bind(config.getServerHost(), config.getServerPort())
                     .sync().channel();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        this.logger.info("Started the web server on {}:{}", this.config.getServerHost(),
-                this.config.getServerPort());
+        logger.info("Started the web server on {}:{}", config.getServerHost(),
+                config.getServerPort());
 
     }
 
     @Override
     public void stop() {
-        this.logger.info("Server is going to stop.");
+        logger.info("Server is going to stop.");
 
-        this.channel.close();
+        channel.close();
 
-        this.bossGroup.shutdownGracefully();
-        this.workerGroup.shutdownGracefully();
+        bossGroup.shutdownGracefully();
+        workerGroup.shutdownGracefully();
     }
 
     /**

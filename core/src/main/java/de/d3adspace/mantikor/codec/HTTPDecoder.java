@@ -33,19 +33,21 @@ import java.util.List;
 /**
  * A simple decoder for netty to handle HTTP Requests.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class HTTPDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
-                          List<Object> list) throws Exception {
+                          List<Object> list) {
+
+        // Get raw data
         String rawData = byteBuf.toString(CharsetUtil.UTF_8);
 
+        // parse request
         HTTPRequest request = HTTPRequestParser.parseRequest(rawData);
 
-        list.add(request);
 
-        byteBuf.clear();
+        list.add(request);
     }
 }
