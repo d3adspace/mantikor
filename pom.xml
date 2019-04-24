@@ -33,6 +33,7 @@
     <modules>
         <module>core</module>
         <module>file</module>
+        <module>commons</module>
     </modules>
 
 </project>
