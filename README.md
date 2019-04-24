@@ -10,6 +10,24 @@ services better take a look at https://github.com/D3adspaceEnterprises/echidna
 - Clone this repo
 - Install: ```mvn clean install```
 
+**Maven repositories**
+
+```xml
+<repositories>
+    <repository>
+        <id>klauke-enterprises-maven-releases</id>
+        <name>Klauke Enterprises Maven Releases</name>
+        <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
+    </repository>
+
+    <repository>
+        <id>klauke-enterprises-maven-snapshots</id>
+        <name>Klauke Enterprises Maven Snapshots</name>
+        <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
+    </repository>
+</repositories>
+```
+
 **Maven dependencies**
 
 ```xml
