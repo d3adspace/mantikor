@@ -11,8 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -49,7 +47,6 @@ public class HTTPRequestParser {
             String currentLine = reader.readLine();
 
             while (currentLine != null && !currentLine.isEmpty()) {
-                System.out.println("Current line: " + currentLine);
 
                 Pair<String, String> header = parseHeader(currentLine);
                 httpHeaders.addHeader(header.getKey(), header.getValue());
