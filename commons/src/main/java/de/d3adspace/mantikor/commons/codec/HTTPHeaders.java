@@ -84,6 +84,16 @@ public class HTTPHeaders {
         return headers.containsKey(key);
     }
 
+    /**
+     * Get the amount of headers.
+     *
+     * @return The header count.
+     */
+    public int getHeaderCount() {
+
+        return headers.size();
+    }
+
     @Override
     public String toString() {
         return "HTTPHeaders{" +

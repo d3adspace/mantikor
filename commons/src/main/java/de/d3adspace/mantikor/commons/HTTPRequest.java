@@ -38,6 +38,18 @@ public class HTTPRequest {
         this.httpBody = httpBody;
     }
 
+    public HTTPBody getHttpBody() {
+        return httpBody;
+    }
+
+    public HTTPHeaders getHttpHeaders() {
+        return httpHeaders;
+    }
+
+    public HTTPRequestLine getRequestLine() {
+        return requestLine;
+    }
+
     @Override
     public String toString() {
         return "HTTPRequest{" +
