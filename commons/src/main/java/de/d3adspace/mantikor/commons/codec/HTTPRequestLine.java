@@ -46,4 +46,13 @@ public class HTTPRequestLine {
     public URI getURI() {
         return uri;
     }
+
+    @Override
+    public String toString() {
+        return "HTTPRequestLine{" +
+                "method=" + method +
+                ", uri=" + uri +
+                ", version=" + version +
+                '}';
+    }
 }

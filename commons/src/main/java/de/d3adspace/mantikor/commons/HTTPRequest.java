@@ -29,4 +29,12 @@ public class HTTPRequest {
         this.requestLine = requestLine;
         this.httpHeaders = httpHeaders;
     }
+
+    @Override
+    public String toString() {
+        return "HTTPRequest{" +
+                "requestLine=" + requestLine +
+                ", httpHeaders=" + httpHeaders +
+                '}';
+    }
 }

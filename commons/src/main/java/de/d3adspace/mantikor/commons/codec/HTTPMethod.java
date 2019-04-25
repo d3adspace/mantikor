@@ -9,5 +9,5 @@ public enum HTTPMethod {
     DELETE,
     CONNECT,
     OPTIONS,
-    TRACE
+    TRACE;
 }

@@ -62,4 +62,11 @@ public class HTTPHeaders {
 
         return headers.get(key);
     }
+
+    @Override
+    public String toString() {
+        return "HTTPHeaders{" +
+                "headers=" + headers +
+                '}';
+    }
 }

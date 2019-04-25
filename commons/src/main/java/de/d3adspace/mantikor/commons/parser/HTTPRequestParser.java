@@ -1,13 +1,18 @@
 package de.d3adspace.mantikor.commons.parser;
 
 import de.d3adspace.mantikor.commons.HTTPRequest;
-import de.d3adspace.mantikor.commons.MantikorCommons;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPMethod;
 import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
+import javafx.util.Pair;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -19,36 +24,91 @@ public class HTTPRequestParser {
      * Create a request from its raw form.
      *
      * @param rawHTTPRequest The raw data.
+     *
      * @return The http request.
      */
     public HTTPRequest parseRequest(String rawHTTPRequest) {
 
-        // Create a tokenizer of the string.
-        StringTokenizer tokenizer = new StringTokenizer(rawHTTPRequest);
+        BufferedReader reader = new BufferedReader(new StringReader(rawHTTPRequest));
 
-        // Parse the http token
+        // Parse request line
+        HTTPRequestLine requestLine = null;
+
+        try {
+            String currentLine = reader.readLine();
+            requestLine = parseRequestLine(currentLine);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Parse headers
+        HTTPHeaders httpHeaders = null;
+
+        try {
+            httpHeaders = new HTTPHeaders();
+            String currentLine = reader.readLine();
+
+            while (currentLine != null && !currentLine.isEmpty()) {
+                System.out.println("Current line: " + currentLine);
+
+                Pair<String, String> header = parseHeader(currentLine);
+                httpHeaders.addHeader(header.getKey(), header.getValue());
+
+                currentLine = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Construct HTTP request
+        return new HTTPRequest(requestLine, httpHeaders);
+    }
+
+    /**
+     * Parse a header from the given line.
+     *
+     * @param line The line.
+     *
+     * @return The header pair
+     */
+    private Pair<String, String> parseHeader(String line) {
+
+        StringTokenizer stringTokenizer = new StringTokenizer(line, ":");
+
+        return new Pair<>(stringTokenizer.nextToken().trim(), stringTokenizer.nextToken().trim());
+    }
+
+    /**
+     * Parse the HTTP request line from the given text line.
+     *
+     * @param line The line.
+     *
+     * @return The http request line.
+     */
+    private HTTPRequestLine parseRequestLine(String line) {
+
+        StringTokenizer tokenizer = new StringTokenizer(line);
+
+        // Parse method
         String nextToken = tokenizer.nextToken();
         HTTPMethod method = parseRequestMethod(nextToken);
 
-        // Parse the URI
+        // Parse URI
         nextToken = tokenizer.nextToken();
         URI uri = parseRequestURI(nextToken);
 
-        // Parse the HTTP version
+        // Parse version
         nextToken = tokenizer.nextToken();
         HTTPVersion version = parseRequestVersion(nextToken);
 
-        // Construct HTTPRequestLine
-        HTTPRequestLine requestLine = new HTTPRequestLine(method, uri, version);
-
-        // Construct HTTP request
-        return new HTTPRequest(requestLine, null);
+        return new HTTPRequestLine(method, uri, version);
     }
 
     /**
      * Parse the request version from the given token.
      *
      * @param nextToken The token.
+     *
      * @return The requests HTTP version.
      */
     private HTTPVersion parseRequestVersion(String nextToken) {
@@ -60,6 +120,7 @@ public class HTTPRequestParser {
      * Parse an URI from the given token.
      *
      * @param nextToken The token.
+     *
      * @return The URI.
      */
     private URI parseRequestURI(String nextToken) {
@@ -71,6 +132,7 @@ public class HTTPRequestParser {
      * Parse a request method from the given token.
      *
      * @param methodToken The token.
+     *
      * @return The HTTP method.
      */
     private HTTPMethod parseRequestMethod(String methodToken) {
