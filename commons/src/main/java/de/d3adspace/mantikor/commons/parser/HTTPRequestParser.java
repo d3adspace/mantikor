@@ -1,6 +1,7 @@
 package de.d3adspace.mantikor.commons.parser;
 
 import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPMethod;
 import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
@@ -57,8 +58,24 @@ public class HTTPRequestParser {
             e.printStackTrace();
         }
 
+        // Parse body if present
+        HTTPBody httpBody = null;
+        if (httpHeaders.hasHeader(HTTPHeaders.KEY_CONTENT_LENGTH)) {
+
+            int contentLength = Integer.parseInt(httpHeaders.getHeader(HTTPHeaders.KEY_CONTENT_LENGTH));
+            char[] bodyContent = new char[contentLength];
+
+            try {
+                int read = reader.read(bodyContent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            httpBody = new HTTPBody(bodyContent);
+        }
+
         // Construct HTTP request
-        return new HTTPRequest(requestLine, httpHeaders);
+        return new HTTPRequest(requestLine, httpHeaders, httpBody);
     }
 
     /**

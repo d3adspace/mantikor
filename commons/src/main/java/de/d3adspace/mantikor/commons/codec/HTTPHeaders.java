@@ -8,6 +8,7 @@ import java.util.Map;
  */
 public class HTTPHeaders {
 
+    public static final String KEY_CONTENT_LENGTH = "Content-Length";
     /**
      * The map containing the headers.
      */
@@ -61,6 +62,17 @@ public class HTTPHeaders {
     public String getHeader(String key) {
 
         return headers.get(key);
+    }
+
+    /**
+     * Check if there is a header with the given key.
+     *
+     * @param key The key.
+     * @return If there is a header with the given key.
+     */
+    public boolean hasHeader(String key) {
+
+        return headers.containsKey(key);
     }
 
     @Override
