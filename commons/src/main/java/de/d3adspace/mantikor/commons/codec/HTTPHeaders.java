@@ -8,7 +8,16 @@ import java.util.Map;
  */
 public class HTTPHeaders {
 
+    /**
+     * The key for the header that contains the content length.
+     */
     public static final String KEY_CONTENT_LENGTH = "Content-Length";
+
+    /**
+     * The key for the header that contains the content type.
+     */
+    public static final String KEY_CONTENT_TYPE = "Content-Type";
+
     /**
      * The map containing the headers.
      */
@@ -29,7 +38,7 @@ public class HTTPHeaders {
      */
     public HTTPHeaders() {
 
-        this(new HashMap<String, String>());
+        this(new HashMap<>());
     }
 
     /**
