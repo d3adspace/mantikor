@@ -21,8 +21,8 @@
 
 package de.d3adspace.mantikor.codec;
 
-import de.d3adspace.mantikor.http.HTTPRequest;
-import de.d3adspace.mantikor.http.parser.HTTPRequestParser;
+import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.parser.HTTPRequestParser;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -37,16 +37,16 @@ import java.util.List;
  */
 public class HTTPDecoder extends ByteToMessageDecoder {
 
+    private final HTTPRequestParser requestParser = new HTTPRequestParser();
+
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
-                          List<Object> list) {
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
 
         // Get raw data
         String rawData = byteBuf.toString(CharsetUtil.UTF_8);
 
         // parse request
-        HTTPRequest request = HTTPRequestParser.parseRequest(rawData);
-
+        HTTPRequest request = requestParser.parse(rawData);
 
         list.add(request);
     }

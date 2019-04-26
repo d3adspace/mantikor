@@ -1,11 +1,18 @@
 package de.d3adspace.mantikor.commons.codec;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Wrapper around HTTP headers.
  */
+@Data
+@NoArgsConstructor
 public class HTTPHeaders {
 
     /**
@@ -19,26 +26,22 @@ public class HTTPHeaders {
     public static final String KEY_CONTENT_TYPE = "Content-Type";
 
     /**
+     * The key for the header that contains the connection state.
+     */
+    public static final String KEY_CONNECTION = "Connection";
+
+    /**
+     * The key for the header that contains the server name.
+     */
+    public static final String KEY_SERVER = "Server";
+
+    /**
      * The map containing the headers.
      */
-    private final Map<String, String> headers;
+    private Map<String, String> headers = new HashMap<>();
 
-    /**
-     * Create a new http header container.
-     *
-     * @param headers The headers.
-     */
     public HTTPHeaders(Map<String, String> headers) {
-
         this.headers = headers;
-    }
-
-    /**
-     * Create a new empty http header container.
-     */
-    public HTTPHeaders() {
-
-        this(new HashMap<>());
     }
 
     /**
@@ -84,10 +87,13 @@ public class HTTPHeaders {
         return headers.containsKey(key);
     }
 
-    @Override
-    public String toString() {
-        return "HTTPHeaders{" +
-                "headers=" + headers +
-                '}';
+    /**
+     * Get the amount of headers.
+     *
+     * @return The header count.
+     */
+    public int getHeaderCount() {
+
+        return headers.size();
     }
 }
