@@ -6,7 +6,7 @@ import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPMethod;
 import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
-import javafx.util.Pair;
+import lombok.Data;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class HTTPRequestParser {
 
             while (currentLine != null && !currentLine.isEmpty()) {
 
-                Pair<String, String> header = parseHeader(currentLine);
+                HeaderPair header = parseHeader(currentLine);
                 httpHeaders.addHeader(header.getKey(), header.getValue());
 
                 currentLine = reader.readLine();
@@ -85,11 +85,11 @@ public class HTTPRequestParser {
      *
      * @return The header pair
      */
-    private Pair<String, String> parseHeader(String line) {
+    private HeaderPair parseHeader(String line) {
 
         StringTokenizer stringTokenizer = new StringTokenizer(line, ":");
 
-        return new Pair<>(stringTokenizer.nextToken().trim(), stringTokenizer.nextToken().trim());
+        return new HeaderPair(stringTokenizer.nextToken().trim(), stringTokenizer.nextToken().trim());
     }
 
     /**
@@ -152,5 +152,12 @@ public class HTTPRequestParser {
     private HTTPMethod parseRequestMethod(String methodToken) {
 
         return HTTPMethod.valueOf(methodToken);
+    }
+
+    @Data
+    private class HeaderPair {
+
+        private final String key;
+        private final String value;
     }
 }
