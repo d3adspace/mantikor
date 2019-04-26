@@ -1,6 +1,7 @@
 package de.d3adspace.mantikor.commons.codec;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.Map;
  */
 @Data
 @NoArgsConstructor
+@Builder
 public class HTTPHeaders {
 
     /**

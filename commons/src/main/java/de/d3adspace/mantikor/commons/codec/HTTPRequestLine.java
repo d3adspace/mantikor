@@ -1,6 +1,8 @@
 package de.d3adspace.mantikor.commons.codec;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.net.URI;
 
@@ -8,6 +10,8 @@ import java.net.URI;
  * The request line containing the HTTP method, the URI and the version.
  */
 @Data
+@Builder
+@RequiredArgsConstructor
 public class HTTPRequestLine {
 
     /**
