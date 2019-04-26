@@ -21,32 +21,33 @@
 
 package de.d3adspace.mantikor.codec;
 
-import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.commons.composer.HTTPResponseComposer;
+import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.parser.HTTPRequestParser;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.util.CharsetUtil;
 
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
 /**
- * A simple encoder for netty to handle a HTTPResponse
+ * A simple decoder for netty to handle HTTP Requests.
  *
  * @author Felix Klauke <info@felix-klauke.de>
  */
-public class HTTPEncoder extends MessageToByteEncoder<HTTPResponse> {
+public class HTTPRequestDecoder extends ByteToMessageDecoder {
 
-    private final HTTPResponseComposer responseComposer = new HTTPResponseComposer();
+    private final HTTPRequestParser requestParser = new HTTPRequestParser();
 
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, HTTPResponse response, ByteBuf byteBuf) {
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
 
-        String composedResponse = responseComposer.compose(response);
-        ByteBufUtil.encodeString(channelHandlerContext.alloc(), CharBuffer.wrap(composedResponse.toCharArray()), CharsetUtil.UTF_8);
+        // Get raw data
+        String rawData = byteBuf.toString(CharsetUtil.UTF_8);
+
+        // parse request
+        HTTPRequest request = requestParser.parse(rawData);
+
+        list.add(request);
     }
 }

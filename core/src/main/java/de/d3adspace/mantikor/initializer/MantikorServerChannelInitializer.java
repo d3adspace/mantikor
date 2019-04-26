@@ -22,8 +22,8 @@
 package de.d3adspace.mantikor.initializer;
 
 import de.d3adspace.mantikor.MantikorServer;
-import de.d3adspace.mantikor.codec.HTTPDecoder;
-import de.d3adspace.mantikor.codec.HTTPEncoder;
+import de.d3adspace.mantikor.codec.HTTPRequestDecoder;
+import de.d3adspace.mantikor.codec.HTTPResponseEncoder;
 import de.d3adspace.mantikor.connection.MantikorConnection;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -47,8 +47,8 @@ public class MantikorServerChannelInitializer extends ChannelInitializer<SocketC
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
 
-        pipeline.addLast(new HTTPDecoder());
-        pipeline.addLast(new HTTPEncoder());
+        pipeline.addLast(new HTTPRequestDecoder());
+        pipeline.addLast(new HTTPResponseEncoder());
         pipeline.addLast(new MantikorConnection(socketChannel, server));
     }
 }
