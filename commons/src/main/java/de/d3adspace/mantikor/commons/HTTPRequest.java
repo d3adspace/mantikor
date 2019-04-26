@@ -3,10 +3,14 @@ package de.d3adspace.mantikor.commons;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * A http request.
  */
+@Data
 public class HTTPRequest {
 
     /**
@@ -23,39 +27,4 @@ public class HTTPRequest {
      * The payload of the request.
      */
     private HTTPBody httpBody;
-
-    /**
-     * Create a new http request.
-     *
-     * @param requestLine The request line.
-     * @param httpHeaders The headers of the request.
-     * @param httpBody The body.
-     */
-    public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders httpHeaders, HTTPBody httpBody) {
-
-        this.requestLine = requestLine;
-        this.httpHeaders = httpHeaders;
-        this.httpBody = httpBody;
-    }
-
-    public HTTPBody getHttpBody() {
-        return httpBody;
-    }
-
-    public HTTPHeaders getHttpHeaders() {
-        return httpHeaders;
-    }
-
-    public HTTPRequestLine getRequestLine() {
-        return requestLine;
-    }
-
-    @Override
-    public String toString() {
-        return "HTTPRequest{" +
-                "requestLine=" + requestLine +
-                ", httpHeaders=" + httpHeaders +
-                ", httpBody=" + httpBody +
-                '}';
-    }
 }

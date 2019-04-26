@@ -24,11 +24,4 @@ public enum HTTPVersion {
                 .filter(httpVersion -> httpVersion.getVersion().equalsIgnoreCase(version))
                 .findFirst().orElse(null);
     }
-
-    @Override
-    public String toString() {
-        return "HTTPVersion{" +
-                "version='" + version + '\'' +
-                '}';
-    }
 }

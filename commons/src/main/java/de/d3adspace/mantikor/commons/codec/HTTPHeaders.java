@@ -1,11 +1,16 @@
 package de.d3adspace.mantikor.commons.codec;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Wrapper around HTTP headers.
  */
+@Data
+@AllArgsConstructor
 public class HTTPHeaders {
 
     /**
@@ -21,25 +26,7 @@ public class HTTPHeaders {
     /**
      * The map containing the headers.
      */
-    private final Map<String, String> headers;
-
-    /**
-     * Create a new http header container.
-     *
-     * @param headers The headers.
-     */
-    public HTTPHeaders(Map<String, String> headers) {
-
-        this.headers = headers;
-    }
-
-    /**
-     * Create a new empty http header container.
-     */
-    public HTTPHeaders() {
-
-        this(new HashMap<>());
-    }
+    private Map<String, String> headers = new HashMap<>();
 
     /**
      * Add a header by its key and value.
@@ -92,12 +79,5 @@ public class HTTPHeaders {
     public int getHeaderCount() {
 
         return headers.size();
-    }
-
-    @Override
-    public String toString() {
-        return "HTTPHeaders{" +
-                "headers=" + headers +
-                '}';
     }
 }
