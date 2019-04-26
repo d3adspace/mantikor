@@ -25,10 +25,10 @@ public class HTTPRequest {
     /**
      * The headers of the http request.
      */
-    private final HTTPHeaders httpHeaders;
+    private final HTTPHeaders headers;
 
     /**
      * The payload of the request.
      */
-    private final HTTPBody httpBody;
+    private final HTTPBody body;
 }
