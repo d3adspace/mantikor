@@ -11,9 +11,21 @@ import java.util.StringTokenizer;
 
 public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessage> {
 
+    /**
+     * Parse the an output from the given input.
+     *
+     * @param input The input.
+     * @return The parsed output.
+     */
     public abstract OutputType parse(InputType input);
 
-    protected HTTPHeaders parseHeaders(BufferedReader reader) {
+    /**
+     * Parse the http headers from the given reader by lines.
+     *
+     * @param reader The reader.
+     * @return The http headers.
+     */
+    HTTPHeaders parseHeaders(BufferedReader reader) {
 
         HTTPHeaders httpHeaders = null;
 
@@ -35,7 +47,14 @@ public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessa
         return httpHeaders;
     }
 
-    protected HTTPBody parseBody(HTTPHeaders httpHeaders, BufferedReader reader) {
+    /**
+     * Parse the http body from the given reader. Headers are needed to determine content length.
+     *
+     * @param httpHeaders The http headers.
+     * @param reader The reader.
+     * @return The http body.
+     */
+    HTTPBody parseBody(HTTPHeaders httpHeaders, BufferedReader reader) {
 
         if (!httpHeaders.hasHeader(HTTPHeaders.KEY_CONTENT_LENGTH)) {
             return new HTTPBody(new char[0]);

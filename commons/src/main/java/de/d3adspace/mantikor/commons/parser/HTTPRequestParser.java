@@ -25,6 +25,7 @@ public class HTTPRequestParser extends AbstractHTTPParser<String, HTTPRequest> {
      *
      * @return The http request.
      */
+    @Override
     public HTTPRequest parse(String rawHTTPRequest) {
 
         BufferedReader reader = new BufferedReader(new StringReader(rawHTTPRequest));
