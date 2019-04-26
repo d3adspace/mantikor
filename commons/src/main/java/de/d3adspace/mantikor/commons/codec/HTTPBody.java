@@ -8,7 +8,7 @@ public class HTTPBody {
     /**
      * The content of the body.
      */
-    private char[] content;
+    private final char[] content;
 
     /**
      * Get the length of the body.

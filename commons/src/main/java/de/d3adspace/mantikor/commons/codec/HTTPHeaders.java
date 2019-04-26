@@ -2,6 +2,7 @@ package de.d3adspace.mantikor.commons.codec;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  * Wrapper around HTTP headers.
  */
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class HTTPHeaders {
 
     /**

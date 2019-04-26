@@ -26,5 +26,5 @@ public class HTTPRequest {
     /**
      * The payload of the request.
      */
-    private HTTPBody httpBody;
+    private final HTTPBody httpBody;
 }
