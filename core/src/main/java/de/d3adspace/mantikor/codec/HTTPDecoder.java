@@ -46,7 +46,7 @@ public class HTTPDecoder extends ByteToMessageDecoder {
         String rawData = byteBuf.toString(CharsetUtil.UTF_8);
 
         // parse request
-        HTTPRequest request = requestParser.parseRequest(rawData);
+        HTTPRequest request = requestParser.parse(rawData);
 
         list.add(request);
     }
