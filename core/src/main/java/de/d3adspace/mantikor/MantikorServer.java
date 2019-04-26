@@ -21,13 +21,17 @@
 
 package de.d3adspace.mantikor;
 
+import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.HTTPResponse;
 import de.d3adspace.mantikor.config.MantikorConfig;
-import de.d3adspace.mantikor.http.HTTPRequest;
-import de.d3adspace.mantikor.http.HTTPResponse;
 import de.d3adspace.mantikor.initializer.MantikorServerChannelInitializer;
 import de.d3adspace.mantikor.utils.NettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.ServerChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

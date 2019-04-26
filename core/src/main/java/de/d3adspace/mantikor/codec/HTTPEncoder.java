@@ -21,12 +21,16 @@
 
 package de.d3adspace.mantikor.codec;
 
-import de.d3adspace.mantikor.http.HTTPResponse;
+import de.d3adspace.mantikor.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.composer.HTTPResponseComposer;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.util.CharsetUtil;
 
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -37,36 +41,12 @@ import java.util.Map.Entry;
  */
 public class HTTPEncoder extends MessageToByteEncoder<HTTPResponse> {
 
-    /**
-     * The version of the http protocol.
-     */
-    private static final String HTTP_VERSION = "HTTP/1.1";
-
-    /**
-     * Byte codes that indicates a new line.
-     */
-    private static final byte[] NEW_LINE = "\r\n".getBytes();
+    private final HTTPResponseComposer responseComposer = new HTTPResponseComposer();
 
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, HTTPResponse response,
-                          ByteBuf byteBuf) {
+    protected void encode(ChannelHandlerContext channelHandlerContext, HTTPResponse response, ByteBuf byteBuf) {
 
-        String statusResponse = HTTP_VERSION + " "
-                + response.getStatus().getCode() + " "
-                + response.getStatus().getDescription() + new String(NEW_LINE);
-
-        byteBuf.writeBytes(statusResponse.getBytes(CharsetUtil.UTF_8));
-
-        Map<String, String> handle = response.getHeaders().getHandle();
-
-        handle.forEach((key, value) -> {
-            String line = key + ": " + value;
-            byteBuf.writeBytes(line.getBytes(CharsetUtil.UTF_8));
-            byteBuf.writeBytes(NEW_LINE);
-        });
-
-        byteBuf.writeBytes(NEW_LINE);
-
-        byteBuf.writeBytes(response.getBody().getHandle());
+        String composedResponse = responseComposer.composeResponse(response);
+        ByteBufUtil.encodeString(channelHandlerContext.alloc(), CharBuffer.wrap(composedResponse.toCharArray()), CharsetUtil.UTF_8);
     }
 }

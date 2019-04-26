@@ -28,27 +28,20 @@ import de.d3adspace.mantikor.connection.MantikorConnection;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Initializer for all connections.
  *
  * @author Felix 'SasukeKawaii' Klauke
  */
+@RequiredArgsConstructor
 public class MantikorServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     /**
      * The server.
      */
     private final MantikorServer server;
-
-    /**
-     * Create a new initializer based on a server.
-     *
-     * @param server The server.
-     */
-    public MantikorServerChannelInitializer(MantikorServer server) {
-        this.server = server;
-    }
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {

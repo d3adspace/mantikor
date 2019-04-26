@@ -27,6 +27,16 @@ public class HTTPHeaders {
     public static final String KEY_CONTENT_TYPE = "Content-Type";
 
     /**
+     * The key for the header that contains the connection state.
+     */
+    public static final String KEY_CONNECTION = "Connection";
+
+    /**
+     * The key for the header that contains the server name.
+     */
+    public static final String KEY_SERVER = "Server";
+
+    /**
      * The map containing the headers.
      */
     private Map<String, String> headers = new HashMap<>();

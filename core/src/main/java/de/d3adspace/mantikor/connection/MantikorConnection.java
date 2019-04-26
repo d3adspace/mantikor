@@ -22,17 +22,20 @@
 package de.d3adspace.mantikor.connection;
 
 import de.d3adspace.mantikor.MantikorServer;
-import de.d3adspace.mantikor.http.HTTPRequest;
-import de.d3adspace.mantikor.http.HTTPResponse;
+import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.HTTPResponse;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Representing a connection to a client.
  *
  * @author Felix Klauke <info@felix-klauke.de>
  */
+@RequiredArgsConstructor
 public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest> {
 
     /**
@@ -45,23 +48,10 @@ public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest>
      */
     private final MantikorServer server;
 
-    /**
-     * Create a new connection by the channel to the client and the server it belongs to.
-     *
-     * @param channel The channel.
-     * @param server  The server.
-     */
-    public MantikorConnection(Channel channel, MantikorServer server) {
-        this.channel = channel;
-        this.server = server;
-    }
-
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request) {
 
-        HTTPResponse response = this.server.handleRequest(request);
-        response.writeDefaultHeader();
-
-        this.channel.writeAndFlush(response);
+        HTTPResponse response = server.handleRequest(request);
+        channel.writeAndFlush(response);
     }
 }
