@@ -30,9 +30,6 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.util.CharsetUtil;
 
 import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * A simple encoder for netty to handle a HTTPResponse
