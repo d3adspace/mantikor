@@ -6,7 +6,6 @@ import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPMethod;
 import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
-import lombok.Data;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import java.util.StringTokenizer;
 /**
  * The request parser that will create the HTTP Request from its raw string.
  */
-public class HTTPRequestParser {
+public class HTTPRequestParser extends AbstractHTTPParser<String, HTTPRequest> {
 
     /**
      * Create a request from its raw form.
@@ -26,7 +25,7 @@ public class HTTPRequestParser {
      *
      * @return The http request.
      */
-    public HTTPRequest parseRequest(String rawHTTPRequest) {
+    public HTTPRequest parse(String rawHTTPRequest) {
 
         BufferedReader reader = new BufferedReader(new StringReader(rawHTTPRequest));
 
@@ -41,55 +40,13 @@ public class HTTPRequestParser {
         }
 
         // Parse headers
-        HTTPHeaders httpHeaders = null;
-
-        try {
-            httpHeaders = new HTTPHeaders();
-            String currentLine = reader.readLine();
-
-            while (currentLine != null && !currentLine.isEmpty()) {
-
-                HeaderPair header = parseHeader(currentLine);
-                httpHeaders.addHeader(header.getKey(), header.getValue());
-
-                currentLine = reader.readLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        HTTPHeaders httpHeaders = parseHeaders(reader);
 
         // Parse body if present
-        HTTPBody httpBody = null;
-        if (httpHeaders.hasHeader(HTTPHeaders.KEY_CONTENT_LENGTH)) {
-
-            int contentLength = Integer.parseInt(httpHeaders.getHeader(HTTPHeaders.KEY_CONTENT_LENGTH));
-            char[] bodyContent = new char[contentLength];
-
-            try {
-                int read = reader.read(bodyContent);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            httpBody = new HTTPBody(bodyContent);
-        }
+        HTTPBody httpBody = parseBody(httpHeaders, reader);
 
         // Construct HTTP request
         return new HTTPRequest(requestLine, httpHeaders, httpBody);
-    }
-
-    /**
-     * Parse a header from the given line.
-     *
-     * @param line The line.
-     *
-     * @return The header pair
-     */
-    private HeaderPair parseHeader(String line) {
-
-        StringTokenizer stringTokenizer = new StringTokenizer(line, ":");
-
-        return new HeaderPair(stringTokenizer.nextToken().trim(), stringTokenizer.nextToken().trim());
     }
 
     /**
@@ -152,12 +109,5 @@ public class HTTPRequestParser {
     private HTTPMethod parseRequestMethod(String methodToken) {
 
         return HTTPMethod.valueOf(methodToken);
-    }
-
-    @Data
-    private class HeaderPair {
-
-        private final String key;
-        private final String value;
     }
 }

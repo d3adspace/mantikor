@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum HTTPStatus {
 
-    OK(200, "OK");
+    OK(200, "OK"),
+    NOT_FOUND(404, "Not Found");
 
     /**
      * The status code.

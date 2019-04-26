@@ -13,7 +13,6 @@ import java.util.Map;
  */
 @Data
 @NoArgsConstructor
-@Builder
 public class HTTPHeaders {
 
     /**
@@ -40,6 +39,10 @@ public class HTTPHeaders {
      * The map containing the headers.
      */
     private Map<String, String> headers = new HashMap<>();
+
+    public HTTPHeaders(Map<String, String> headers) {
+        this.headers = headers;
+    }
 
     /**
      * Add a header by its key and value.

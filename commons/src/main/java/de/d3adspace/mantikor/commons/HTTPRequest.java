@@ -13,22 +13,17 @@ import lombok.ToString;
  * A http request.
  */
 @Data
-@Builder
-@RequiredArgsConstructor
-public class HTTPRequest {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class HTTPRequest extends HTTPMessage {
 
     /**
      * The request line.
      */
     private final HTTPRequestLine requestLine;
 
-    /**
-     * The headers of the http request.
-     */
-    private final HTTPHeaders headers;
-
-    /**
-     * The payload of the request.
-     */
-    private final HTTPBody body;
+    public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers, HTTPBody body) {
+        super(headers, body);
+        this.requestLine = requestLine;
+    }
 }

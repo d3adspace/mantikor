@@ -5,25 +5,22 @@ import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
-@Builder
-@RequiredArgsConstructor
-public class HTTPResponse {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class HTTPResponse extends HTTPMessage {
 
     /**
      * The status line with version and message.
      */
     private final HTTPStatusLine statusLine;
 
-    /**
-     * The headers.
-     */
-    private final HTTPHeaders headers;
-
-    /**
-     * The body payload.
-     */
-    private final HTTPBody body;
+    public HTTPResponse(HTTPStatusLine statusLine, HTTPHeaders headers, HTTPBody body) {
+        super(headers, body);
+        this.statusLine = statusLine;
+    }
 }
