@@ -9,12 +9,16 @@ import de.d3adspace.mantikor.commons.codec.HTTPStatus;
 import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
 import de.d3adspace.mantikor.config.MantikorConfig;
+import de.d3adspace.mantikor.server.file.config.MantikorFileConfig;
 
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * @author Ruby Hale <ruby@d3adspace.de>
@@ -22,19 +26,25 @@ import java.nio.file.Paths;
 public class MantikorFileServer extends MantikorServer {
 
     /**
+     * The mantikor file server config containing some environment specifications.
+     */
+    private MantikorFileConfig config;
+
+    /**
      * Create a new server based on a config.
      *
      * @param config The config.
      */
-    MantikorFileServer(MantikorConfig config) {
+    MantikorFileServer(MantikorFileConfig config) {
         super(config);
+        this.config = config;
     }
 
     @Override
     public HTTPResponse handleRequest(HTTPRequest request) {
 
         URI uri = request.getRequestLine().getUri();
-        Path path = Paths.get(uri.toString());
+        Path path = Paths.get(config.getBasePath(), uri.toString());
 
         if (!Files.exists(path)) {
             HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.NOT_FOUND);
