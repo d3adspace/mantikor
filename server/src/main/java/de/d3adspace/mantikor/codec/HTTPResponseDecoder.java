@@ -5,10 +5,12 @@ import de.d3adspace.mantikor.commons.parser.HTTPResponseParser;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import io.netty.util.CharsetUtil;
 
 import java.util.List;
 
+/**
+ * @author Ruby Hale <ruby@d3adspace.de>
+ */
 public class HTTPResponseDecoder extends ByteToMessageDecoder {
 
     private final HTTPResponseParser responseParser = new HTTPResponseParser();
@@ -16,7 +18,12 @@ public class HTTPResponseDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
 
-        String rawData = byteBuf.toString(CharsetUtil.UTF_8);
+        // Read raw bytes
+        byte[] bytes = new byte[byteBuf.readableBytes()];
+        byteBuf.readBytes(bytes);
+
+        // Wrap into String
+        String rawData = new String(bytes);
 
         HTTPResponse httpResponse = responseParser.parse(rawData);
 

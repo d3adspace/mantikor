@@ -26,7 +26,6 @@ import de.d3adspace.mantikor.commons.parser.HTTPRequestParser;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import io.netty.util.CharsetUtil;
 
 import java.util.List;
 
@@ -34,6 +33,7 @@ import java.util.List;
  * A simple decoder for netty to handle HTTP Requests.
  *
  * @author Felix Klauke <info@felix-klauke.de>
+ * @author Ruby Hale <ruby@d3adspace.de>
  */
 public class HTTPRequestDecoder extends ByteToMessageDecoder {
 
@@ -42,8 +42,12 @@ public class HTTPRequestDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
 
+        // Read raw bytes
+        byte[] bytes = new byte[byteBuf.readableBytes()];
+        byteBuf.readBytes(bytes);
+
         // Get raw data
-        String rawData = byteBuf.toString(CharsetUtil.UTF_8);
+        String rawData = new String(bytes);
 
         // parse request
         HTTPRequest request = requestParser.parse(rawData);
