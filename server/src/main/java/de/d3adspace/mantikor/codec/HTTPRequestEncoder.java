@@ -6,9 +6,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import io.netty.util.CharsetUtil;
-
-import java.nio.CharBuffer;
 
 public class HTTPRequestEncoder extends MessageToByteEncoder<HTTPRequest> {
 
@@ -18,6 +15,6 @@ public class HTTPRequestEncoder extends MessageToByteEncoder<HTTPRequest> {
     protected void encode(ChannelHandlerContext channelHandlerContext, HTTPRequest request, ByteBuf byteBuf) throws Exception {
 
         String compose = requestComposer.compose(request);
-        ByteBufUtil.encodeString(channelHandlerContext.alloc(), CharBuffer.wrap(compose.toCharArray()), CharsetUtil.UTF_8);
+        ByteBufUtil.writeUtf8(byteBuf, compose);
     }
 }

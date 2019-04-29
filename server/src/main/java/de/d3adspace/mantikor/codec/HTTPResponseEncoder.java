@@ -27,9 +27,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import io.netty.util.CharsetUtil;
-
-import java.nio.CharBuffer;
 
 /**
  * A simple encoder for netty to handle a HTTPResponse
@@ -44,6 +41,6 @@ public class HTTPResponseEncoder extends MessageToByteEncoder<HTTPResponse> {
     protected void encode(ChannelHandlerContext channelHandlerContext, HTTPResponse response, ByteBuf byteBuf) {
 
         String composedResponse = responseComposer.compose(response);
-        ByteBufUtil.encodeString(channelHandlerContext.alloc(), CharBuffer.wrap(composedResponse.toCharArray()), CharsetUtil.UTF_8);
+        ByteBufUtil.writeUtf8(byteBuf, composedResponse);
     }
 }
