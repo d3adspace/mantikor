@@ -49,8 +49,9 @@ public class MantikorFileServer extends MantikorServer {
         if (!Files.exists(path)) {
             HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.NOT_FOUND);
             HTTPHeaders httpHeaders = new HTTPHeaders();
+            HTTPBody httpBody = new HTTPBody(new char[0]);
 
-            return new HTTPResponse(statusLine, httpHeaders, null);
+            return new HTTPResponse(statusLine, httpHeaders, httpBody);
         }
 
         byte[] bytes = new byte[0];
