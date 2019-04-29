@@ -47,8 +47,8 @@ public class MantikorServerChannelInitializer extends ChannelInitializer<SocketC
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
 
-        pipeline.addLast(new HTTPRequestDecoder());
-        pipeline.addLast(new HTTPResponseEncoder());
-        pipeline.addLast(new MantikorConnection(socketChannel, server));
+        pipeline.addLast("httpRequestDecoder", new HTTPRequestDecoder());
+        pipeline.addLast("httpResponseEncoder", new HTTPResponseEncoder());
+        pipeline.addLast("mantikorConnection", new MantikorConnection(socketChannel, server));
     }
 }
