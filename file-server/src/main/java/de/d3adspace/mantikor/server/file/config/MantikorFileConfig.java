@@ -3,6 +3,9 @@ package de.d3adspace.mantikor.server.file.config;
 import de.d3adspace.mantikor.config.MantikorConfig;
 import lombok.Getter;
 
+/**
+ * @author Ruby Hale <ruby@d3adspace.de>
+ */
 @Getter
 public class MantikorFileConfig extends MantikorConfig {
 
