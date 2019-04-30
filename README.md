@@ -57,3 +57,13 @@ MantikorServer mantikorServer = new MantikorServer(mantikorConfig) {
 		
 mantikorServer.start();
 ```
+
+# File Server
+We deliver a really simple example of a static file server located at [file-server](https://github.com/D3adspaceEnterprises/mantikor/tree/master/file-server). 
+It can serve local files really fast. The preferred way of deployment is via Docker:
+
+```
+docker run -it -v /home/user:/opt/base d3adspace/mantikor-file-server
+```
+
+For docker-compose, take a look at `docker-compose.yml`
