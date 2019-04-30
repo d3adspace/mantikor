@@ -13,9 +13,8 @@ services better take a look at https://github.com/D3adspaceEnterprises/echidna
 
 # Installation / Usage
 
-- Install [Maven](http://maven.apache.org/download.cgi)
 - Clone this repo
-- Install: ```mvn clean install```
+- Install: ```./gradlew build```
 
 **Maven repositories**
 
@@ -44,6 +43,25 @@ services better take a look at https://github.com/D3adspaceEnterprises/echidna
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
+
+**Gradle repositories:**
+```groovy
+maven {
+    url = 'https://repository.klauke-enterprises.com/repository/maven-releases/'
+}
+
+maven {
+    url = 'https://repository.klauke-enterprises.com/repository/maven-snapshots/'
+}
+```
+
+**Gradle dependencies:**
+```groovy
+dependencies {
+    compile 'de.d3adspace.mantikor:mantikor-server:1.0-SNAPSHOT'
+}
+```
+
 
 # Example
 ```java
