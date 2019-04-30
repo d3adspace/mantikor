@@ -1,4 +1,4 @@
-package de.d3adspace.mantikor.server.server.file.config;
+package de.d3adspace.mantikor.server.file.config;
 
 import de.d3adspace.mantikor.server.config.MantikorConfig;
 import lombok.Getter;

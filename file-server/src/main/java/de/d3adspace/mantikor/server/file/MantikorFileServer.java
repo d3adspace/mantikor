@@ -1,4 +1,4 @@
-package de.d3adspace.mantikor.server.server.file;
+package de.d3adspace.mantikor.server.file;
 
 import de.d3adspace.mantikor.server.MantikorServer;
 import de.d3adspace.mantikor.server.commons.HTTPRequest;
@@ -9,7 +9,7 @@ import de.d3adspace.mantikor.server.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.server.commons.codec.HTTPStatus;
 import de.d3adspace.mantikor.server.commons.codec.HTTPStatusLine;
 import de.d3adspace.mantikor.server.commons.codec.HTTPVersion;
-import de.d3adspace.mantikor.server.server.file.config.MantikorFileConfig;
+import de.d3adspace.mantikor.server.file.config.MantikorFileConfig;
 
 import java.io.IOException;
 import java.net.URI;
