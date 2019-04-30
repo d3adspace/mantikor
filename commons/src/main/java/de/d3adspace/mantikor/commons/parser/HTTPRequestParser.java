@@ -1,6 +1,7 @@
 package de.d3adspace.mantikor.commons.parser;
 
 import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.HTTPRequestBuilder;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPMethod;
@@ -47,7 +48,7 @@ public class HTTPRequestParser extends AbstractHTTPParser<String, HTTPRequest> {
         HTTPBody httpBody = parseBody(httpHeaders, reader);
 
         // Construct HTTP request
-        return new HTTPRequest(requestLine, httpHeaders, httpBody);
+        return new HTTPRequestBuilder().setRequestLine(requestLine).setHeaders(httpHeaders).setBody(httpBody).createHTTPRequest();
     }
 
     /**

@@ -3,12 +3,12 @@ package de.d3adspace.mantikor.server.file;
 import de.d3adspace.mantikor.MantikorServer;
 import de.d3adspace.mantikor.commons.HTTPRequest;
 import de.d3adspace.mantikor.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.HTTPResponseBuilder;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPStatus;
 import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
-import de.d3adspace.mantikor.config.MantikorConfig;
 import de.d3adspace.mantikor.server.file.config.MantikorFileConfig;
 
 import java.io.IOException;
@@ -16,9 +16,6 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 /**
  * @author Ruby Hale <ruby@d3adspace.de>
@@ -48,10 +45,10 @@ public class MantikorFileServer extends MantikorServer {
 
         if (!Files.exists(path)) {
             HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.NOT_FOUND);
-            HTTPHeaders httpHeaders = new HTTPHeaders();
-            HTTPBody httpBody = new HTTPBody(new char[0]);
 
-            return new HTTPResponse(statusLine, httpHeaders, httpBody);
+            return new HTTPResponseBuilder()
+                    .setStatusLine(statusLine)
+                    .createHTTPResponse();
         }
 
         byte[] bytes = new byte[0];
@@ -69,6 +66,10 @@ public class MantikorFileServer extends MantikorServer {
 
         HTTPBody body = new HTTPBody(new String(bytes).toCharArray());
 
-        return new HTTPResponse(statusLine, headers, body);
+        return new HTTPResponseBuilder()
+                .setStatusLine(statusLine)
+                .setHeaders(headers)
+                .setBody(body)
+                .createHTTPResponse();
     }
 }
