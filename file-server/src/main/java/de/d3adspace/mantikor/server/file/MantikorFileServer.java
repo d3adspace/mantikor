@@ -18,6 +18,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
+ * A really simple file server that will serve static files.
+ *
  * @author Ruby Hale <ruby@d3adspace.de>
  */
 public class MantikorFileServer extends MantikorServer {
@@ -40,9 +42,11 @@ public class MantikorFileServer extends MantikorServer {
     @Override
     public HTTPResponse handleRequest(HTTPRequest request) {
 
+        // Convert request uri to actual file system path
         URI uri = request.getRequestLine().getUri();
         Path path = Paths.get(config.getBasePath(), uri.toString());
 
+        // Check if file exists and return 404 if not
         if (!Files.exists(path)) {
             HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.NOT_FOUND);
 
@@ -51,6 +55,7 @@ public class MantikorFileServer extends MantikorServer {
                     .createHTTPResponse();
         }
 
+        // Read file content
         byte[] bytes = new byte[0];
 
         try {
@@ -59,11 +64,14 @@ public class MantikorFileServer extends MantikorServer {
             e.printStackTrace();
         }
 
+        // Assemble response header
         HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.OK);
         HTTPHeaders headers = new HTTPHeaders();
 
+        // Assemble response body
         HTTPBody body = new HTTPBody(new String(bytes).toCharArray());
 
+        // Build the response
         return new HTTPResponseBuilder()
                 .setStatusLine(statusLine)
                 .setHeaders(headers)
