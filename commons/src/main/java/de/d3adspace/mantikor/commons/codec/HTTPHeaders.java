@@ -1,7 +1,5 @@
 package de.d3adspace.mantikor.commons.codec;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +32,11 @@ public class HTTPHeaders {
      * The key for the header that contains the server name.
      */
     public static final String KEY_SERVER = "Server";
+
+    /**
+     * The date of the server.
+     */
+    public static final String KEY_DATE = "Date";
 
     /**
      * The map containing the headers.

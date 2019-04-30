@@ -23,6 +23,7 @@ package de.d3adspace.mantikor;
 
 import de.d3adspace.mantikor.commons.HTTPRequest;
 import de.d3adspace.mantikor.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.config.MantikorConfig;
 import de.d3adspace.mantikor.initializer.MantikorServerChannelInitializer;
 import de.d3adspace.mantikor.utils.NettyUtils;
@@ -34,6 +35,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
 
 /**
  * Basic server abstraction.
@@ -117,10 +120,31 @@ public abstract class MantikorServer implements Mantikor {
     }
 
     /**
+     * Process the given request by generating a response and preparing it for delivery.
+     *
+     * @param request The request.
+     *
+     * @return The response.
+     */
+    public HTTPResponse processRequest(HTTPRequest request) {
+        // Let the implementation create a response
+        HTTPResponse response = handleRequest(request);
+
+        // Write some default headers
+        HTTPHeaders headers = response.getHeaders();
+        headers.addHeader(HTTPHeaders.KEY_SERVER, "Mantikor");
+        headers.addHeader(HTTPHeaders.KEY_DATE, new Date().toString());
+        headers.addHeader(HTTPHeaders.KEY_CONNECTION, "keep-alive");
+        headers.addHeader(HTTPHeaders.KEY_CONTENT_LENGTH, String.valueOf(response.getBody().getLength()));
+
+        return response;
+    }
+
+    /**
      * Handle an incoming http request.
      *
      * @param request The request.
      * @return The response.
      */
-    public abstract HTTPResponse handleRequest(HTTPRequest request);
+    protected abstract HTTPResponse handleRequest(HTTPRequest request);
 }

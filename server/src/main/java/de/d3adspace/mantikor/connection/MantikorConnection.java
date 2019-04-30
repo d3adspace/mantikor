@@ -27,7 +27,6 @@ import de.d3adspace.mantikor.commons.HTTPResponse;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -51,7 +50,7 @@ public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest>
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request) {
 
-        HTTPResponse response = server.handleRequest(request);
+        HTTPResponse response = server.processRequest(request);
         channel.writeAndFlush(response);
     }
 }

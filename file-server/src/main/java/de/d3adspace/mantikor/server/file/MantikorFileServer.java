@@ -62,8 +62,6 @@ public class MantikorFileServer extends MantikorServer {
         HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.OK);
         HTTPHeaders headers = new HTTPHeaders();
 
-        headers.addHeader(HTTPHeaders.KEY_CONTENT_LENGTH, String.valueOf(bytes.length));
-
         HTTPBody body = new HTTPBody(new String(bytes).toCharArray());
 
         return new HTTPResponseBuilder()
