@@ -62,6 +62,7 @@
         <module>server</module>
         <module>commons</module>
         <module>file-server</module>
+        <module>client</module>
     </modules>
 
 </project>
