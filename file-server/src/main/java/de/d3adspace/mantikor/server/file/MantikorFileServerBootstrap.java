@@ -1,11 +1,9 @@
 package de.d3adspace.mantikor.server.file;
 
-import de.d3adspace.mantikor.MantikorServer;
-import de.d3adspace.mantikor.config.MantikorConfig;
+import de.d3adspace.mantikor.server.MantikorServer;
 import de.d3adspace.mantikor.server.file.config.MantikorFileConfig;
 
 import java.io.File;
-import java.nio.file.Paths;
 
 /**
  * @author Ruby Hale <ruby@d3adspace.de>
