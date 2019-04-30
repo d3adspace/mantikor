@@ -4,6 +4,13 @@ Mantikor is a simple and lightweight webserver designed build it into your own a
 embedded webserver to handle handle web interfaces or similar shit. If you want to build RESTful
 services better take a look at https://github.com/D3adspaceEnterprises/echidna
 
+# Build Status
+
+|             | Build Status                                                                                                            |
+|-------------|-------------------------------------------------------------------------------------------------------------------------|
+| Master      | [![Build Status](https://travis-ci.org/d3adspace/mantikor.svg?branch=master)](https://travis-ci.org/d3adspace/mantikor) |
+| Development | [![Build Status](https://travis-ci.org/d3adspace/mantikor.svg?branch=dev)](https://travis-ci.org/d3adspace/mantikor)    |
+
 # Installation / Usage
 
 - Install [Maven](http://maven.apache.org/download.cgi)
