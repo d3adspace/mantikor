@@ -14,6 +14,10 @@ public class HTTPBody {
      */
     private final char[] content;
 
+    public HTTPBody() {
+        this(new char[0]);
+    }
+
     /**
      * Get the length of the body.
      *
