@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HTTPResponseComposerTest {
 
-    private static final HTTPResponse TEST_RESPONSE = new HTTPResponseBuilder().setStatusLine(new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.NOT_FOUND)).setHeaders(new HTTPHeaders(new LinkedHashMap<>() {{
+    private static final HTTPResponse TEST_RESPONSE = new HTTPResponseBuilder().setStatusLine(new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.NOT_FOUND)).setHeaders(new HTTPHeaders(new LinkedHashMap<String, String>() {{
         put("Date", "Sun, 18 Oct 2012 10:36:20 GMT");
         put("Server", "Apache/2.2.14 (Win32)");
         put("Content-Length", "230");

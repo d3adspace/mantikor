@@ -1,7 +1,14 @@
-# Created by .ignore support plugin (hsz.mobi)
-.idea
+################
+### IntelliJ ###
+################
+
 *.iml
-out
-gen
+.idea
 target
-mantikor-server.log
+out
+
+##############
+### Gradle ###
+##############
+.gradle/
+build

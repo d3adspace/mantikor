@@ -1,7 +1,7 @@
 ############################
 ### Base for build image ###
 ############################
-FROM maven:latest AS build
+FROM gradle:jdk11 AS build
 
 MAINTAINER Ruby Hale <ruby@d3adspace.de>
 
@@ -13,7 +13,7 @@ COPY . .
 ################
 ### Build it ###
 ################
-RUN mvn clean install package
+RUN ./gradlew build
 
 ########################
 ### Base for runtime ###
@@ -22,7 +22,7 @@ FROM openjdk:11 AS runtime
 
 WORKDIR /opt/app
 
-COPY --from=build file-server/target/mantikor-file-server.jar /opt/app/server.jar
+COPY --from=build file-server/build/libs/mantikor-file-server.jar /opt/app/server.jar
 
 EXPOSE 8080
 
