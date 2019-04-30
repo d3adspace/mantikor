@@ -63,6 +63,7 @@
         <module>commons</module>
         <module>file-server</module>
         <module>client</module>
+        <module>reverse-proxy</module>
     </modules>
 
 </project>
