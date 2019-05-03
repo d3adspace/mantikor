@@ -14,13 +14,46 @@ public class HTTPRequestBuilder {
     private HTTPHeaders headers = new HTTPHeaders();
     private HTTPBody body = new HTTPBody();
 
+    public HTTPRequestBuilder setMethod(HTTPMethod method) {
+        requestLine.setMethod(method);
+        return this;
+    }
+
+    public HTTPRequestBuilder setLocation(String location) {
+        requestLine.setUri(URI.create(location));
+        return this;
+    }
+
+    public HTTPRequestBuilder setVersion(HTTPVersion version) {
+        requestLine.setVersion(version);
+        return this;
+    }
+
     public HTTPRequestBuilder setRequestLine(HTTPRequestLine requestLine) {
         this.requestLine = requestLine;
         return this;
     }
 
+    public HTTPRequestBuilder setHeader(String key, String value) {
+        headers.addHeader(key, value);
+        return this;
+    }
+
     public HTTPRequestBuilder setHeaders(HTTPHeaders headers) {
         this.headers = headers;
+        return this;
+    }
+
+    public HTTPRequestBuilder setBody(byte[] bytes) {
+        return setBody(new String(bytes));
+    }
+
+    public HTTPRequestBuilder setBody(String body) {
+        return setBody(body.toCharArray());
+    }
+
+    public HTTPRequestBuilder setBody(char[] body) {
+        this.body.setContent(body);
         return this;
     }
 

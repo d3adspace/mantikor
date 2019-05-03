@@ -1,5 +1,6 @@
 package de.d3adspace.mantikor.server.commons.codec;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -11,21 +12,21 @@ import java.net.URI;
  */
 @Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class HTTPRequestLine {
 
     /**
      * The HTTP method.
      */
-    private final HTTPMethod method;
+    private HTTPMethod method;
 
     /**
      * The HTTP URI.
      */
-    private final URI uri;
+    private URI uri;
 
     /**
      * The HTTP version.
      */
-    private final HTTPVersion version;
+    private HTTPVersion version;
 }

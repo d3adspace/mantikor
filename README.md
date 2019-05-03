@@ -36,10 +36,29 @@ services better take a look at https://github.com/D3adspaceEnterprises/echidna
 
 **Maven dependencies**
 
+_Server:_
 ```xml
 <dependency>
     <groupId>de.d3adspace.mantikor</groupId>
-    <artifactId>mantikor-core</artifactId>
+    <artifactId>mantikor-server</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+_HTTP Models:_
+```xml
+<dependency>
+    <groupId>de.d3adspace.mantikor</groupId>
+    <artifactId>mantikor-commons</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```  
+
+_Netty channel handler impelementatins:_
+```xml
+<dependency>
+    <groupId>de.d3adspace.mantikor</groupId>
+    <artifactId>mantikor-codec-netty</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
@@ -64,6 +83,17 @@ dependencies {
 
 
 # Example
+
+**Build an HTTP request**
+```java
+HTTPRequest request = new HTTPRequestBuilder()
+                .setMethod(HTTPMethod.GET)
+                .setLocation("/test")
+                .setHeader("Authorization", "3456-6543-4566-2342")
+                .createHTTPRequest();
+```
+
+**Create a custom server**
 ```java
 MantikorConfig mantikorConfig = MantikorConfig.newBuilder()
 	.setServerHost("localhost")

@@ -1,9 +1,12 @@
 package de.d3adspace.mantikor.server.commons.composer;
 
+import de.d3adspace.mantikor.server.commons.HTTPRequest;
+import de.d3adspace.mantikor.server.commons.HTTPRequestBuilder;
 import de.d3adspace.mantikor.server.commons.HTTPResponse;
 import de.d3adspace.mantikor.server.commons.HTTPResponseBuilder;
 import de.d3adspace.mantikor.server.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.server.commons.codec.HTTPHeaders;
+import de.d3adspace.mantikor.server.commons.codec.HTTPMethod;
 import de.d3adspace.mantikor.server.commons.codec.HTTPStatus;
 import de.d3adspace.mantikor.server.commons.codec.HTTPStatusLine;
 import de.d3adspace.mantikor.server.commons.codec.HTTPVersion;
