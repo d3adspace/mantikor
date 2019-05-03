@@ -111,6 +111,15 @@ HTTPRequest request = new HTTPRequestBuilder()
                 .createHTTPRequest();
 ```
 
+**Build an HTTP response**
+```java
+HTTPResponse response = new HTTPResponseBuilder()
+                .setStatus(HTTPStatus.OK)
+                .setHeader("X-Powered-By", "Me")
+                .setBody("NOPE!")
+                .createHTTPResponse();
+```
+
 **Create a custom server**
 ```java
 MantikorConfig mantikorConfig = MantikorConfig.newBuilder()
