@@ -21,9 +21,9 @@
 
 package de.d3adspace.mantikor.server.initializer;
 
+import de.d3adspace.mantikor.codec.netty.HTTPRequestDecoder;
+import de.d3adspace.mantikor.codec.netty.HTTPResponseEncoder;
 import de.d3adspace.mantikor.server.MantikorServer;
-import de.d3adspace.mantikor.server.codec.HTTPRequestDecoder;
-import de.d3adspace.mantikor.server.codec.HTTPResponseEncoder;
 import de.d3adspace.mantikor.server.connection.MantikorConnection;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
