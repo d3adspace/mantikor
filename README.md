@@ -121,10 +121,11 @@ MantikorConfig mantikorConfig = MantikorConfig.newBuilder()
 MantikorServer mantikorServer = new MantikorServer(mantikorConfig) {
 	@Override
 	public HTTPResponse handleRequest(HTTPRequest request) {
-		return HTTPResponse.newBuilder()
-			.setStatus(HTTPStatus.NOT_FOUND)
-			.setHeaders(new HTTPHeaders())
-			.createHTTPResponse();
+		return new HTTPResponseBuilder()
+            .setStatus(HTTPStatus.OK)
+            .setHeader("X-Powered-By", "Me")
+            .setBody("NOPE!")
+            .createHTTPResponse();
 	}
 };
 		

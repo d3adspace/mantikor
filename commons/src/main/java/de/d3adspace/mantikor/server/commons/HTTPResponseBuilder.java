@@ -12,13 +12,41 @@ public class HTTPResponseBuilder {
     private HTTPHeaders headers = new HTTPHeaders();
     private HTTPBody body = new HTTPBody();
 
+    public HTTPResponseBuilder setStatus(HTTPStatus status) {
+        statusLine.setStatus(status);
+        return this;
+    }
+
     public HTTPResponseBuilder setStatusLine(HTTPStatusLine statusLine) {
         this.statusLine = statusLine;
         return this;
     }
 
+    public HTTPResponseBuilder setVersion(HTTPVersion version) {
+        statusLine.setVersion(version);
+        return this;
+    }
+
+    public HTTPResponseBuilder setHeader(String key, String value) {
+        headers.addHeader(key, value);
+        return this;
+    }
+
     public HTTPResponseBuilder setHeaders(HTTPHeaders headers) {
         this.headers = headers;
+        return this;
+    }
+
+    public HTTPResponseBuilder setBody(byte[] bytes) {
+        return setBody(new String(bytes));
+    }
+
+    public HTTPResponseBuilder setBody(String body) {
+        return setBody(body.toCharArray());
+    }
+
+    public HTTPResponseBuilder setBody(char[] body) {
+        this.body.setContent(body);
         return this;
     }
 

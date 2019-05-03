@@ -1,5 +1,7 @@
 package de.d3adspace.mantikor.server.commons;
 
+import de.d3adspace.mantikor.server.commons.codec.HTTPStatus;
+
 public class MantikorCommons {
 
     /**
