@@ -54,7 +54,7 @@ _HTTP Models:_
 </dependency>
 ```  
 
-_Netty channel handler impelementatins:_
+_Netty channel handler implementations:_
 ```xml
 <dependency>
     <groupId>de.d3adspace.mantikor</groupId>
@@ -75,12 +75,30 @@ maven {
 ```
 
 **Gradle dependencies:**
+
+_Server:_
+
 ```groovy
 dependencies {
     compile 'de.d3adspace.mantikor:mantikor-server:1.0-SNAPSHOT'
 }
 ```
 
+_Commons:_
+
+```groovy
+dependencies {
+    compile 'de.d3adspace.mantikor:mantikor-commons:1.0-SNAPSHOT'
+}
+```
+
+_Netty channel handler implementations:_
+
+```groovy
+dependencies {
+    compile 'de.d3adspace.mantikor:mantikor-codec-netty:1.0-SNAPSHOT'
+}
+```
 
 # Example
 
