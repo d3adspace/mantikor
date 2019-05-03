@@ -1,3 +1,5 @@
+![Mantikor Logo](.github/logo.png =150x150)
+
 # Mantikor
 
 Mantikor is a simple and lightweight webserver designed build it into your own application as an 
