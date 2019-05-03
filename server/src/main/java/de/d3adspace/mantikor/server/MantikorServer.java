@@ -21,9 +21,9 @@
 
 package de.d3adspace.mantikor.server;
 
-import de.d3adspace.mantikor.server.commons.HTTPRequest;
-import de.d3adspace.mantikor.server.commons.HTTPResponse;
-import de.d3adspace.mantikor.server.commons.codec.HTTPHeaders;
+import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.server.config.MantikorConfig;
 import de.d3adspace.mantikor.server.initializer.MantikorServerChannelInitializer;
 import de.d3adspace.mantikor.server.utils.NettyUtils;

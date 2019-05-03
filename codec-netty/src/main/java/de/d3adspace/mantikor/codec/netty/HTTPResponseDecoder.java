@@ -1,7 +1,7 @@
 package de.d3adspace.mantikor.codec.netty;
 
-import de.d3adspace.mantikor.server.commons.HTTPResponse;
-import de.d3adspace.mantikor.server.commons.parser.HTTPResponseParser;
+import de.d3adspace.mantikor.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.parser.HTTPResponseParser;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;

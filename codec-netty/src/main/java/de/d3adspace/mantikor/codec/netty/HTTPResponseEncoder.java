@@ -21,8 +21,8 @@
 
 package de.d3adspace.mantikor.codec.netty;
 
-import de.d3adspace.mantikor.server.commons.HTTPResponse;
-import de.d3adspace.mantikor.server.commons.composer.HTTPResponseComposer;
+import de.d3adspace.mantikor.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.composer.HTTPResponseComposer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;

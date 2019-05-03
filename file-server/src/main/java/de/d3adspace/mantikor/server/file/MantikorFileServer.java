@@ -1,18 +1,16 @@
 package de.d3adspace.mantikor.server.file;
 
 import de.d3adspace.mantikor.server.MantikorServer;
-import de.d3adspace.mantikor.server.commons.HTTPRequest;
-import de.d3adspace.mantikor.server.commons.HTTPResponse;
-import de.d3adspace.mantikor.server.commons.HTTPResponseBuilder;
-import de.d3adspace.mantikor.server.commons.codec.HTTPBody;
-import de.d3adspace.mantikor.server.commons.codec.HTTPHeaders;
-import de.d3adspace.mantikor.server.commons.codec.HTTPStatus;
-import de.d3adspace.mantikor.server.commons.codec.HTTPStatusLine;
-import de.d3adspace.mantikor.server.commons.codec.HTTPVersion;
+import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.HTTPResponseBuilder;
+import de.d3adspace.mantikor.commons.codec.HTTPBody;
+import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
+import de.d3adspace.mantikor.commons.codec.HTTPStatus;
+import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
+import de.d3adspace.mantikor.commons.codec.HTTPVersion;
 import de.d3adspace.mantikor.server.file.config.MantikorFileConfig;
-import io.netty.handler.ssl.SslHandler;
 
-import javax.net.ssl.SSLEngine;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;

@@ -22,8 +22,8 @@
 package de.d3adspace.mantikor.server.connection;
 
 import de.d3adspace.mantikor.server.MantikorServer;
-import de.d3adspace.mantikor.server.commons.HTTPRequest;
-import de.d3adspace.mantikor.server.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.HTTPResponse;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
