@@ -18,11 +18,11 @@ RUN ./gradlew build
 ########################
 ### Base for runtime ###
 ########################
-FROM openjdk:11 AS runtime
+FROM openjdk:11-stretch AS runtime
 
 WORKDIR /opt/app
 
-COPY --from=build file-server/build/libs/mantikor-file-server.jar /opt/app/server.jar
+COPY --from=build /home/gradle/file-server/build/libs/mantikor-file-server.jar /opt/app/server.jar
 
 EXPOSE 8080
 

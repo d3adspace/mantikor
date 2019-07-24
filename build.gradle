@@ -10,6 +10,8 @@ subprojects {
 
     repositories {
         mavenLocal()
+        mavenCentral()
+        
         maven {
             url = 'https://repository.klauke-enterprises.com/repository/maven-releases/'
         }
