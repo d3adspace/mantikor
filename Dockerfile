@@ -3,7 +3,7 @@
 ############################
 FROM gradle:jdk11 AS build
 
-MAINTAINER Ruby Hale <ruby@d3adspace.de>
+LABEL authors="Ruby Hale <ruby@d3adspace.de>, Felix Klauke <felix@felix-klauke.de>"
 
 ######################
 ### Copy all files ###
