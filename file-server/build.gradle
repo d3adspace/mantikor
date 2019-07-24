@@ -8,3 +8,14 @@ configurations {
 
     jar.archiveName = 'mantikor-file-server.jar'
 }
+
+jar {
+    from {
+        (configurations.runtime).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes 'Main-Class': 'de.d3adspace.mantikor.server.file.MantikorFileServerBootstrap'
+    }
+}

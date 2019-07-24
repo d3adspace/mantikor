@@ -24,6 +24,12 @@ WORKDIR /opt/app
 
 COPY --from=build /home/gradle/file-server/build/libs/mantikor-file-server.jar /opt/app/server.jar
 
+###################
+### Healthcheck ###
+###################
+HEALTHCHECK --interval=10s --timeout=10s --retries=3 \
+    CMD curl -sS http://127.0.0.1:8080 || exit 1
+
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "server.jar" ]

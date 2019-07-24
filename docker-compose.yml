@@ -11,4 +11,4 @@ services:
     ports:
       - '8093:8080'
     volumes:
-      - '/var/www/html:/opt/base'
+      - '/var/www/html:/var/www/html'
