@@ -55,6 +55,15 @@ public class MantikorFileServer extends MantikorServer {
           .createHTTPResponse();
     }
 
+    if (Files.isDirectory(path)) {
+      HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1,
+        HTTPStatus.FORBIDDEN);
+
+      return new HTTPResponseBuilder()
+        .setStatusLine(statusLine)
+        .createHTTPResponse();
+    }
+
     // Read file content
     byte[] bytes = new byte[0];
 

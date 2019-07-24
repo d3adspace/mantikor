@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 public enum HTTPStatus {
 
   OK(200, "OK"),
+  FORBIDDEN(403, "Forbidden"),
   NOT_FOUND(404, "Not Found"),
   INTERNAL_SERVER_ERROR(500, "Internal Server Error");
 
