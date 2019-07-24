@@ -9,10 +9,10 @@ import lombok.Getter;
 @Getter
 public class MantikorFileConfig extends MantikorConfig {
 
-    private final String basePath;
+  private final String basePath;
 
-    public MantikorFileConfig(String serverHost, int serverPort, String basePath) {
-        super(serverHost, serverPort);
-        this.basePath = basePath;
-    }
+  public MantikorFileConfig(String serverHost, int serverPort, String basePath) {
+    super(serverHost, serverPort);
+    this.basePath = basePath;
+  }
 }

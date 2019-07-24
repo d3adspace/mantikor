@@ -38,17 +38,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MantikorServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    /**
-     * The server.
-     */
-    private final MantikorServer server;
+  /**
+   * The server.
+   */
+  private final MantikorServer server;
 
-    @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
-        ChannelPipeline pipeline = socketChannel.pipeline();
+  @Override
+  protected void initChannel(SocketChannel socketChannel) throws Exception {
+    ChannelPipeline pipeline = socketChannel.pipeline();
 
-        pipeline.addLast("httpRequestDecoder", new HTTPRequestDecoder());
-        pipeline.addLast("httpResponseEncoder", new HTTPResponseEncoder());
-        pipeline.addLast("mantikorConnection", new MantikorConnection(socketChannel, server));
-    }
+    pipeline.addLast("httpRequestDecoder", new HTTPRequestDecoder());
+    pipeline.addLast("httpResponseEncoder", new HTTPResponseEncoder());
+    pipeline.addLast("mantikorConnection", new MantikorConnection(socketChannel, server));
+  }
 }

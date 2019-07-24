@@ -35,13 +35,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MantikorConfig {
 
-    /**
-     * The host of the server.
-     */
-    private final String serverHost;
+  /**
+   * The host of the server.
+   */
+  private final String serverHost;
 
-    /**
-     * The port of the server.
-     */
-    private final int serverPort;
+  /**
+   * The port of the server.
+   */
+  private final int serverPort;
 }

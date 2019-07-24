@@ -9,12 +9,13 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 public class HTTPRequestEncoder extends MessageToByteEncoder<HTTPRequest> {
 
-    private final HTTPRequestComposer requestComposer = new HTTPRequestComposer();
+  private final HTTPRequestComposer requestComposer = new HTTPRequestComposer();
 
-    @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, HTTPRequest request, ByteBuf byteBuf) throws Exception {
+  @Override
+  protected void encode(ChannelHandlerContext channelHandlerContext, HTTPRequest request,
+      ByteBuf byteBuf) throws Exception {
 
-        String compose = requestComposer.compose(request);
-        ByteBufUtil.writeUtf8(byteBuf, compose);
-    }
+    String compose = requestComposer.compose(request);
+    ByteBufUtil.writeUtf8(byteBuf, compose);
+  }
 }

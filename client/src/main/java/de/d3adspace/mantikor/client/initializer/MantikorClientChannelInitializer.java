@@ -7,24 +7,23 @@ import de.d3adspace.mantikor.commons.HTTPResponse;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-
 import java.util.function.Consumer;
 
 public class MantikorClientChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    private final Consumer<HTTPResponse> httpResponseConsumer;
+  private final Consumer<HTTPResponse> httpResponseConsumer;
 
-    public MantikorClientChannelInitializer(Consumer<HTTPResponse> httpResponseConsumer) {
-        this.httpResponseConsumer = httpResponseConsumer;
-    }
+  public MantikorClientChannelInitializer(Consumer<HTTPResponse> httpResponseConsumer) {
+    this.httpResponseConsumer = httpResponseConsumer;
+  }
 
-    @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
+  @Override
+  protected void initChannel(SocketChannel socketChannel) throws Exception {
 
-        ChannelPipeline pipeline = socketChannel.pipeline();
+    ChannelPipeline pipeline = socketChannel.pipeline();
 
-        pipeline.addLast(new HTTPResponseDecoder());
-        pipeline.addLast(new HTTPRequestEncoder());
-        pipeline.addLast(new MantikorClientConnection(httpResponseConsumer));
-    }
+    pipeline.addLast(new HTTPResponseDecoder());
+    pipeline.addLast(new HTTPRequestEncoder());
+    pipeline.addLast(new MantikorClientConnection(httpResponseConsumer));
+  }
 }

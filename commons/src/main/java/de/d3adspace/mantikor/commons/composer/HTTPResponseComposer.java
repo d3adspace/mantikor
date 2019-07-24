@@ -8,35 +8,35 @@ import de.d3adspace.mantikor.commons.codec.HTTPVersion;
 
 public class HTTPResponseComposer extends AbstractHTTPComposer<HTTPResponse, String> {
 
-    /**
-     * Compose a HTTP message out of the given http response.
-     *
-     * @param response The response.
-     * @return The http method.
-     */
-    @Override
-    public String compose(HTTPResponse response) {
+  /**
+   * Compose a HTTP message out of the given http response.
+   *
+   * @param response The response.
+   * @return The http method.
+   */
+  @Override
+  public String compose(HTTPResponse response) {
 
-        StringBuffer stringBuffer = new StringBuffer();
+    StringBuffer stringBuffer = new StringBuffer();
 
-        // Encode status line
-        HTTPStatusLine statusLine = response.getStatusLine();
+    // Encode status line
+    HTTPStatusLine statusLine = response.getStatusLine();
 
-        HTTPVersion version = statusLine.getVersion();
-        stringBuffer.append(version.getVersion());
-        stringBuffer.append(" ");
+    HTTPVersion version = statusLine.getVersion();
+    stringBuffer.append(version.getVersion());
+    stringBuffer.append(" ");
 
-        HTTPStatus status = statusLine.getStatus();
-        stringBuffer.append(status.getStatusCode());
-        stringBuffer.append(" ");
-        stringBuffer.append(status.getStatusMessage());
-        stringBuffer.append(MantikorCommons.CRLF);
+    HTTPStatus status = statusLine.getStatus();
+    stringBuffer.append(status.getStatusCode());
+    stringBuffer.append(" ");
+    stringBuffer.append(status.getStatusMessage());
+    stringBuffer.append(MantikorCommons.CRLF);
 
-        // Encode headers and body
-        StringBuffer headerBodyBuffer = encodeHeadersAndBody(response);
-        stringBuffer.append(headerBodyBuffer);
+    // Encode headers and body
+    StringBuffer headerBodyBuffer = encodeHeadersAndBody(response);
+    stringBuffer.append(headerBodyBuffer);
 
-        return stringBuffer.toString();
-    }
+    return stringBuffer.toString();
+  }
 
 }

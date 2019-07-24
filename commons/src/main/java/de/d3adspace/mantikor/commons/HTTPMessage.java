@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class HTTPMessage {
 
-    private final HTTPHeaders headers;
+  private final HTTPHeaders headers;
 
-    private final HTTPBody body;
+  private final HTTPBody body;
 }

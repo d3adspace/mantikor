@@ -22,24 +22,24 @@
 
 <configuration>
 
-    <appender class="ch.qos.logback.core.ConsoleAppender"
-              name="STDOUT">
-        <encoder>
-            <pattern>%d{HH:mm:ss} [%thread] %-5level %class{0} - %msg%n</pattern>
-        </encoder>
-    </appender>
+  <appender class="ch.qos.logback.core.ConsoleAppender"
+    name="STDOUT">
+    <encoder>
+      <pattern>%d{HH:mm:ss} [%thread] %-5level %class{0} - %msg%n</pattern>
+    </encoder>
+  </appender>
 
-    <appender class="ch.qos.logback.core.FileAppender" name="FILE">
-        <file>mantikor-server.log</file>
-        <append>true</append>
-        <immediateFlush>true</immediateFlush>
-        <encoder>
-            <pattern>%d{HH:mm:ss} [%thread] %-5level %class{0} - %msg%n</pattern>
-        </encoder>
-    </appender>
+  <appender class="ch.qos.logback.core.FileAppender" name="FILE">
+    <append>true</append>
+    <encoder>
+      <pattern>%d{HH:mm:ss} [%thread] %-5level %class{0} - %msg%n</pattern>
+    </encoder>
+    <file>mantikor-server.log</file>
+    <immediateFlush>true</immediateFlush>
+  </appender>
 
-    <root level="info">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE"/>
-    </root>
+  <root level="info">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE"/>
+  </root>
 </configuration>

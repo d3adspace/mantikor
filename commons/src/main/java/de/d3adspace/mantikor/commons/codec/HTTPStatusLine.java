@@ -9,13 +9,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class HTTPStatusLine {
 
-    /**
-     * The version.
-     */
-    private HTTPVersion version;
+  /**
+   * The version.
+   */
+  private HTTPVersion version;
 
-    /**
-     * The status.
-     */
-    private HTTPStatus status;
+  /**
+   * The status.
+   */
+  private HTTPStatus status;
 }

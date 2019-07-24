@@ -15,21 +15,21 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class HTTPRequest extends HTTPMessage {
 
-    /**
-     * The request line.
-     */
-    private final HTTPRequestLine requestLine;
+  /**
+   * The request line.
+   */
+  private final HTTPRequestLine requestLine;
 
-    public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers, HTTPBody body) {
-        super(headers, body);
-        this.requestLine = requestLine;
-    }
+  public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers, HTTPBody body) {
+    super(headers, body);
+    this.requestLine = requestLine;
+  }
 
-    public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers) {
-        this(requestLine, headers, new HTTPBody());
-    }
+  public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers) {
+    this(requestLine, headers, new HTTPBody());
+  }
 
-    public HTTPRequest(HTTPRequestLine requestLine) {
-        this(requestLine, new HTTPHeaders());
-    }
+  public HTTPRequest(HTTPRequestLine requestLine) {
+    this(requestLine, new HTTPHeaders());
+  }
 }
