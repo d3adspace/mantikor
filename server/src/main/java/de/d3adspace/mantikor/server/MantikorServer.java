@@ -26,6 +26,7 @@ import de.d3adspace.mantikor.commons.HTTPResponse;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.server.config.MantikorConfig;
 import de.d3adspace.mantikor.server.initializer.MantikorServerChannelInitializer;
+import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
 import de.d3adspace.mantikor.server.utils.NettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -42,7 +43,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Felix 'SasukeKawaii' Klauke
  */
-public abstract class MantikorServer implements Mantikor {
+public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
 
   /**
    * The config for the server.
@@ -130,6 +131,7 @@ public abstract class MantikorServer implements Mantikor {
    * @param request The request.
    * @return The response.
    */
+  @Override
   public HTTPResponse processRequest(HTTPRequest request) {
     // Let the implementation create a response
     HTTPResponse response = handleRequest(request);

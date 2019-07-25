@@ -24,6 +24,7 @@ package de.d3adspace.mantikor.server.connection;
 import de.d3adspace.mantikor.commons.HTTPRequest;
 import de.d3adspace.mantikor.commons.HTTPResponse;
 import de.d3adspace.mantikor.server.MantikorServer;
+import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -43,14 +44,14 @@ public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest>
   private final Channel channel;
 
   /**
-   * The server the connection belongs to.
+   * The request proceessor.
    */
-  private final MantikorServer server;
+  private final HTTPRequestProcessor requestProcessor;
 
   @Override
   protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request) {
 
-    HTTPResponse response = server.processRequest(request);
+    HTTPResponse response = requestProcessor.processRequest(request);
     channel.writeAndFlush(response);
   }
 }
