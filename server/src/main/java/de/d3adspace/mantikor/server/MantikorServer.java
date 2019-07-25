@@ -118,6 +118,12 @@ public abstract class MantikorServer implements Mantikor {
     workerGroup.shutdownGracefully();
   }
 
+  @Override
+  public boolean isRunning() {
+
+    return channel != null && channel.isOpen();
+  }
+
   /**
    * Process the given request by generating a response and preparing it for delivery.
    *

@@ -37,4 +37,11 @@ public interface Mantikor {
    * Stop the server.
    */
   void stop();
+
+  /**
+   * Check if the server is running.
+   *
+   * @return If the server is running.
+   */
+  boolean isRunning();
 }
