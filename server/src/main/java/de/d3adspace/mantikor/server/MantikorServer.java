@@ -34,6 +34,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,7 +140,7 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
     // Write some default headers
     HTTPHeaders headers = response.getHeaders();
     headers.addHeader(HTTPHeaders.KEY_SERVER, "Mantikor");
-    headers.addHeader(HTTPHeaders.KEY_DATE, new Date().toString());
+    headers.addHeader(HTTPHeaders.KEY_DATE, new SimpleDateFormat().format(new Date()));
     headers.addHeader(HTTPHeaders.KEY_CONNECTION, "keep-alive");
     headers
         .addHeader(HTTPHeaders.KEY_CONTENT_LENGTH, String.valueOf(response.getBody().getLength()));
