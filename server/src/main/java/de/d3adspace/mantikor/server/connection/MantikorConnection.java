@@ -23,19 +23,17 @@ package de.d3adspace.mantikor.server.connection;
 
 import de.d3adspace.mantikor.commons.HTTPRequest;
 import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.server.MantikorServer;
 import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import lombok.RequiredArgsConstructor;
+import java.util.Objects;
 
 /**
  * Representing a connection to a client.
  *
  * @author Felix Klauke <info@felix-klauke.de>
  */
-@RequiredArgsConstructor
 public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest> {
 
   /**
@@ -44,9 +42,22 @@ public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest>
   private final Channel channel;
 
   /**
-   * The request proceessor.
+   * The request processor.
    */
   private final HTTPRequestProcessor requestProcessor;
+
+  private MantikorConnection(Channel channel,
+    HTTPRequestProcessor requestProcessor) {
+    this.channel = channel;
+    this.requestProcessor = requestProcessor;
+  }
+
+  public static MantikorConnection create(Channel channel, HTTPRequestProcessor requestProcessor) {
+    Objects.requireNonNull(channel, "Channel should not be null.");
+    Objects.requireNonNull(requestProcessor, "Request processor should not be null.");
+
+    return new MantikorConnection(channel, requestProcessor);
+  }
 
   @Override
   protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request) {

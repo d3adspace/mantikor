@@ -36,6 +36,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,7 +88,7 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
     workerGroup = NettyUtils.createEventLoopGroup(4);
 
     Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
-    ChannelHandler channelHandler = new MantikorServerChannelInitializer(this);
+    ChannelHandler channelHandler = MantikorServerChannelInitializer.withRequestProcessor(this);
 
     logger.info("I am going to start the web server on {}:{}", config.getServerHost(),
         config.getServerPort());
@@ -134,6 +135,9 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
    */
   @Override
   public HTTPResponse processRequest(HTTPRequest request) {
+
+    Objects.requireNonNull(request, "Request shoult not be null.");
+
     // Let the implementation create a response
     HTTPResponse response = handleRequest(request);
 

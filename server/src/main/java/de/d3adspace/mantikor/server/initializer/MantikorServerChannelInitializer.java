@@ -25,30 +25,39 @@ import de.d3adspace.mantikor.codec.netty.HTTPRequestDecoder;
 import de.d3adspace.mantikor.codec.netty.HTTPResponseEncoder;
 import de.d3adspace.mantikor.server.MantikorServer;
 import de.d3adspace.mantikor.server.connection.MantikorConnection;
+import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import lombok.RequiredArgsConstructor;
+import java.util.Objects;
 
 /**
  * Initializer for all connections.
  *
  * @author Felix 'SasukeKawaii' Klauke
  */
-@RequiredArgsConstructor
 public class MantikorServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-  /**
-   * The server.
-   */
-  private final MantikorServer server;
+  private final HTTPRequestProcessor requestProcessor;
+
+  private MantikorServerChannelInitializer(HTTPRequestProcessor requestProcessor) {
+    this.requestProcessor = requestProcessor;
+  }
+
+  public static MantikorServerChannelInitializer withRequestProcessor(HTTPRequestProcessor requestProcessor) {
+    Objects.requireNonNull(requestProcessor, "Request processor should not be null.");
+
+    return new MantikorServerChannelInitializer(requestProcessor);
+  }
 
   @Override
   protected void initChannel(SocketChannel socketChannel) throws Exception {
     ChannelPipeline pipeline = socketChannel.pipeline();
 
+    MantikorConnection connection = MantikorConnection.create(socketChannel, requestProcessor);
+
     pipeline.addLast("httpRequestDecoder", new HTTPRequestDecoder());
     pipeline.addLast("httpResponseEncoder", new HTTPResponseEncoder());
-    pipeline.addLast("mantikorConnection", new MantikorConnection(socketChannel, server));
+    pipeline.addLast("mantikorConnection", connection);
   }
 }
