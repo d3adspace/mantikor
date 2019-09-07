@@ -39,8 +39,9 @@ public class HTTPRequestDecoder extends ByteToMessageDecoder {
   private final HTTPRequestParser requestParser = new HTTPRequestParser();
 
   @Override
-  protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
-      List<Object> list) {
+  protected void decode(ChannelHandlerContext channelHandlerContext,
+    ByteBuf byteBuf,
+    List<Object> list) {
 
     // Read raw bytes
     byte[] bytes = new byte[byteBuf.readableBytes()];

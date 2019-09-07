@@ -9,11 +9,13 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import java.util.function.Consumer;
 
-public class MantikorClientChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class MantikorClientChannelInitializer extends
+  ChannelInitializer<SocketChannel> {
 
   private final Consumer<HTTPResponse> httpResponseConsumer;
 
-  public MantikorClientChannelInitializer(Consumer<HTTPResponse> httpResponseConsumer) {
+  public MantikorClientChannelInitializer(
+    Consumer<HTTPResponse> httpResponseConsumer) {
     this.httpResponseConsumer = httpResponseConsumer;
   }
 

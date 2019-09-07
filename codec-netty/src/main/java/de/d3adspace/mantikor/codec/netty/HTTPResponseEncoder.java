@@ -38,8 +38,9 @@ public class HTTPResponseEncoder extends MessageToByteEncoder<HTTPResponse> {
   private final HTTPResponseComposer responseComposer = new HTTPResponseComposer();
 
   @Override
-  protected void encode(ChannelHandlerContext channelHandlerContext, HTTPResponse response,
-      ByteBuf byteBuf) {
+  protected void encode(ChannelHandlerContext channelHandlerContext,
+    HTTPResponse response,
+    ByteBuf byteBuf) {
 
     String composedResponse = responseComposer.compose(response);
     ByteBufUtil.writeUtf8(byteBuf, composedResponse);

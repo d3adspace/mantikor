@@ -20,7 +20,8 @@ public class HTTPRequest extends HTTPMessage {
    */
   private final HTTPRequestLine requestLine;
 
-  public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers, HTTPBody body) {
+  public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers,
+    HTTPBody body) {
     super(headers, body);
     this.requestLine = requestLine;
   }

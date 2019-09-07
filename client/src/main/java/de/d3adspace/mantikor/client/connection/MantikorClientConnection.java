@@ -5,7 +5,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import java.util.function.Consumer;
 
-public class MantikorClientConnection extends SimpleChannelInboundHandler<HTTPResponse> {
+public class MantikorClientConnection extends
+  SimpleChannelInboundHandler<HTTPResponse> {
 
   private final Consumer<HTTPResponse> httpResponseConsumer;
 
@@ -15,7 +16,7 @@ public class MantikorClientConnection extends SimpleChannelInboundHandler<HTTPRe
 
   @Override
   protected void channelRead0(ChannelHandlerContext channelHandlerContext,
-      HTTPResponse httpResponse) throws Exception {
+    HTTPResponse httpResponse) throws Exception {
 
     httpResponseConsumer.accept(httpResponse);
   }

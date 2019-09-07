@@ -12,12 +12,14 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.StringTokenizer;
 
-public class HTTPResponseParser extends AbstractHTTPParser<String, HTTPResponse> {
+public class HTTPResponseParser extends
+  AbstractHTTPParser<String, HTTPResponse> {
 
   @Override
   public HTTPResponse parse(String rawHTTPResponse) {
 
-    BufferedReader reader = new BufferedReader(new StringReader(rawHTTPResponse));
+    BufferedReader reader = new BufferedReader(
+      new StringReader(rawHTTPResponse));
 
     // Read status line
     String statusLine = null;
@@ -36,8 +38,9 @@ public class HTTPResponseParser extends AbstractHTTPParser<String, HTTPResponse>
     // Read body
     HTTPBody httpBody = parseBody(httpHeaders, reader);
 
-    return new HTTPResponseBuilder().setStatusLine(httpStatusLine).setHeaders(httpHeaders)
-        .setBody(httpBody).createHTTPResponse();
+    return new HTTPResponseBuilder().setStatusLine(httpStatusLine)
+      .setHeaders(httpHeaders)
+      .setBody(httpBody).createHTTPResponse();
   }
 
   /**

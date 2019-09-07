@@ -17,7 +17,8 @@ public class HTTPResponse extends HTTPMessage {
    */
   private final HTTPStatusLine statusLine;
 
-  public HTTPResponse(HTTPStatusLine statusLine, HTTPHeaders headers, HTTPBody body) {
+  public HTTPResponse(HTTPStatusLine statusLine, HTTPHeaders headers,
+    HTTPBody body) {
     super(headers, body);
     this.statusLine = statusLine;
   }

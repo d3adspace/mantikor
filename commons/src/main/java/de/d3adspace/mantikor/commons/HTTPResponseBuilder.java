@@ -8,8 +8,9 @@ import de.d3adspace.mantikor.commons.codec.HTTPVersion;
 
 public class HTTPResponseBuilder {
 
-  private HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1,
-      HTTPStatus.OK);
+  private HTTPStatusLine statusLine = new HTTPStatusLine(
+    HTTPVersion.HTTP_VERSION_1_1,
+    HTTPStatus.OK);
   private HTTPHeaders headers = new HTTPHeaders();
   private HTTPBody body = new HTTPBody();
 

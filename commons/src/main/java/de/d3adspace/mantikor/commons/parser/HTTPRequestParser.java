@@ -27,7 +27,8 @@ public class HTTPRequestParser extends AbstractHTTPParser<String, HTTPRequest> {
   @Override
   public HTTPRequest parse(String rawHTTPRequest) {
 
-    BufferedReader reader = new BufferedReader(new StringReader(rawHTTPRequest));
+    BufferedReader reader = new BufferedReader(
+      new StringReader(rawHTTPRequest));
 
     // Parse request line
     HTTPRequestLine requestLine = null;
@@ -46,8 +47,9 @@ public class HTTPRequestParser extends AbstractHTTPParser<String, HTTPRequest> {
     HTTPBody httpBody = parseBody(httpHeaders, reader);
 
     // Construct HTTP request
-    return new HTTPRequestBuilder().setRequestLine(requestLine).setHeaders(httpHeaders)
-        .setBody(httpBody).createHTTPRequest();
+    return new HTTPRequestBuilder().setRequestLine(requestLine)
+      .setHeaders(httpHeaders)
+      .setBody(httpBody).createHTTPRequest();
   }
 
   /**

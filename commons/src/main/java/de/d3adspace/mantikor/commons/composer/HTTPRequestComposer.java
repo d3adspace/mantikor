@@ -7,7 +7,8 @@ import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
 import java.net.URI;
 
-public class HTTPRequestComposer extends AbstractHTTPComposer<HTTPRequest, String> {
+public class HTTPRequestComposer extends
+  AbstractHTTPComposer<HTTPRequest, String> {
 
   /**
    * Compose a HTTP message out of the given http request.

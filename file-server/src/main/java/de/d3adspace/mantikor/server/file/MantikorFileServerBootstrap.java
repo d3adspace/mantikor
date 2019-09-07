@@ -12,7 +12,7 @@ public class MantikorFileServerBootstrap {
   public static void main(String[] args) {
 
     MantikorFileConfig mantikorConfig = new MantikorFileConfig("0.0.0.0", 8080,
-        new File("/var/www/html").getPath());
+      new File("/var/www/html").getPath());
 
     MantikorServer mantikorServer = new MantikorFileServer(mantikorConfig);
     mantikorServer.start();

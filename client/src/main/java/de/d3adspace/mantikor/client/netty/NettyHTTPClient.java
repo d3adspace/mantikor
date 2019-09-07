@@ -40,19 +40,19 @@ public class NettyHTTPClient {
 
     Class<? extends Channel> channelClazz = NettyUtils.getChannel();
     ChannelHandler channelInitializer = new MantikorClientChannelInitializer(
-        httpResponse -> responseFuture.complete(httpResponse));
+      httpResponse -> responseFuture.complete(httpResponse));
 
     Bootstrap bootstrap = new Bootstrap();
 
     try {
       channel = bootstrap
-          .channel(channelClazz)
-          .group(workerGroup)
-          .option(ChannelOption.TCP_NODELAY, true)
-          .option(ChannelOption.SO_BACKLOG, 50)
-          .handler(channelInitializer)
-          .connect(target)
-          .sync().channel();
+        .channel(channelClazz)
+        .group(workerGroup)
+        .option(ChannelOption.TCP_NODELAY, true)
+        .option(ChannelOption.SO_BACKLOG, 50)
+        .handler(channelInitializer)
+        .connect(target)
+        .sync().channel();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

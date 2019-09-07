@@ -33,9 +33,10 @@ public enum HTTPStatus {
     String statusMessage = tokenizer.nextToken(MantikorCommons.CRLF);
 
     return Arrays.stream(values())
-        .filter(httpStatus -> httpStatus.getStatusCode() == statusCode && statusMessage
-            .equalsIgnoreCase(httpStatus.getStatusMessage()))
-        .findFirst()
-        .orElse(INTERNAL_SERVER_ERROR);
+      .filter(
+        httpStatus -> httpStatus.getStatusCode() == statusCode && statusMessage
+          .equalsIgnoreCase(httpStatus.getStatusMessage()))
+      .findFirst()
+      .orElse(INTERNAL_SERVER_ERROR);
   }
 }

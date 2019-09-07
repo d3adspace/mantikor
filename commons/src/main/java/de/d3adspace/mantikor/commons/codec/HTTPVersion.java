@@ -17,8 +17,8 @@ public enum HTTPVersion {
   public static HTTPVersion fromString(final String version) {
 
     return Arrays.stream(values())
-        .filter(httpVersion -> httpVersion.getVersion().equalsIgnoreCase(version))
-        .findFirst().orElse(null);
+      .filter(httpVersion -> httpVersion.getVersion().equalsIgnoreCase(version))
+      .findFirst().orElse(null);
   }
 
   public String getVersion() {

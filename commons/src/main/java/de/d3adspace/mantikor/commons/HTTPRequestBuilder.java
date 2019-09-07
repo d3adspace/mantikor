@@ -9,8 +9,9 @@ import java.net.URI;
 
 public class HTTPRequestBuilder {
 
-  private HTTPRequestLine requestLine = new HTTPRequestLine(HTTPMethod.GET, URI.create("/"),
-      HTTPVersion.HTTP_VERSION_1_1);
+  private HTTPRequestLine requestLine = new HTTPRequestLine(HTTPMethod.GET,
+    URI.create("/"),
+    HTTPVersion.HTTP_VERSION_1_1);
   private HTTPHeaders headers = new HTTPHeaders();
   private HTTPBody body = new HTTPBody();
 

@@ -87,27 +87,30 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
     bossGroup = NettyUtils.createEventLoopGroup(1);
     workerGroup = NettyUtils.createEventLoopGroup(4);
 
-    Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
-    ChannelHandler channelHandler = MantikorServerChannelInitializer.withRequestProcessor(this);
+    Class<? extends ServerChannel> serverChannelClazz = NettyUtils
+      .getServerChannelClass();
+    ChannelHandler channelHandler = MantikorServerChannelInitializer
+      .withRequestProcessor(this);
 
-    logger.info("I am going to start the web server on {}:{}", config.getServerHost(),
-        config.getServerPort());
+    logger.info("I am going to start the web server on {}:{}",
+      config.getServerHost(),
+      config.getServerPort());
 
     ServerBootstrap serverBootstrap = new ServerBootstrap();
     try {
       channel = serverBootstrap
-          .group(bossGroup, workerGroup)
-          .channel(serverChannelClazz)
-          .childHandler(channelHandler)
-          .option(ChannelOption.TCP_NODELAY, true)
-          .bind(config.getServerHost(), config.getServerPort())
-          .sync().channel();
+        .group(bossGroup, workerGroup)
+        .channel(serverChannelClazz)
+        .childHandler(channelHandler)
+        .option(ChannelOption.TCP_NODELAY, true)
+        .bind(config.getServerHost(), config.getServerPort())
+        .sync().channel();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
 
     logger.info("Started the web server on {}:{}", config.getServerHost(),
-        config.getServerPort());
+      config.getServerPort());
 
   }
 
@@ -128,7 +131,8 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
   }
 
   /**
-   * Process the given request by generating a response and preparing it for delivery.
+   * Process the given request by generating a response and preparing it for
+   * delivery.
    *
    * @param request The request.
    * @return The response.
@@ -144,10 +148,12 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
     // Write some default headers
     HTTPHeaders headers = response.getHeaders();
     headers.addHeader(HTTPHeaders.KEY_SERVER, "Mantikor");
-    headers.addHeader(HTTPHeaders.KEY_DATE, new SimpleDateFormat().format(new Date()));
+    headers.addHeader(HTTPHeaders.KEY_DATE,
+      new SimpleDateFormat().format(new Date()));
     headers.addHeader(HTTPHeaders.KEY_CONNECTION, "keep-alive");
     headers
-        .addHeader(HTTPHeaders.KEY_CONTENT_LENGTH, String.valueOf(response.getBody().getLength()));
+      .addHeader(HTTPHeaders.KEY_CONTENT_LENGTH,
+        String.valueOf(response.getBody().getLength()));
 
     return response;
   }

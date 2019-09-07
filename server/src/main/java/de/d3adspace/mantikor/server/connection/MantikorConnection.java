@@ -34,7 +34,8 @@ import java.util.Objects;
  *
  * @author Felix Klauke <info@felix-klauke.de>
  */
-public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest> {
+public class MantikorConnection extends
+  SimpleChannelInboundHandler<HTTPRequest> {
 
   /**
    * The channel to the client.
@@ -52,15 +53,18 @@ public class MantikorConnection extends SimpleChannelInboundHandler<HTTPRequest>
     this.requestProcessor = requestProcessor;
   }
 
-  public static MantikorConnection create(Channel channel, HTTPRequestProcessor requestProcessor) {
+  public static MantikorConnection create(Channel channel,
+    HTTPRequestProcessor requestProcessor) {
     Objects.requireNonNull(channel, "Channel should not be null.");
-    Objects.requireNonNull(requestProcessor, "Request processor should not be null.");
+    Objects.requireNonNull(requestProcessor,
+      "Request processor should not be null.");
 
     return new MantikorConnection(channel, requestProcessor);
   }
 
   @Override
-  protected void channelRead0(ChannelHandlerContext channelHandlerContext, HTTPRequest request) {
+  protected void channelRead0(ChannelHandlerContext channelHandlerContext,
+    HTTPRequest request) {
 
     HTTPResponse response = requestProcessor.processRequest(request);
     channel.writeAndFlush(response);

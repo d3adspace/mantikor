@@ -47,7 +47,8 @@ public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessa
   }
 
   /**
-   * Parse the http body from the given reader. Headers are needed to determine content length.
+   * Parse the http body from the given reader. Headers are needed to determine
+   * content length.
    *
    * @param httpHeaders The http headers.
    * @param reader The reader.
@@ -59,7 +60,8 @@ public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessa
       return new HTTPBody(new char[0]);
     }
 
-    int contentLength = Integer.parseInt(httpHeaders.getHeader(HTTPHeaders.KEY_CONTENT_LENGTH));
+    int contentLength = Integer
+      .parseInt(httpHeaders.getHeader(HTTPHeaders.KEY_CONTENT_LENGTH));
     char[] charBuffer = new char[contentLength];
 
     try {
@@ -81,7 +83,8 @@ public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessa
 
     StringTokenizer stringTokenizer = new StringTokenizer(line, ":");
 
-    return new HeaderPair(stringTokenizer.nextToken().trim(), stringTokenizer.nextToken().trim());
+    return new HeaderPair(stringTokenizer.nextToken().trim(),
+      stringTokenizer.nextToken().trim());
   }
 
 

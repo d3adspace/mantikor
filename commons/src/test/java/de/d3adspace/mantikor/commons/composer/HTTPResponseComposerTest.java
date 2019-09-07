@@ -16,26 +16,29 @@ import org.junit.jupiter.api.Test;
 class HTTPResponseComposerTest {
 
   private static final HTTPResponse TEST_RESPONSE = new HTTPResponseBuilder()
-      .setStatusLine(new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.NOT_FOUND))
-      .setHeaders(new HTTPHeaders(new LinkedHashMap<String, String>() {{
-        put("Date", "Sun, 18 Oct 2012 10:36:20 GMT");
-        put("Server", "Apache/2.2.14 (Win32)");
-        put("Content-Length", "230");
-        put("Connection", "Closed");
-        put("Content-Type", "text/html; charset=iso-8859-1");
-      }})).setBody(new HTTPBody(("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n" +
-          "<html>\n" +
-          "<head>\n" +
-          "   <title>404 Not Found</title>\n" +
-          "</head>\n" +
-          "<body>\n" +
-          "   <h1>Not Found</h1>\n" +
-          "   <p>The requested URL /t.html was not found on this server.</p>\n" +
-          "</body>\n" +
-          "</html>").toCharArray()
+    .setStatusLine(
+      new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.NOT_FOUND))
+    .setHeaders(new HTTPHeaders(new LinkedHashMap<String, String>() {{
+      put("Date", "Sun, 18 Oct 2012 10:36:20 GMT");
+      put("Server", "Apache/2.2.14 (Win32)");
+      put("Content-Length", "230");
+      put("Connection", "Closed");
+      put("Content-Type", "text/html; charset=iso-8859-1");
+    }})).setBody(
+      new HTTPBody(("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n" +
+        "<html>\n" +
+        "<head>\n" +
+        "   <title>404 Not Found</title>\n" +
+        "</head>\n" +
+        "<body>\n" +
+        "   <h1>Not Found</h1>\n" +
+        "   <p>The requested URL /t.html was not found on this server.</p>\n" +
+        "</body>\n" +
+        "</html>").toCharArray()
       )).createHTTPResponse();
 
-  private static final String RESPONSE_STANDARD_OK = "HTTP/1.1 404 Not Found\r\n" +
+  private static final String RESPONSE_STANDARD_OK =
+    "HTTP/1.1 404 Not Found\r\n" +
       "Date: Sun, 18 Oct 2012 10:36:20 GMT\n" +
       "Server: Apache/2.2.14 (Win32)\n" +
       "Content-Length: 230\n" +
@@ -65,6 +68,7 @@ class HTTPResponseComposerTest {
   void testCompose() {
 
     String compose = responseComposer.compose(TEST_RESPONSE);
-    assertArrayEquals(RESPONSE_STANDARD_OK.toCharArray(), compose.toCharArray());
+    assertArrayEquals(RESPONSE_STANDARD_OK.toCharArray(),
+      compose.toCharArray());
   }
 }

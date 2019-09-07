@@ -1,4 +1,4 @@
 dependencies {
-    compile project(':mantikor-commons')
-    compile 'io.netty:netty-all:4.1.9.Final'
+  compile project(':mantikor-commons')
+  compile 'io.netty:netty-all:4.1.9.Final'
 }

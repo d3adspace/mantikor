@@ -12,8 +12,9 @@ public class HTTPRequestEncoder extends MessageToByteEncoder<HTTPRequest> {
   private final HTTPRequestComposer requestComposer = new HTTPRequestComposer();
 
   @Override
-  protected void encode(ChannelHandlerContext channelHandlerContext, HTTPRequest request,
-      ByteBuf byteBuf) throws Exception {
+  protected void encode(ChannelHandlerContext channelHandlerContext,
+    HTTPRequest request,
+    ByteBuf byteBuf) throws Exception {
 
     String compose = requestComposer.compose(request);
     ByteBufUtil.writeUtf8(byteBuf, compose);

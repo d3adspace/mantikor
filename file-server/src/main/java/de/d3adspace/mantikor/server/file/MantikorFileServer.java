@@ -24,7 +24,8 @@ import java.nio.file.Paths;
 public class MantikorFileServer extends MantikorServer {
 
   /**
-   * The mantikor file server config containing some environment specifications.
+   * The mantikor file server config containing some environment
+   * specifications.
    */
   private MantikorFileConfig config;
 
@@ -47,16 +48,18 @@ public class MantikorFileServer extends MantikorServer {
 
     // Check if file exists and return 404 if not
     if (!Files.exists(path)) {
-      HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1,
-          HTTPStatus.NOT_FOUND);
+      HTTPStatusLine statusLine = new HTTPStatusLine(
+        HTTPVersion.HTTP_VERSION_1_1,
+        HTTPStatus.NOT_FOUND);
 
       return new HTTPResponseBuilder()
-          .setStatusLine(statusLine)
-          .createHTTPResponse();
+        .setStatusLine(statusLine)
+        .createHTTPResponse();
     }
 
     if (Files.isDirectory(path)) {
-      HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1,
+      HTTPStatusLine statusLine = new HTTPStatusLine(
+        HTTPVersion.HTTP_VERSION_1_1,
         HTTPStatus.FORBIDDEN);
 
       return new HTTPResponseBuilder()
@@ -74,7 +77,8 @@ public class MantikorFileServer extends MantikorServer {
     }
 
     // Assemble response header
-    HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1, HTTPStatus.OK);
+    HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1,
+      HTTPStatus.OK);
     HTTPHeaders headers = new HTTPHeaders();
 
     // Assemble response body
@@ -82,9 +86,9 @@ public class MantikorFileServer extends MantikorServer {
 
     // Build the response
     return new HTTPResponseBuilder()
-        .setStatusLine(statusLine)
-        .setHeaders(headers)
-        .setBody(body)
-        .createHTTPResponse();
+      .setStatusLine(statusLine)
+      .setHeaders(headers)
+      .setBody(body)
+      .createHTTPResponse();
   }
 }

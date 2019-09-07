@@ -6,7 +6,8 @@ import de.d3adspace.mantikor.commons.codec.HTTPStatus;
 import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
 
-public class HTTPResponseComposer extends AbstractHTTPComposer<HTTPResponse, String> {
+public class HTTPResponseComposer extends
+  AbstractHTTPComposer<HTTPResponse, String> {
 
   /**
    * Compose a HTTP message out of the given http response.

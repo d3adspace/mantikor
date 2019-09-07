@@ -23,7 +23,6 @@ package de.d3adspace.mantikor.server.initializer;
 
 import de.d3adspace.mantikor.codec.netty.HTTPRequestDecoder;
 import de.d3adspace.mantikor.codec.netty.HTTPResponseEncoder;
-import de.d3adspace.mantikor.server.MantikorServer;
 import de.d3adspace.mantikor.server.connection.MantikorConnection;
 import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
 import io.netty.channel.ChannelInitializer;
@@ -36,16 +35,20 @@ import java.util.Objects;
  *
  * @author Felix 'SasukeKawaii' Klauke
  */
-public class MantikorServerChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class MantikorServerChannelInitializer extends
+  ChannelInitializer<SocketChannel> {
 
   private final HTTPRequestProcessor requestProcessor;
 
-  private MantikorServerChannelInitializer(HTTPRequestProcessor requestProcessor) {
+  private MantikorServerChannelInitializer(
+    HTTPRequestProcessor requestProcessor) {
     this.requestProcessor = requestProcessor;
   }
 
-  public static MantikorServerChannelInitializer withRequestProcessor(HTTPRequestProcessor requestProcessor) {
-    Objects.requireNonNull(requestProcessor, "Request processor should not be null.");
+  public static MantikorServerChannelInitializer withRequestProcessor(
+    HTTPRequestProcessor requestProcessor) {
+    Objects.requireNonNull(requestProcessor,
+      "Request processor should not be null.");
 
     return new MantikorServerChannelInitializer(requestProcessor);
   }
@@ -54,7 +57,8 @@ public class MantikorServerChannelInitializer extends ChannelInitializer<SocketC
   protected void initChannel(SocketChannel socketChannel) throws Exception {
     ChannelPipeline pipeline = socketChannel.pipeline();
 
-    MantikorConnection connection = MantikorConnection.create(socketChannel, requestProcessor);
+    MantikorConnection connection = MantikorConnection
+      .create(socketChannel, requestProcessor);
 
     pipeline.addLast("httpRequestDecoder", new HTTPRequestDecoder());
     pipeline.addLast("httpResponseEncoder", new HTTPResponseEncoder());
