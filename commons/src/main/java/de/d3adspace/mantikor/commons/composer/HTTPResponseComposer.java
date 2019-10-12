@@ -21,13 +21,12 @@ public class HTTPResponseComposer extends
     StringBuffer stringBuffer = new StringBuffer();
 
     // Encode status line
-    HTTPStatusLine statusLine = response.getStatusLine();
 
-    HTTPVersion version = statusLine.getVersion();
+    HTTPVersion version = response.getVersion();
     stringBuffer.append(version.getVersion());
     stringBuffer.append(" ");
 
-    HTTPStatus status = statusLine.getStatus();
+    HTTPStatus status = response.getStatus();
     stringBuffer.append(status.getStatusCode());
     stringBuffer.append(" ");
     stringBuffer.append(status.getStatusMessage());

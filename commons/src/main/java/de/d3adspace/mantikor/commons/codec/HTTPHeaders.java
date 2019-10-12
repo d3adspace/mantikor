@@ -1,15 +1,13 @@
 package de.d3adspace.mantikor.commons.codec;
 
-import java.util.HashMap;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+
 import java.util.Map;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Wrapper around HTTP headers.
  */
-@Data
-@NoArgsConstructor
 public class HTTPHeaders {
 
   /**
@@ -40,10 +38,31 @@ public class HTTPHeaders {
   /**
    * The map containing the headers.
    */
-  private Map<String, String> headers = new HashMap<>();
+  private Map<String, String> headers;
 
-  public HTTPHeaders(Map<String, String> headers) {
+  private HTTPHeaders(Map<String, String> headers) {
     this.headers = headers;
+  }
+
+  public static Builder newBuilder(HTTPHeaders prototype) {
+
+    Map<String, String> headers = prototype.headers;
+    return new Builder(headers);
+  }
+
+  public static Builder newBuilder() {
+
+    return new Builder();
+  }
+
+  public static HTTPHeaders fromMap(Map<String, String> headers) {
+    Preconditions.checkNotNull(headers);
+
+    return new HTTPHeaders(Maps.newHashMap(headers));
+  }
+
+  public static HTTPHeaders empty() {
+    return new HTTPHeaders(Maps.newHashMap());
   }
 
   /**
@@ -97,5 +116,36 @@ public class HTTPHeaders {
   public int getHeaderCount() {
 
     return headers.size();
+  }
+
+  public Map<String, String> toMap() {
+
+    return Maps.newHashMap(headers);
+  }
+
+  public static class Builder {
+
+    private final Map<String, String> headers;
+
+    private Builder(Map<String, String> headers) {
+      this.headers = headers;
+    }
+
+    private Builder() {
+      headers = Maps.newHashMap();
+    }
+
+    public Builder withHeader(String key, String value) {
+      Preconditions.checkNotNull(key);
+      Preconditions.checkNotNull(value);
+
+      headers.put(key, value);
+
+      return this;
+    }
+
+    public HTTPHeaders build() {
+      return HTTPHeaders.fromMap(headers);
+    }
   }
 }

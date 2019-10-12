@@ -1,7 +1,7 @@
 package de.d3adspace.mantikor.codec.netty;
 
 import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.commons.parser.HTTPResponseParser;
+import de.d3adspace.mantikor.commons.parser.HTTPResponseFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class HTTPResponseDecoder extends ByteToMessageDecoder {
 
-  private final HTTPResponseParser responseParser = new HTTPResponseParser();
+  private final HTTPResponseFactory responseParser = new HTTPResponseFactory();
 
   @Override
   protected void decode(ChannelHandlerContext channelHandlerContext,

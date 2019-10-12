@@ -34,12 +34,12 @@ class HTTPRequestParserTest {
       "\r\n" +
       "<h1>test</h1>";
 
-  private HTTPRequestParser requestParser;
+  private HTTPRequestMessageFactory requestParser;
 
   @BeforeEach
   void setUp() {
 
-    requestParser = new HTTPRequestParser();
+    requestParser = new HTTPRequestMessageFactory();
   }
 
   @Test
@@ -48,13 +48,13 @@ class HTTPRequestParserTest {
     HTTPRequest httpRequest = requestParser.parse(REQUEST_STANDARD_GET);
 
     assertEquals(REQUEST_STANDARD_GET_METHOD,
-      httpRequest.getRequestLine().getMethod());
+      httpRequest.getMethod());
     assertEquals(REQUEST_STANDARD_GET_URI,
-      httpRequest.getRequestLine().getUri());
+      httpRequest.getUri());
     assertEquals(REQUEST_STANDARD_GET_VERSION,
-      httpRequest.getRequestLine().getVersion());
+      httpRequest.getVersion());
     assertEquals(REQUEST_STANDARD_GET_HEADER_COUNT,
-      httpRequest.getHeaders().getHeaderCount());
+      httpRequest.getHeaderCount());
   }
 
   @Test
@@ -63,11 +63,11 @@ class HTTPRequestParserTest {
     HTTPRequest httpRequest = requestParser.parse(REQUEST_EXTENDED_POST);
 
     assertEquals(REQUEST_EXTENDED_POST_METHOD,
-      httpRequest.getRequestLine().getMethod());
+      httpRequest.getMethod());
     assertEquals(REQUEST_EXTENDED_POST_URI,
-      httpRequest.getRequestLine().getUri());
+      httpRequest.getUri());
     assertEquals(REQUEST_EXTENDED_POST_VERSION,
-      httpRequest.getRequestLine().getVersion());
+      httpRequest.getVersion());
     assertEquals(REQUEST_EXTENDED_POST_HEADER_COUNT,
       httpRequest.getHeaders().getHeaderCount());
     assertArrayEquals(REQUEST_EXTENDED_POST_BODY,

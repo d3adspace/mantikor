@@ -2,7 +2,6 @@ package de.d3adspace.mantikor.server.file;
 
 import de.d3adspace.mantikor.commons.HTTPRequest;
 import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.commons.HTTPResponseBuilder;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPStatus;
@@ -43,28 +42,16 @@ public class MantikorFileServer extends MantikorServer {
   public HTTPResponse handleRequest(HTTPRequest request) {
 
     // Convert request uri to actual file system path
-    URI uri = request.getRequestLine().getUri();
+    URI uri = request.getUri();
     Path path = Paths.get(config.getBasePath(), uri.toString());
 
     // Check if file exists and return 404 if not
     if (!Files.exists(path)) {
-      HTTPStatusLine statusLine = new HTTPStatusLine(
-        HTTPVersion.HTTP_VERSION_1_1,
-        HTTPStatus.NOT_FOUND);
-
-      return new HTTPResponseBuilder()
-        .setStatusLine(statusLine)
-        .createHTTPResponse();
+      return HTTPResponse.notFound();
     }
 
     if (Files.isDirectory(path)) {
-      HTTPStatusLine statusLine = new HTTPStatusLine(
-        HTTPVersion.HTTP_VERSION_1_1,
-        HTTPStatus.FORBIDDEN);
-
-      return new HTTPResponseBuilder()
-        .setStatusLine(statusLine)
-        .createHTTPResponse();
+      return HTTPResponse.forbidden();
     }
 
     // Read file content
@@ -77,18 +64,7 @@ public class MantikorFileServer extends MantikorServer {
     }
 
     // Assemble response header
-    HTTPStatusLine statusLine = new HTTPStatusLine(HTTPVersion.HTTP_VERSION_1_1,
-      HTTPStatus.OK);
-    HTTPHeaders headers = new HTTPHeaders();
-
-    // Assemble response body
-    HTTPBody body = new HTTPBody(new String(bytes).toCharArray());
-
-    // Build the response
-    return new HTTPResponseBuilder()
-      .setStatusLine(statusLine)
-      .setHeaders(headers)
-      .setBody(body)
-      .createHTTPResponse();
+    char[] bodyContent = new String(bytes).toCharArray();
+    return HTTPResponse.ok(bodyContent);
   }
 }

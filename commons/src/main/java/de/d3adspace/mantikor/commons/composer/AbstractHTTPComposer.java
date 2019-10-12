@@ -50,7 +50,7 @@ public abstract class AbstractHTTPComposer<InputType extends HTTPMessage, Output
     StringBuffer stringBuffer = new StringBuffer();
 
     // Encode headers
-    Map<String, String> headers = httpHeaders.getHeaders();
+    Map<String, String> headers = httpHeaders.toMap();
 
     headers.forEach((key, value) -> {
       stringBuffer.append(key);

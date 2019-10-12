@@ -1,30 +1,40 @@
 package de.d3adspace.mantikor.commons.codec;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import com.google.common.base.Preconditions;
 
-@Data
-@Builder
-@AllArgsConstructor
-public class HTTPBody {
+public final class HTTPBody {
 
   /**
    * The content of the body.
    */
   private char[] content;
 
-  public HTTPBody() {
-    this(new char[0]);
+  private HTTPBody(char[] content) {
+    this.content = content;
   }
 
-  /**
-   * Get the length of the body.
-   *
-   * @return The length.
-   */
-  public int getLength() {
+  public static HTTPBody empty() {
+    return withContent(new char[0]);
+  }
 
+  public static HTTPBody fromString(String content) {
+    Preconditions.checkNotNull(content);
+
+    char[] bytes = content.toCharArray();
+    return withContent(bytes);
+  }
+
+  public static HTTPBody withContent(char[] content) {
+    Preconditions.checkNotNull(content);
+
+    return new HTTPBody(content);
+  }
+
+  public char[] getContent() {
+    return content.clone();
+  }
+
+  public int getSize() {
     return content.length;
   }
 }

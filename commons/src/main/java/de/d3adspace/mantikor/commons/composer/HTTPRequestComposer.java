@@ -22,17 +22,16 @@ public class HTTPRequestComposer extends
     StringBuffer stringBuffer = new StringBuffer();
 
     // Encode request line
-    HTTPRequestLine requestLine = request.getRequestLine();
 
-    HTTPMethod method = requestLine.getMethod();
+    HTTPMethod method = request.getMethod();
     stringBuffer.append(method.name());
     stringBuffer.append(" ");
 
-    URI uri = requestLine.getUri();
+    URI uri = request.getUri();
     stringBuffer.append(uri.toString());
     stringBuffer.append(" ");
 
-    HTTPVersion version = requestLine.getVersion();
+    HTTPVersion version = request.getVersion();
     stringBuffer.append(version.getVersion());
     stringBuffer.append(MantikorCommons.CRLF);
 

@@ -153,7 +153,7 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
     headers.addHeader(HTTPHeaders.KEY_CONNECTION, "keep-alive");
     headers
       .addHeader(HTTPHeaders.KEY_CONTENT_LENGTH,
-        String.valueOf(response.getBody().getLength()));
+        String.valueOf(response.getBodySize()));
 
     return response;
   }

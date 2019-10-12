@@ -1,13 +1,10 @@
 package de.d3adspace.mantikor.commons.codec;
 
 import de.d3adspace.mantikor.commons.MantikorCommons;
+
 import java.util.Arrays;
 import java.util.StringTokenizer;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@Getter
-@RequiredArgsConstructor
 public enum HTTPStatus {
 
   OK(200, "OK"),
@@ -25,6 +22,19 @@ public enum HTTPStatus {
    */
   private final String statusMessage;
 
+  HTTPStatus(int statusCode, String statusMessage) {
+    this.statusCode = statusCode;
+    this.statusMessage = statusMessage;
+  }
+
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  public String getStatusMessage() {
+    return statusMessage;
+  }
+
   public static HTTPStatus fromCode(String token) {
 
     StringTokenizer tokenizer = new StringTokenizer(token);
@@ -34,8 +44,8 @@ public enum HTTPStatus {
 
     return Arrays.stream(values())
       .filter(
-        httpStatus -> httpStatus.getStatusCode() == statusCode && statusMessage
-          .equalsIgnoreCase(httpStatus.getStatusMessage()))
+        httpStatus -> httpStatus.statusCode == statusCode && statusMessage
+          .equalsIgnoreCase(httpStatus.statusMessage))
       .findFirst()
       .orElse(INTERNAL_SERVER_ERROR);
   }

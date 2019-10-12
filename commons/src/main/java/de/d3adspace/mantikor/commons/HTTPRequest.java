@@ -1,18 +1,13 @@
 package de.d3adspace.mantikor.commons;
 
-import de.d3adspace.mantikor.commons.codec.HTTPBody;
-import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
-import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.google.common.base.Preconditions;
+import de.d3adspace.mantikor.commons.codec.*;
+
+import java.net.URI;
 
 /**
  * A http request.
  */
-@Data
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 public class HTTPRequest extends HTTPMessage {
 
   /**
@@ -20,17 +15,37 @@ public class HTTPRequest extends HTTPMessage {
    */
   private final HTTPRequestLine requestLine;
 
-  public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers,
+  private HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers,
     HTTPBody body) {
     super(headers, body);
     this.requestLine = requestLine;
   }
 
-  public HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers) {
-    this(requestLine, headers, new HTTPBody());
+  public static HTTPRequest create(HTTPRequestLine requestLine, HTTPHeaders headers, HTTPBody body) {
+    Preconditions.checkNotNull(requestLine);
+    Preconditions.checkNotNull(headers);
+    Preconditions.checkNotNull(body);
+
+    return new HTTPRequest(requestLine, headers, body);
   }
 
-  public HTTPRequest(HTTPRequestLine requestLine) {
-    this(requestLine, new HTTPHeaders());
+  public static HTTPRequest createGet(URI uri) {
+    HTTPBody emptyBody = HTTPBody.empty();
+    HTTPHeaders emptyHeaders = HTTPHeaders.empty();
+    HTTPRequestLine requestLine = HTTPRequestLine.asGet(uri);
+
+    return create(requestLine, emptyHeaders, emptyBody);
+  }
+
+  public HTTPMethod getMethod() {
+    return requestLine.getMethod();
+  }
+
+  public URI getUri() {
+    return requestLine.getUri();
+  }
+
+  public HTTPVersion getVersion() {
+    return requestLine.getVersion();
   }
 }

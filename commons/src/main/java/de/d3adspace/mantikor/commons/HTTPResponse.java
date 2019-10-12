@@ -1,15 +1,10 @@
 package de.d3adspace.mantikor.commons;
 
-import de.d3adspace.mantikor.commons.codec.HTTPBody;
-import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
-import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.google.common.base.Preconditions;
+import de.d3adspace.mantikor.commons.codec.*;
 
-@Data
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+import java.util.Map;
+
 public class HTTPResponse extends HTTPMessage {
 
   /**
@@ -17,17 +12,98 @@ public class HTTPResponse extends HTTPMessage {
    */
   private final HTTPStatusLine statusLine;
 
-  public HTTPResponse(HTTPStatusLine statusLine, HTTPHeaders headers,
+  private HTTPResponse(HTTPStatusLine statusLine, HTTPHeaders headers,
     HTTPBody body) {
     super(headers, body);
     this.statusLine = statusLine;
   }
 
-  public HTTPResponse(HTTPStatusLine statusLine, HTTPHeaders headers) {
-    this(statusLine, headers, new HTTPBody());
+  public static HTTPResponse create(HTTPStatusLine statusLine, HTTPHeaders headers, HTTPBody body) {
+    Preconditions.checkNotNull(statusLine);
+    Preconditions.checkNotNull(headers);
+    Preconditions.checkNotNull(body);
+
+    return new HTTPResponse(statusLine, headers, body);
   }
 
-  public HTTPResponse(HTTPStatusLine statusLine) {
-    this(statusLine, new HTTPHeaders());
+  public static HTTPResponse ok() {
+    HTTPStatusLine statusLine = HTTPStatusLine.ok();
+    HTTPHeaders emptyHeaders = HTTPHeaders.empty();
+    HTTPBody emptyBody = HTTPBody.empty();
+
+    return create(statusLine, emptyHeaders, emptyBody);
+  }
+
+
+  public static HTTPResponse notFound() {
+    HTTPStatusLine statusLine = HTTPStatusLine.notFound();
+    HTTPHeaders emptyHeaders = HTTPHeaders.empty();
+    HTTPBody emptyBody = HTTPBody.empty();
+
+    return create(statusLine, emptyHeaders, emptyBody);
+  }
+
+  public static HTTPResponse forbidden() {
+    HTTPStatusLine statusLine = HTTPStatusLine.forbidden();
+    HTTPHeaders emptyHeaders = HTTPHeaders.empty();
+    HTTPBody emptyBody = HTTPBody.empty();
+
+    return create(statusLine, emptyHeaders, emptyBody);
+  }
+
+  public static HTTPResponse ok(char[] bodyContent) {
+    HTTPStatusLine statusLine = HTTPStatusLine.ok();
+    HTTPHeaders emptyHeaders = HTTPHeaders.empty();
+    HTTPBody emptyBody = HTTPBody.withContent(bodyContent);
+
+    return create(statusLine, emptyHeaders, emptyBody);
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  public HTTPVersion getVersion() {
+    return statusLine.getVersion();
+  }
+
+  public HTTPStatus getStatus() {
+    return statusLine.getStatus();
+  }
+
+  public static class Builder {
+
+    private HTTPVersion version;
+    private HTTPStatus status;
+    private Map<String, String> headers;
+    private char[] bodyContent;
+
+    public HTTPResponse build() {
+      HTTPStatusLine statusLine = HTTPStatusLine.create(version, status);
+      HTTPHeaders httpHeaders = HTTPHeaders.fromMap(headers);
+      HTTPBody httpBody = HTTPBody.withContent(bodyContent);
+
+      return HTTPResponse.create(statusLine, httpHeaders, httpBody);
+    }
+
+    public Builder withStatus(HTTPStatus status) {
+      this.status = status;
+      return this;
+    }
+
+    public Builder withVersion(HTTPVersion version) {
+      this.version = version;
+      return this;
+    }
+
+    public Builder withHeaders(Map<String, String> headers) {
+      this.headers = headers;
+      return this;
+    }
+
+    public Builder withBodyContent(char[] bodyContent) {
+      this.bodyContent = bodyContent;
+      return this;
+    }
   }
 }

@@ -1,7 +1,6 @@
 package de.d3adspace.mantikor.commons.parser;
 
 import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.commons.HTTPResponseBuilder;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPStatus;
@@ -12,8 +11,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.StringTokenizer;
 
-public class HTTPResponseParser extends
-  AbstractHTTPParser<String, HTTPResponse> {
+public class HTTPResponseFactory extends
+  AbstractHTTPMessageFactory<String, HTTPResponse> {
 
   @Override
   public HTTPResponse parse(String rawHTTPResponse) {
@@ -38,9 +37,7 @@ public class HTTPResponseParser extends
     // Read body
     HTTPBody httpBody = parseBody(httpHeaders, reader);
 
-    return new HTTPResponseBuilder().setStatusLine(httpStatusLine)
-      .setHeaders(httpHeaders)
-      .setBody(httpBody).createHTTPResponse();
+    return HTTPResponse.create(httpStatusLine, httpHeaders, httpBody);
   }
 
   /**
@@ -63,6 +60,6 @@ public class HTTPResponseParser extends
 
     HTTPStatus httpStatus = HTTPStatus.fromCode(nextToken);
 
-    return new HTTPStatusLine(httpVersion, httpStatus);
+    return HTTPStatusLine.create(httpVersion, httpStatus);
   }
 }

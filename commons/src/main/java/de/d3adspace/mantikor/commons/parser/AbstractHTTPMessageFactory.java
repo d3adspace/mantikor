@@ -3,12 +3,13 @@ package de.d3adspace.mantikor.commons.parser;
 import de.d3adspace.mantikor.commons.HTTPMessage;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
-import lombok.Data;
 
-public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessage> {
+public abstract class AbstractHTTPMessageFactory<InputType, OutputType extends HTTPMessage> {
 
   /**
    * Parse the an output from the given input.
@@ -29,7 +30,7 @@ public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessa
     HTTPHeaders httpHeaders = null;
 
     try {
-      httpHeaders = new HTTPHeaders();
+      httpHeaders = HTTPHeaders.empty();
       String currentLine = reader.readLine();
 
       while (currentLine != null && !currentLine.isEmpty()) {
@@ -57,7 +58,7 @@ public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessa
   HTTPBody parseBody(HTTPHeaders httpHeaders, BufferedReader reader) {
 
     if (!httpHeaders.hasHeader(HTTPHeaders.KEY_CONTENT_LENGTH)) {
-      return new HTTPBody(new char[0]);
+      return HTTPBody.empty();
     }
 
     int contentLength = Integer
@@ -70,7 +71,7 @@ public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessa
       e.printStackTrace();
     }
 
-    return new HTTPBody(charBuffer);
+    return HTTPBody.withContent(charBuffer);
   }
 
   /**
@@ -88,10 +89,22 @@ public abstract class AbstractHTTPParser<InputType, OutputType extends HTTPMessa
   }
 
 
-  @Data
   private class HeaderPair {
 
     private final String key;
     private final String value;
+
+    private HeaderPair(String key, String value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    public String getKey() {
+      return key;
+    }
+
+    public String getValue() {
+      return value;
+    }
   }
 }

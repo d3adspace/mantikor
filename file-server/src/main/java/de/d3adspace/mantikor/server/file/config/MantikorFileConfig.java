@@ -16,4 +16,8 @@ public class MantikorFileConfig extends MantikorConfig {
     super(serverHost, serverPort);
     this.basePath = basePath;
   }
+
+  public String getBasePath() {
+    return basePath;
+  }
 }

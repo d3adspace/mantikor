@@ -1,22 +1,20 @@
 package de.d3adspace.mantikor.commons.parser;
 
 import de.d3adspace.mantikor.commons.HTTPRequest;
-import de.d3adspace.mantikor.commons.HTTPRequestBuilder;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPMethod;
 import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
+
+import java.io.*;
 import java.net.URI;
 import java.util.StringTokenizer;
 
 /**
  * The request parser that will create the HTTP Request from its raw string.
  */
-public class HTTPRequestParser extends AbstractHTTPParser<String, HTTPRequest> {
+public class HTTPRequestMessageFactory extends AbstractHTTPMessageFactory<String, HTTPRequest> {
 
   /**
    * Create a request from its raw form.
@@ -47,9 +45,7 @@ public class HTTPRequestParser extends AbstractHTTPParser<String, HTTPRequest> {
     HTTPBody httpBody = parseBody(httpHeaders, reader);
 
     // Construct HTTP request
-    return new HTTPRequestBuilder().setRequestLine(requestLine)
-      .setHeaders(httpHeaders)
-      .setBody(httpBody).createHTTPRequest();
+    return HTTPRequest.create(requestLine, httpHeaders, httpBody);
   }
 
   /**
@@ -74,7 +70,7 @@ public class HTTPRequestParser extends AbstractHTTPParser<String, HTTPRequest> {
     nextToken = tokenizer.nextToken();
     HTTPVersion version = parseRequestVersion(nextToken);
 
-    return new HTTPRequestLine(method, uri, version);
+    return HTTPRequestLine.create(method, uri, version);
   }
 
   /**

@@ -1,3 +1,7 @@
+plugins {
+  id 'java'
+}
+
 dependencies {
   compile project(":mantikor-codec-netty")
   compile 'io.netty:netty-all:4.1.9.Final'
