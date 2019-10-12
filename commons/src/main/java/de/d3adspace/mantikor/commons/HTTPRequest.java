@@ -16,7 +16,7 @@ public class HTTPRequest extends HTTPMessage {
   private final HTTPRequestLine requestLine;
 
   private HTTPRequest(HTTPRequestLine requestLine, HTTPHeaders headers,
-    HTTPBody body) {
+                      HTTPBody body) {
     super(headers, body);
     this.requestLine = requestLine;
   }

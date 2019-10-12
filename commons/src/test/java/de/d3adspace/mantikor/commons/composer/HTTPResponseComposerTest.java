@@ -1,18 +1,14 @@
 package de.d3adspace.mantikor.commons.composer;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-
 import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.commons.codec.HTTPBody;
-import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.commons.codec.HTTPStatus;
-import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class HTTPResponseComposerTest {
 

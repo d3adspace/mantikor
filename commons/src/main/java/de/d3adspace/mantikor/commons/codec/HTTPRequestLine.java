@@ -30,18 +30,6 @@ public class HTTPRequestLine {
     this.version = version;
   }
 
-  public HTTPMethod getMethod() {
-    return method;
-  }
-
-  public HTTPVersion getVersion() {
-    return version;
-  }
-
-  public URI getUri() {
-    return uri;
-  }
-
   public static HTTPRequestLine create(HTTPMethod method, URI uri, HTTPVersion version) {
     Preconditions.checkNotNull(method);
     Preconditions.checkNotNull(uri);
@@ -61,5 +49,17 @@ public class HTTPRequestLine {
     Preconditions.checkNotNull(uri);
 
     return withMethod(HTTPMethod.GET, uri);
+  }
+
+  public HTTPMethod getMethod() {
+    return method;
+  }
+
+  public HTTPVersion getVersion() {
+    return version;
+  }
+
+  public URI getUri() {
+    return uri;
   }
 }

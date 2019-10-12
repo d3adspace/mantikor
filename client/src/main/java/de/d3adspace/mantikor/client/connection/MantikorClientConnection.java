@@ -3,6 +3,7 @@ package de.d3adspace.mantikor.client.connection;
 import de.d3adspace.mantikor.commons.HTTPResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
 import java.util.function.Consumer;
 
 public class MantikorClientConnection extends
@@ -16,7 +17,7 @@ public class MantikorClientConnection extends
 
   @Override
   protected void channelRead0(ChannelHandlerContext channelHandlerContext,
-    HTTPResponse httpResponse) throws Exception {
+                              HTTPResponse httpResponse) throws Exception {
 
     httpResponseConsumer.accept(httpResponse);
   }

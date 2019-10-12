@@ -7,6 +7,7 @@ import de.d3adspace.mantikor.commons.HTTPResponse;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+
 import java.util.function.Consumer;
 
 public class MantikorClientChannelInitializer extends

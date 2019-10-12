@@ -13,7 +13,7 @@ public class HTTPResponse extends HTTPMessage {
   private final HTTPStatusLine statusLine;
 
   private HTTPResponse(HTTPStatusLine statusLine, HTTPHeaders headers,
-    HTTPBody body) {
+                       HTTPBody body) {
     super(headers, body);
     this.statusLine = statusLine;
   }

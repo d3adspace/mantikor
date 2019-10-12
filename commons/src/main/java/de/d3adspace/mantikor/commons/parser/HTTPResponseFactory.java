@@ -1,11 +1,8 @@
 package de.d3adspace.mantikor.commons.parser;
 
 import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.commons.codec.HTTPBody;
-import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
-import de.d3adspace.mantikor.commons.codec.HTTPStatus;
-import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
-import de.d3adspace.mantikor.commons.codec.HTTPVersion;
+import de.d3adspace.mantikor.commons.codec.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;

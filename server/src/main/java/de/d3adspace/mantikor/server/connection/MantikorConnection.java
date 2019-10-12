@@ -27,6 +27,7 @@ import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
 import java.util.Objects;
 
 /**
@@ -48,13 +49,13 @@ public class MantikorConnection extends
   private final HTTPRequestProcessor requestProcessor;
 
   private MantikorConnection(Channel channel,
-    HTTPRequestProcessor requestProcessor) {
+                             HTTPRequestProcessor requestProcessor) {
     this.channel = channel;
     this.requestProcessor = requestProcessor;
   }
 
   public static MantikorConnection create(Channel channel,
-    HTTPRequestProcessor requestProcessor) {
+                                          HTTPRequestProcessor requestProcessor) {
     Objects.requireNonNull(channel, "Channel should not be null.");
     Objects.requireNonNull(requestProcessor,
       "Request processor should not be null.");
@@ -64,7 +65,7 @@ public class MantikorConnection extends
 
   @Override
   protected void channelRead0(ChannelHandlerContext channelHandlerContext,
-    HTTPRequest request) {
+                              HTTPRequest request) {
 
     HTTPResponse response = requestProcessor.processRequest(request);
     channel.writeAndFlush(response);

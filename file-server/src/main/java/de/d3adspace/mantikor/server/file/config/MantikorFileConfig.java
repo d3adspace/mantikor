@@ -12,7 +12,7 @@ public class MantikorFileConfig extends MantikorConfig {
   private final String basePath;
 
   public MantikorFileConfig(String serverHost, int serverPort,
-    String basePath) {
+                            String basePath) {
     super(serverHost, serverPort);
     this.basePath = basePath;
   }

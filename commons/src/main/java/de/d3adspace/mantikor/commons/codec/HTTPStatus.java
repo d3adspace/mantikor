@@ -27,14 +27,6 @@ public enum HTTPStatus {
     this.statusMessage = statusMessage;
   }
 
-  public int getStatusCode() {
-    return statusCode;
-  }
-
-  public String getStatusMessage() {
-    return statusMessage;
-  }
-
   public static HTTPStatus fromCode(String token) {
 
     StringTokenizer tokenizer = new StringTokenizer(token);
@@ -48,5 +40,13 @@ public enum HTTPStatus {
           .equalsIgnoreCase(httpStatus.statusMessage))
       .findFirst()
       .orElse(INTERNAL_SERVER_ERROR);
+  }
+
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  public String getStatusMessage() {
+    return statusMessage;
   }
 }

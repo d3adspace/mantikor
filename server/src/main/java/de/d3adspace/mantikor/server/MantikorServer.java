@@ -29,16 +29,13 @@ import de.d3adspace.mantikor.server.initializer.MantikorServerChannelInitializer
 import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
 import de.d3adspace.mantikor.server.utils.NettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
+import io.netty.channel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Basic server abstraction.

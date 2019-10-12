@@ -2,7 +2,6 @@ package de.d3adspace.mantikor.commons;
 
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
-import de.d3adspace.mantikor.commons.codec.HTTPVersion;
 
 public class HTTPMessage {
 

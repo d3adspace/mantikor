@@ -3,7 +3,6 @@ package de.d3adspace.mantikor.commons.composer;
 import de.d3adspace.mantikor.commons.HTTPResponse;
 import de.d3adspace.mantikor.commons.MantikorCommons;
 import de.d3adspace.mantikor.commons.codec.HTTPStatus;
-import de.d3adspace.mantikor.commons.codec.HTTPStatusLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
 
 public class HTTPResponseComposer extends

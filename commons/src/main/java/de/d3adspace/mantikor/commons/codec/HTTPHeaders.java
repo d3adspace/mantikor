@@ -68,7 +68,7 @@ public class HTTPHeaders {
   /**
    * Add a header by its key and value.
    *
-   * @param key The key.
+   * @param key   The key.
    * @param value The value.
    */
   public void addHeader(String key, String value) {

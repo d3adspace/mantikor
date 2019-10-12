@@ -4,6 +4,7 @@ import de.d3adspace.mantikor.commons.HTTPMessage;
 import de.d3adspace.mantikor.commons.MantikorCommons;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
+
 import java.util.Map;
 
 public abstract class AbstractHTTPComposer<InputType extends HTTPMessage, OutputType> {

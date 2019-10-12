@@ -3,8 +3,8 @@ package de.d3adspace.mantikor.commons.composer;
 import de.d3adspace.mantikor.commons.HTTPRequest;
 import de.d3adspace.mantikor.commons.MantikorCommons;
 import de.d3adspace.mantikor.commons.codec.HTTPMethod;
-import de.d3adspace.mantikor.commons.codec.HTTPRequestLine;
 import de.d3adspace.mantikor.commons.codec.HTTPVersion;
+
 import java.net.URI;
 
 public class HTTPRequestComposer extends

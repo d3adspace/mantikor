@@ -4,7 +4,6 @@ import de.d3adspace.mantikor.commons.HTTPMessage;
 import de.d3adspace.mantikor.commons.codec.HTTPBody;
 import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -52,7 +51,7 @@ public abstract class AbstractHTTPMessageFactory<InputType, OutputType extends H
    * content length.
    *
    * @param httpHeaders The http headers.
-   * @param reader The reader.
+   * @param reader      The reader.
    * @return The http body.
    */
   HTTPBody parseBody(HTTPHeaders httpHeaders, BufferedReader reader) {
