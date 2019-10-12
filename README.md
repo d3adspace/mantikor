@@ -107,20 +107,20 @@ dependencies {
 
 **Build an HTTP request**
 ```java
-HTTPRequest request = new HTTPRequestBuilder()
-                .setMethod(HTTPMethod.GET)
-                .setLocation("/test")
-                .setHeader("Authorization", "3456-6543-4566-2342")
-                .createHTTPRequest();
+HTTPRequest request = HTTPRequest.newBuilder()
+    .withMethod(HTTPMethod.GET)
+    .withLocation("/test")
+    .withHeader("Authorization", "3456-6543-4566-2342")
+    .build();
 ```
 
 **Build an HTTP response**
 ```java
-HTTPResponse response = new HTTPResponseBuilder()
-                .setStatus(HTTPStatus.OK)
-                .setHeader("X-Powered-By", "Me")
-                .setBody("NOPE!")
-                .createHTTPResponse();
+HTTPResponse response = HTTPResponse.newBuilder()
+    .withStatus(HTTPStatus.OK)
+    .withHeader("X-Powered-By", "Me")
+    .withBody("NOPE!")
+    .build();
 ```
 
 **Create a custom server**
@@ -133,11 +133,11 @@ MantikorConfig mantikorConfig = MantikorConfig.newBuilder()
 MantikorServer mantikorServer = new MantikorServer(mantikorConfig) {
 	@Override
 	public HTTPResponse handleRequest(HTTPRequest request) {
-		return new HTTPResponseBuilder()
-            .setStatus(HTTPStatus.OK)
-            .setHeader("X-Powered-By", "Me")
-            .setBody("NOPE!")
-            .createHTTPResponse();
+	  return HTTPResponse.newBuilder()
+          .withStatus(HTTPStatus.OK)
+          .withHeader("X-Powered-By", "Me")
+          .withBody("NOPE!")
+          .build();
 	}
 };
 		
