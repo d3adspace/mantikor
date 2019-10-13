@@ -1,6 +1,3 @@
-group 'net.twerion.armada'
-version '1.0.0'
-
 dependencies {
   compileOnly 'org.projectlombok:lombok:1.18.6'
   annotationProcessor 'org.projectlombok:lombok:1.18.6'
