@@ -28,13 +28,20 @@ package de.d3adspace.mantikor.server;
  */
 public interface Mantikor {
 
-    /**
-     * Start the server.
-     */
-    void start();
+  /**
+   * Start the server.
+   */
+  void start();
 
-    /**
-     * Stop the server.
-     */
-    void stop();
+  /**
+   * Stop the server.
+   */
+  void stop();
+
+  /**
+   * Check if the server is running.
+   *
+   * @return If the server is running.
+   */
+  boolean isRunning();
 }

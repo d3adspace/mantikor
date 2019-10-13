@@ -21,27 +21,41 @@
 
 package de.d3adspace.mantikor.server.config;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import java.util.Objects;
 
 /**
  * Config for the server.
  *
  * @author Felix 'SasukeKawaii' Klauke
  */
-@Data
-@Builder
-@RequiredArgsConstructor
 public class MantikorConfig {
 
-    /**
-     * The host of the server.
-     */
-    private final String serverHost;
+  /**
+   * The host of the server.
+   */
+  private final String serverHost;
 
-    /**
-     * The port of the server.
-     */
-    private final int serverPort;
+  /**
+   * The port of the server.
+   */
+  private final int serverPort;
+
+  public MantikorConfig(String serverHost, int serverPort) {
+    this.serverHost = serverHost;
+    this.serverPort = serverPort;
+  }
+
+  public static MantikorConfig create(String serverHost, int serverPort) {
+    Objects.requireNonNull(serverHost, "Server host should not be null.");
+
+    return new MantikorConfig(serverHost, serverPort);
+  }
+
+  public String getServerHost() {
+    return serverHost;
+  }
+
+  public int getServerPort() {
+    return serverPort;
+  }
 }

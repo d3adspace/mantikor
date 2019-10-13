@@ -21,130 +21,145 @@
 
 package de.d3adspace.mantikor.server;
 
-import de.d3adspace.mantikor.server.commons.HTTPRequest;
-import de.d3adspace.mantikor.server.commons.HTTPResponse;
-import de.d3adspace.mantikor.server.commons.codec.HTTPHeaders;
+import de.d3adspace.mantikor.commons.HTTPRequest;
+import de.d3adspace.mantikor.commons.HTTPResponse;
+import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
 import de.d3adspace.mantikor.server.config.MantikorConfig;
 import de.d3adspace.mantikor.server.initializer.MantikorServerChannelInitializer;
+import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
 import de.d3adspace.mantikor.server.utils.NettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
+import io.netty.channel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Basic server abstraction.
  *
  * @author Felix 'SasukeKawaii' Klauke
  */
-public abstract class MantikorServer implements Mantikor {
+public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
 
-    /**
-     * The config for the server.
-     */
-    private final MantikorConfig config;
+  /**
+   * The config for the server.
+   */
+  private final MantikorConfig config;
 
-    /**
-     * The logger for server actions
-     */
-    private final Logger logger;
+  /**
+   * The logger for server actions
+   */
+  private final Logger logger;
 
-    /**
-     * Boss group for netty.
-     */
-    private EventLoopGroup bossGroup;
+  /**
+   * Boss group for netty.
+   */
+  private EventLoopGroup bossGroup;
 
-    /**
-     * Worker group for netty.
-     */
-    private EventLoopGroup workerGroup;
+  /**
+   * Worker group for netty.
+   */
+  private EventLoopGroup workerGroup;
 
-    /**
-     * The server channel.
-     */
-    private Channel channel;
+  /**
+   * The server channel.
+   */
+  private Channel channel;
 
-    /**
-     * Create a new server based on a config.
-     *
-     * @param config The config.
-     */
-    protected MantikorServer(MantikorConfig config) {
-        this.config = config;
-        this.logger = LoggerFactory.getLogger(MantikorServer.class);
+  /**
+   * Create a new server based on a config.
+   *
+   * @param config The config.
+   */
+  protected MantikorServer(MantikorConfig config) {
+    this.config = config;
+    this.logger = LoggerFactory.getLogger(MantikorServer.class);
+  }
+
+  @Override
+  public void start() {
+    bossGroup = NettyUtils.createEventLoopGroup(1);
+    workerGroup = NettyUtils.createEventLoopGroup(4);
+
+    Class<? extends ServerChannel> serverChannelClazz = NettyUtils
+      .getServerChannelClass();
+    ChannelHandler channelHandler = MantikorServerChannelInitializer
+      .withRequestProcessor(this);
+
+    logger.info("I am going to start the web server on {}:{}",
+      config.getServerHost(),
+      config.getServerPort());
+
+    ServerBootstrap serverBootstrap = new ServerBootstrap();
+    try {
+      channel = serverBootstrap
+        .group(bossGroup, workerGroup)
+        .channel(serverChannelClazz)
+        .childHandler(channelHandler)
+        .option(ChannelOption.TCP_NODELAY, true)
+        .bind(config.getServerHost(), config.getServerPort())
+        .sync().channel();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
 
-    @Override
-    public void start() {
-        bossGroup = NettyUtils.createEventLoopGroup(1);
-        workerGroup = NettyUtils.createEventLoopGroup(4);
+    logger.info("Started the web server on {}:{}", config.getServerHost(),
+      config.getServerPort());
 
-        Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
-        ChannelHandler channelHandler = new MantikorServerChannelInitializer(this);
+  }
 
-        logger.info("I am going to start the web server on {}:{}", config.getServerHost(),
-                config.getServerPort());
+  @Override
+  public void stop() {
+    logger.info("Server is going to stop.");
 
-        ServerBootstrap serverBootstrap = new ServerBootstrap();
-        try {
-            channel = serverBootstrap
-                    .group(bossGroup, workerGroup)
-                    .channel(serverChannelClazz)
-                    .childHandler(channelHandler)
-                    .option(ChannelOption.TCP_NODELAY, true)
-                    .bind(config.getServerHost(), config.getServerPort())
-                    .sync().channel();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    channel.close();
 
-        logger.info("Started the web server on {}:{}", config.getServerHost(),
-                config.getServerPort());
+    bossGroup.shutdownGracefully();
+    workerGroup.shutdownGracefully();
+  }
 
-    }
+  @Override
+  public boolean isRunning() {
 
-    @Override
-    public void stop() {
-        logger.info("Server is going to stop.");
+    return channel != null && channel.isOpen();
+  }
 
-        channel.close();
+  /**
+   * Process the given request by generating a response and preparing it for
+   * delivery.
+   *
+   * @param request The request.
+   * @return The response.
+   */
+  @Override
+  public HTTPResponse processRequest(HTTPRequest request) {
 
-        bossGroup.shutdownGracefully();
-        workerGroup.shutdownGracefully();
-    }
+    Objects.requireNonNull(request, "Request shoult not be null.");
 
-    /**
-     * Process the given request by generating a response and preparing it for delivery.
-     *
-     * @param request The request.
-     *
-     * @return The response.
-     */
-    public HTTPResponse processRequest(HTTPRequest request) {
-        // Let the implementation create a response
-        HTTPResponse response = handleRequest(request);
+    // Let the implementation create a response
+    HTTPResponse response = handleRequest(request);
 
-        // Write some default headers
-        HTTPHeaders headers = response.getHeaders();
-        headers.addHeader(HTTPHeaders.KEY_SERVER, "Mantikor");
-        headers.addHeader(HTTPHeaders.KEY_DATE, new Date().toString());
-        headers.addHeader(HTTPHeaders.KEY_CONNECTION, "keep-alive");
-        headers.addHeader(HTTPHeaders.KEY_CONTENT_LENGTH, String.valueOf(response.getBody().getLength()));
+    // Write some default headers
+    HTTPHeaders headers = response.getHeaders();
+    headers.addHeader(HTTPHeaders.KEY_SERVER, "Mantikor");
+    headers.addHeader(HTTPHeaders.KEY_DATE,
+      new SimpleDateFormat().format(new Date()));
+    headers.addHeader(HTTPHeaders.KEY_CONNECTION, "keep-alive");
+    headers
+      .addHeader(HTTPHeaders.KEY_CONTENT_LENGTH,
+        String.valueOf(response.getBodySize()));
 
-        return response;
-    }
+    return response;
+  }
 
-    /**
-     * Handle an incoming http request.
-     *
-     * @param request The request.
-     * @return The response.
-     */
-    protected abstract HTTPResponse handleRequest(HTTPRequest request);
+  /**
+   * Handle an incoming http request.
+   *
+   * @param request The request.
+   * @return The response.
+   */
+  protected abstract HTTPResponse handleRequest(HTTPRequest request);
 }

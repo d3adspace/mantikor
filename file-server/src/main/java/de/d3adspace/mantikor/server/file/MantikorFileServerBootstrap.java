@@ -10,11 +10,12 @@ import java.io.File;
  */
 public class MantikorFileServerBootstrap {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        MantikorFileConfig mantikorConfig = new MantikorFileConfig("0.0.0.0", 9090, new File(".").getPath());
+    MantikorFileConfig mantikorConfig = new MantikorFileConfig("0.0.0.0", 8080,
+      new File("/var/www/html").getPath());
 
-        MantikorServer mantikorServer = new MantikorFileServer(mantikorConfig);
-        mantikorServer.start();
-    }
+    MantikorServer mantikorServer = new MantikorFileServer(mantikorConfig);
+    mantikorServer.start();
+  }
 }

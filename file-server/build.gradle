@@ -1,10 +1,21 @@
 dependencies {
-    compile project(':mantikor-server')
-    compileOnly 'org.projectlombok:lombok:1.18.6'
-    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+  compile project(':mantikor-server')
+  compileOnly 'org.projectlombok:lombok:1.18.6'
+  annotationProcessor 'org.projectlombok:lombok:1.18.6'
 }
 
 configurations {
 
-    jar.archiveName = 'mantikor-file-server.jar'
+  jar.archiveName = 'mantikor-file-server.jar'
+}
+
+jar {
+  from {
+    (configurations.runtime).collect {
+      it.isDirectory() ? it : zipTree(it)
+    }
+  }
+  manifest {
+    attributes 'Main-Class': 'de.d3adspace.mantikor.server.file.MantikorFileServerBootstrap'
+  }
 }

@@ -1,49 +1,52 @@
 allprojects {
-    group = 'de.d3adspace.mantikor'
-    version = '1.0.0'
+  group = 'de.d3adspace.mantikor'
+  version = '2.0.0'
 }
 
 subprojects {
-    apply plugin: 'java'
-    apply plugin: 'maven-publish'
+  apply plugin: 'java'
+  apply plugin: 'maven'
+  apply plugin: 'maven-publish'
+
+  repositories {
+    mavenLocal()
+    mavenCentral()
+
+    maven {
+      url = 'https://repository.klauke-enterprises.com/repository/maven-releases/'
+    }
+
+    maven {
+      url = 'https://repository.klauke-enterprises.com/repository/maven-snapshots/'
+    }
+
+    maven {
+      url = 'http://repo.maven.apache.org/maven2'
+    }
+  }
+
+  sourceCompatibility = '1.11'
+
+  publishing {
+    publications {
+      maven(MavenPublication) {
+        from(components.java)
+      }
+    }
 
     repositories {
-        mavenLocal()
-        maven {
-            url = 'https://repository.klauke-enterprises.com/repository/maven-releases/'
-        }
 
-        maven {
-            url = 'https://repository.klauke-enterprises.com/repository/maven-snapshots/'
-        }
+      maven {
 
-        maven {
-            url = 'http://repo.maven.apache.org/maven2'
+        def releasesRepoUrl = 'https://repository.klauke-enterprises.com/repository/maven-releases/'
+        def snapshotsRepoUrl = 'https://repository.klauke-enterprises.com/repository/maven-snapshots/'
+        url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+        credentials {
+          username = System.getenv('NEXUS_USERNAME')
+          password = System.getenv('NEXUS_PASSWORD')
         }
+      }
     }
-
-    sourceCompatibility = '1.11'
-
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                from(components.java)
-            }
-        }
-
-        repositories {
-
-            maven {
-
-                def releasesRepoUrl = 'https://repository.klauke-enterprises.com/repository/maven-releases/'
-                def snapshotsRepoUrl = 'https://repository.klauke-enterprises.com/repository/maven-snapshots/'
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-
-                credentials {
-                    username = System.getenv('NEXUS_USERNAME')
-                    password = System.getenv('NEXUS_PASSWORD')
-                }
-            }
-        }
-    }
+  }
 }
