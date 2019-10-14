@@ -17,10 +17,6 @@ subprojects {
     }
 
     maven {
-      url = 'https://repository.klauke-enterprises.com/repository/maven-snapshots/'
-    }
-
-    maven {
       url = 'http://repo.maven.apache.org/maven2'
     }
   }
