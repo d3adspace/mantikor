@@ -1,6 +1,7 @@
 <p align="center">
 <img src=".github/logo.png" alt="Mantikor" title="Mantikor" />
 </p>
+
 # Mantikor
 
 Mantikor is a simple and lightweight webserver designed to build it into your own application as an 
