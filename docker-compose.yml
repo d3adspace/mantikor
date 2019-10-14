@@ -9,6 +9,6 @@ services:
     image: d3adspace/mantikor-file-server
     restart: always
     ports:
-      - '8093:8080'
+      - '8080:8080'
     volumes:
       - '/var/www/html:/var/www/html'
