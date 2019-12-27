@@ -1,8 +1,8 @@
 package de.d3adspace.mantikor.commons.composer;
 
-import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.commons.codec.HTTPStatus;
-import de.d3adspace.mantikor.commons.codec.HTTPVersion;
+import de.d3adspace.mantikor.commons.HttpResponse;
+import de.d3adspace.mantikor.commons.codec.HttpStatus;
+import de.d3adspace.mantikor.commons.codec.HttpVersion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class HTTPResponseComposerTest {
 
-  private static final HTTPResponse TEST_RESPONSE = HTTPResponse.newBuilder()
-    .withStatus(HTTPStatus.NOT_FOUND)
-    .withVersion(HTTPVersion.HTTP_VERSION_1_1)
+  private static final HttpResponse TEST_RESPONSE = HttpResponse.newBuilder()
+    .withStatus(HttpStatus.NOT_FOUND)
+    .withVersion(HttpVersion.HTTP_VERSION_1_1)
     .withHeaders(new LinkedHashMap<>() {{
       put("Date", "Sun, 18 Oct 2012 10:36:20 GMT");
       put("Server", "Apache/2.2.14 (Win32)");
@@ -52,12 +52,12 @@ class HTTPResponseComposerTest {
       "</body>\n" +
       "</html>";
 
-  private HTTPResponseComposer responseComposer;
+  private HttpResponseComposer responseComposer;
 
   @BeforeEach
   void setUp() {
 
-    responseComposer = new HTTPResponseComposer();
+    responseComposer = new HttpResponseComposer();
   }
 
   @Test

@@ -3,12 +3,13 @@ package de.d3adspace.mantikor.commons.codec;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Wrapper around HTTP headers.
  */
-public class HTTPHeaders {
+public final class HttpHeaders {
 
   /**
    * The key for the header that contains the content length.
@@ -35,34 +36,35 @@ public class HTTPHeaders {
    */
   public static final String KEY_DATE = "Date";
 
-  /**
-   * The map containing the headers.
-   */
   private Map<String, String> headers;
 
-  private HTTPHeaders(Map<String, String> headers) {
+  private HttpHeaders(Map<String, String> headers) {
     this.headers = headers;
   }
 
-  public static Builder newBuilder(HTTPHeaders prototype) {
-
-    Map<String, String> headers = prototype.headers;
-    return new Builder(headers);
+  /**
+   * Create a builder from a set of prototype headers.
+   *
+   * @param prototype Headers prototype.
+   * @return Headers builder.
+   */
+  public static Builder newBuilder(HttpHeaders prototype) {
+    Preconditions.checkNotNull(prototype);
+    var headers = prototype.headers;
+    return new Builder(new HashMap<>(headers));
   }
 
   public static Builder newBuilder() {
-
     return new Builder();
   }
 
-  public static HTTPHeaders fromMap(Map<String, String> headers) {
+  public static HttpHeaders fromMap(Map<String, String> headers) {
     Preconditions.checkNotNull(headers);
-
-    return new HTTPHeaders(Maps.newHashMap(headers));
+    return new HttpHeaders(Maps.newHashMap(headers));
   }
 
-  public static HTTPHeaders empty() {
-    return new HTTPHeaders(Maps.newHashMap());
+  public static HttpHeaders empty() {
+    return new HttpHeaders(Maps.newHashMap());
   }
 
   /**
@@ -72,7 +74,6 @@ public class HTTPHeaders {
    * @param value The value.
    */
   public void addHeader(String key, String value) {
-
     headers.put(key, value);
   }
 
@@ -82,7 +83,6 @@ public class HTTPHeaders {
    * @param key The key.
    */
   public void removeHeader(String key) {
-
     headers.remove(key);
   }
 
@@ -93,7 +93,6 @@ public class HTTPHeaders {
    * @return The value.
    */
   public String getHeader(String key) {
-
     return headers.get(key);
   }
 
@@ -104,7 +103,6 @@ public class HTTPHeaders {
    * @return If there is a header with the given key.
    */
   public boolean hasHeader(String key) {
-
     return headers.containsKey(key);
   }
 
@@ -114,17 +112,14 @@ public class HTTPHeaders {
    * @return The header count.
    */
   public int getHeaderCount() {
-
     return headers.size();
   }
 
   public Map<String, String> toMap() {
-
     return Maps.newHashMap(headers);
   }
 
   public static class Builder {
-
     private final Map<String, String> headers;
 
     private Builder(Map<String, String> headers) {
@@ -135,17 +130,22 @@ public class HTTPHeaders {
       headers = Maps.newHashMap();
     }
 
+    /**
+     * Append a header represented by a key value pair.
+     *
+     * @param key Key for the header.
+     * @param value Value for the header.
+     * @return Builder instance.
+     */
     public Builder withHeader(String key, String value) {
       Preconditions.checkNotNull(key);
       Preconditions.checkNotNull(value);
-
       headers.put(key, value);
-
       return this;
     }
 
-    public HTTPHeaders build() {
-      return HTTPHeaders.fromMap(headers);
+    public HttpHeaders build() {
+      return HttpHeaders.fromMap(headers);
     }
   }
 }

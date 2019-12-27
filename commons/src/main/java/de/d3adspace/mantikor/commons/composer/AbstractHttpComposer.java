@@ -1,21 +1,21 @@
 package de.d3adspace.mantikor.commons.composer;
 
-import de.d3adspace.mantikor.commons.HTTPMessage;
+import de.d3adspace.mantikor.commons.HttpMessage;
 import de.d3adspace.mantikor.commons.MantikorCommons;
-import de.d3adspace.mantikor.commons.codec.HTTPBody;
-import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
+import de.d3adspace.mantikor.commons.codec.HttpBody;
+import de.d3adspace.mantikor.commons.codec.HttpHeaders;
 
 import java.util.Map;
 
-public abstract class AbstractHTTPComposer<InputType extends HTTPMessage, OutputType> {
-
+public abstract class AbstractHttpComposer<InputT extends HttpMessage,
+  OutputT> {
   /**
    * Compose the given output out of the given input.
    *
    * @param input The input.
    * @return The output.
    */
-  public abstract OutputType compose(InputType input);
+  public abstract OutputT compose(InputT input);
 
   /**
    * Encode an http message into a string buffer.
@@ -23,20 +23,14 @@ public abstract class AbstractHTTPComposer<InputType extends HTTPMessage, Output
    * @param message The http message.
    * @return The string buffer.
    */
-  StringBuffer encodeHeadersAndBody(HTTPMessage message) {
-
-    StringBuffer stringBuffer = new StringBuffer();
-
-    // Encode headers
-    HTTPHeaders headers = message.getHeaders();
+  StringBuffer encodeHeadersAndBody(HttpMessage message) {
+    var stringBuffer = new StringBuffer();
+    var headers = message.getHeaders();
     StringBuffer headersBuffer = encodeHeaders(headers);
     stringBuffer.append(headersBuffer);
-
-    // Encode body
-    HTTPBody body = message.getBody();
+    var body = message.getBody();
     StringBuffer bodyBuffer = encodeBody(body);
     stringBuffer.append(bodyBuffer);
-
     return stringBuffer;
   }
 
@@ -46,21 +40,23 @@ public abstract class AbstractHTTPComposer<InputType extends HTTPMessage, Output
    * @param httpHeaders The headers.
    * @return The string buffer.
    */
-  private StringBuffer encodeHeaders(HTTPHeaders httpHeaders) {
+  private StringBuffer encodeHeaders(HttpHeaders httpHeaders) {
+    var stringBuffer = new StringBuffer();
+    var headers = httpHeaders.toMap();
+    writeHeaders(stringBuffer, headers);
+    return stringBuffer;
+  }
 
-    StringBuffer stringBuffer = new StringBuffer();
-
-    // Encode headers
-    Map<String, String> headers = httpHeaders.toMap();
-
+  private void writeHeaders(
+    StringBuffer stringBuffer,
+    Map<String, String> headers
+  ) {
     headers.forEach((key, value) -> {
       stringBuffer.append(key);
       stringBuffer.append(": ");
       stringBuffer.append(value);
       stringBuffer.append(MantikorCommons.LF);
     });
-
-    return stringBuffer;
   }
 
   /**
@@ -69,14 +65,10 @@ public abstract class AbstractHTTPComposer<InputType extends HTTPMessage, Output
    * @param httpBody The http body.
    * @return The string buffer.
    */
-  private StringBuffer encodeBody(HTTPBody httpBody) {
-
-    StringBuffer stringBuffer = new StringBuffer();
-
-    // Encode body
+  private StringBuffer encodeBody(HttpBody httpBody) {
+    var stringBuffer = new StringBuffer();
     stringBuffer.append(MantikorCommons.CRLF);
     stringBuffer.append(httpBody.getContent());
-
     return stringBuffer;
   }
 }

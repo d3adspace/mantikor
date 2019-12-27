@@ -1,14 +1,15 @@
 package de.d3adspace.mantikor.commons.parser;
 
-import de.d3adspace.mantikor.commons.HTTPMessage;
-import de.d3adspace.mantikor.commons.codec.HTTPBody;
-import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
+import de.d3adspace.mantikor.commons.HttpMessage;
+import de.d3adspace.mantikor.commons.codec.HttpBody;
+import de.d3adspace.mantikor.commons.codec.HttpHeaders;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public abstract class AbstractHTTPMessageFactory<InputType, OutputType extends HTTPMessage> {
+public abstract class AbstractHttpMessageFactory
+  <InputT, OutputT extends HttpMessage> {
 
   /**
    * Parse the an output from the given input.
@@ -16,7 +17,7 @@ public abstract class AbstractHTTPMessageFactory<InputType, OutputType extends H
    * @param input The input.
    * @return The parsed output.
    */
-  public abstract OutputType parse(InputType input);
+  public abstract OutputT parse(InputT input);
 
   /**
    * Parse the http headers from the given reader by lines.
@@ -24,26 +25,27 @@ public abstract class AbstractHTTPMessageFactory<InputType, OutputType extends H
    * @param reader The reader.
    * @return The http headers.
    */
-  HTTPHeaders parseHeaders(BufferedReader reader) {
-
-    HTTPHeaders httpHeaders = null;
-
+  HttpHeaders parseHeaders(BufferedReader reader) {
     try {
-      httpHeaders = HTTPHeaders.empty();
-      String currentLine = reader.readLine();
-
-      while (currentLine != null && !currentLine.isEmpty()) {
-
-        HeaderPair header = parseHeader(currentLine);
-        httpHeaders.addHeader(header.getKey(), header.getValue());
-
-        currentLine = reader.readLine();
-      }
+      HttpHeaders httpHeaders = HttpHeaders.empty();
+      readHeaders(reader, httpHeaders);
+      return httpHeaders;
     } catch (IOException e) {
       e.printStackTrace();
+      return null;
     }
+  }
 
-    return httpHeaders;
+  private void readHeaders(
+    BufferedReader reader,
+    HttpHeaders httpHeaders
+  ) throws IOException {
+    var currentLine = reader.readLine();
+    while (currentLine != null && !currentLine.isEmpty()) {
+      HeaderPair header = parseHeader(currentLine);
+      httpHeaders.addHeader(header.getKey(), header.getValue());
+      currentLine = reader.readLine();
+    }
   }
 
   /**
@@ -54,23 +56,23 @@ public abstract class AbstractHTTPMessageFactory<InputType, OutputType extends H
    * @param reader      The reader.
    * @return The http body.
    */
-  HTTPBody parseBody(HTTPHeaders httpHeaders, BufferedReader reader) {
-
-    if (!httpHeaders.hasHeader(HTTPHeaders.KEY_CONTENT_LENGTH)) {
-      return HTTPBody.empty();
+  HttpBody parseBody(HttpHeaders httpHeaders, BufferedReader reader) {
+    if (!httpHeaders.hasHeader(HttpHeaders.KEY_CONTENT_LENGTH)) {
+      return HttpBody.empty();
     }
+    var contentLength = Integer
+      .parseInt(httpHeaders.getHeader(HttpHeaders.KEY_CONTENT_LENGTH));
+    var charBuffer = new char[contentLength];
+    tryReadBuffer(charBuffer, reader);
+    return HttpBody.withContent(charBuffer);
+  }
 
-    int contentLength = Integer
-      .parseInt(httpHeaders.getHeader(HTTPHeaders.KEY_CONTENT_LENGTH));
-    char[] charBuffer = new char[contentLength];
-
+  private void tryReadBuffer(char[] charBuffer, BufferedReader reader) {
     try {
       int charsRead = reader.read(charBuffer);
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-    return HTTPBody.withContent(charBuffer);
   }
 
   /**
@@ -80,16 +82,12 @@ public abstract class AbstractHTTPMessageFactory<InputType, OutputType extends H
    * @return The header pair
    */
   private HeaderPair parseHeader(String line) {
-
-    StringTokenizer stringTokenizer = new StringTokenizer(line, ":");
-
+    var stringTokenizer = new StringTokenizer(line, ":");
     return new HeaderPair(stringTokenizer.nextToken().trim(),
       stringTokenizer.nextToken().trim());
   }
 
-
   private class HeaderPair {
-
     private final String key;
     private final String value;
 
