@@ -10,13 +10,12 @@ subprojects {
   apply plugin: 'checkstyle'
 
   repositories {
+    google()
     mavenLocal()
     mavenCentral()
-
     maven {
       url = 'https://repository.klauke-enterprises.com/repository/maven-releases/'
     }
-
     maven {
       url = 'http://repo.maven.apache.org/maven2'
     }

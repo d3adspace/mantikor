@@ -1,79 +1,32 @@
-/*
- * Copyright (c) 2017 D3adspace
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 package de.d3adspace.mantikor.server;
 
-import de.d3adspace.mantikor.commons.HTTPRequest;
-import de.d3adspace.mantikor.commons.HTTPResponse;
-import de.d3adspace.mantikor.commons.codec.HTTPHeaders;
+import de.d3adspace.constrictor.netty.NettyUtils;
+import de.d3adspace.mantikor.commons.HttpRequest;
+import de.d3adspace.mantikor.commons.HttpResponse;
+import de.d3adspace.mantikor.commons.codec.HttpHeaders;
 import de.d3adspace.mantikor.server.config.MantikorConfig;
 import de.d3adspace.mantikor.server.initializer.MantikorServerChannelInitializer;
-import de.d3adspace.mantikor.server.processor.HTTPRequestProcessor;
-import de.d3adspace.mantikor.server.utils.NettyUtils;
+import de.d3adspace.mantikor.server.processor.HttpRequestProcessor;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.ServerChannel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- * Basic server abstraction.
- *
- * @author Felix 'SasukeKawaii' Klauke
- */
-public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-  /**
-   * The config for the server.
-   */
+public abstract class MantikorServer implements Mantikor, HttpRequestProcessor {
   private final MantikorConfig config;
-
-  /**
-   * The logger for server actions
-   */
   private final Logger logger;
-
-  /**
-   * Boss group for netty.
-   */
   private EventLoopGroup bossGroup;
-
-  /**
-   * Worker group for netty.
-   */
   private EventLoopGroup workerGroup;
-
-  /**
-   * The server channel.
-   */
   private Channel channel;
 
-  /**
-   * Create a new server based on a config.
-   *
-   * @param config The config.
-   */
   protected MantikorServer(MantikorConfig config) {
     this.config = config;
     this.logger = LoggerFactory.getLogger(MantikorServer.class);
@@ -81,34 +34,49 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
 
   @Override
   public void start() {
-    bossGroup = NettyUtils.createEventLoopGroup(1);
-    workerGroup = NettyUtils.createEventLoopGroup(4);
-
-    Class<? extends ServerChannel> serverChannelClazz = NettyUtils
-      .getServerChannelClass();
-    ChannelHandler channelHandler = MantikorServerChannelInitializer
+    bossGroup = NettyUtils.createEventLoopGroup(1, "netty-boss");
+    workerGroup = NettyUtils.createEventLoopGroup(4, "netty-worker");
+    var serverChannelClazz = NettyUtils.getServerSocketChannel();
+    var channelHandler = MantikorServerChannelInitializer
       .withRequestProcessor(this);
+    setupBootstrap(serverChannelClazz, channelHandler);
+  }
 
+  private void setupBootstrap(
+    Class<? extends ServerChannel> serverChannelClazz,
+    MantikorServerChannelInitializer channelHandler
+  ) {
     logger.info("I am going to start the web server on {}:{}",
-      config.getServerHost(),
-      config.getServerPort());
+      config.getServerHost(), config.getServerPort());
+    trySetupBootstrap(serverChannelClazz, channelHandler);
+    logger.info("Started the web server on {}:{}",
+      config.getServerHost(), config.getServerPort());
+  }
 
+  private void trySetupBootstrap(
+    Class<? extends ServerChannel> serverChannelClazz,
+    MantikorServerChannelInitializer channelHandler
+  ) {
     ServerBootstrap serverBootstrap = new ServerBootstrap();
     try {
-      channel = serverBootstrap
-        .group(bossGroup, workerGroup)
-        .channel(serverChannelClazz)
-        .childHandler(channelHandler)
-        .option(ChannelOption.TCP_NODELAY, true)
-        .bind(config.getServerHost(), config.getServerPort())
-        .sync().channel();
+      setupChannel(serverBootstrap, serverChannelClazz, channelHandler);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+  }
 
-    logger.info("Started the web server on {}:{}", config.getServerHost(),
-      config.getServerPort());
-
+  private void setupChannel(
+    ServerBootstrap serverBootstrap,
+    Class<? extends ServerChannel> serverChannelClazz,
+    MantikorServerChannelInitializer channelHandler
+  ) throws InterruptedException {
+    channel = serverBootstrap
+      .group(bossGroup, workerGroup)
+      .channel(serverChannelClazz)
+      .childHandler(channelHandler)
+      .option(ChannelOption.TCP_NODELAY, true)
+      .bind(config.getServerHost(), config.getServerPort())
+      .sync().channel();
   }
 
   @Override
@@ -135,24 +103,22 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
    * @return The response.
    */
   @Override
-  public HTTPResponse processRequest(HTTPRequest request) {
-
+  public HttpResponse processRequest(HttpRequest request) {
     Objects.requireNonNull(request, "Request shoult not be null.");
-
-    // Let the implementation create a response
-    HTTPResponse response = handleRequest(request);
-
-    // Write some default headers
-    HTTPHeaders headers = response.getHeaders();
-    headers.addHeader(HTTPHeaders.KEY_SERVER, "Mantikor");
-    headers.addHeader(HTTPHeaders.KEY_DATE,
-      new SimpleDateFormat().format(new Date()));
-    headers.addHeader(HTTPHeaders.KEY_CONNECTION, "keep-alive");
-    headers
-      .addHeader(HTTPHeaders.KEY_CONTENT_LENGTH,
-        String.valueOf(response.getBodySize()));
-
+    var response = handleRequest(request);
+    writeDefaultHeaders(response);
     return response;
+  }
+
+  private void writeDefaultHeaders(HttpResponse response) {
+    HttpHeaders headers = response.getHeaders();
+    headers.addHeader(HttpHeaders.KEY_SERVER, "Mantikor");
+    headers.addHeader(HttpHeaders.KEY_DATE,
+      new SimpleDateFormat().format(new Date()));
+    headers.addHeader(HttpHeaders.KEY_CONNECTION, "keep-alive");
+    headers
+      .addHeader(HttpHeaders.KEY_CONTENT_LENGTH,
+        String.valueOf(response.getBodySize()));
   }
 
   /**
@@ -161,5 +127,5 @@ public abstract class MantikorServer implements Mantikor, HTTPRequestProcessor {
    * @param request The request.
    * @return The response.
    */
-  protected abstract HTTPResponse handleRequest(HTTPRequest request);
+  protected abstract HttpResponse handleRequest(HttpRequest request);
 }

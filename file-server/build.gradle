@@ -16,6 +16,6 @@ jar {
     }
   }
   manifest {
-    attributes 'Main-Class': 'de.d3adspace.mantikor.server.file.MantikorFileServerBootstrap'
+    attributes 'Main-Class': 'de.d3adspace.mantikor.server.file.MantikorFileServerApp'
   }
 }

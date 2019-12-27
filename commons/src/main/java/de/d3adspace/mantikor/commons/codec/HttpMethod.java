@@ -1,7 +1,6 @@
 package de.d3adspace.mantikor.commons.codec;
 
-public enum HTTPMethod {
-
+public enum HttpMethod {
   GET,
   HEAD,
   POST,
@@ -9,5 +8,5 @@ public enum HTTPMethod {
   DELETE,
   CONNECT,
   OPTIONS,
-  TRACE;
+  TRACE
 }
