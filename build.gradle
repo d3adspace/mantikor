@@ -7,6 +7,7 @@ subprojects {
   apply plugin: 'java'
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
+  apply plugin: 'checkstyle'
 
   repositories {
     mavenLocal()
@@ -44,5 +45,12 @@ subprojects {
         }
       }
     }
+  }
+
+  checkstyle {
+    maxWarnings = 0
+    ignoreFailures = false
+    toolVersion '8.27'
+    checkstyleTest.enabled = false
   }
 }
