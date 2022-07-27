@@ -1,4 +1,4 @@
 dependencies {
   compile group: 'com.google.guava', name: 'guava', version: '31.1-jre'
-  testCompile 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+  testCompile 'org.junit.jupiter:junit-jupiter-api:5.9.0'
 }
