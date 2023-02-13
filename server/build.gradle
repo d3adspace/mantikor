@@ -1,6 +1,6 @@
 dependencies {
   compile project(":mantikor-codec-netty")
-  compile 'io.netty:netty-all:4.1.79.Final'
+  compile 'io.netty:netty-all:4.1.88.Final'
   compile 'ch.qos.logback:logback-classic:1.2.11'
   compile 'de.d3adspace.constrictor:constrictor-all:2.4.0'
 }
